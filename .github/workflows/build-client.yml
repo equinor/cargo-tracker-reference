@@ -1,9 +1,13 @@
 name: ClientBuild
 on:
   pull_request:
+    paths:
+      - './client/**'
     branches:
       - master
   push:
+    paths:
+      - './client/**'
     branches:
       - master
 
