@@ -31,7 +31,7 @@ jobs:
         working-directory: ${{env.working-directory}}
       - name: Builder
         uses: actions/setup-node@v1
-        working-directory: ${{env.working-directory}}
         with:
           node-version: 12.x
       - run: yarn build --prod
+        working-directory: ${{env.working-directory}}
