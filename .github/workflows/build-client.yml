@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    env:
+      working-directory: ./client
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,8 +28,10 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install
         run: yarn
+        working-directory: ${{env.working-directory}}
       - name: Builder
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn build --prod
+        run: yarn build --prod
+        working-directory: ${{env.working-directory}}
