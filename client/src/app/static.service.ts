@@ -15,11 +15,13 @@ export class StaticService {
   }
 
   grades() {
-    return this.http.get<Grade[]>(`${this.baseUrl}/config/grade`);
+    // return this.http.get<Grade[]>(`${this.baseUrl}/config/grade`);
+    return this.http.get<Grade[]>(`/assets/grades.json`);
   }
 
   countries() {
-    return this.http.get<Country[]>(`${this.baseUrl}/grade`);
+    // return this.http.get<Country[]>(`${this.baseUrl}/country`);
+    return this.http.get<Country[]>(`/assets/countries.json`);
   }
 
   regions() {

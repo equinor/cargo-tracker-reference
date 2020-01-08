@@ -1,0 +1,27 @@
+@import "~@ngx-stoui/core/style/theme/theme";
+
+
+@mixin grades-theme($theme, $variables) {
+  $background: map_get($theme, background);
+  $background-color: mat-color($background, card);
+
+  .table-container {
+    background-color: $background-color;
+  }
+}
+
+// Include theme styles for your custom components.
+::ng-deep {
+  body {
+    @include grades-theme($sto-theme, $variables);
+  }
+
+  body.sto-dark-theme {
+    @include grades-theme($sto-dark-theme, $dark-variables);
+  }
+}
+
+.table-container {
+  max-width: 1200px;
+}
+

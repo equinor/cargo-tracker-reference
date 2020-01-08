@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadViews } from './store/actions/view.actions';
 import { MsalService } from '@azure/msal-angular';
-import { loadGrades } from './store/actions/static.actions';
+import { loadCountries, loadGrades } from './store/actions/static.actions';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -33,13 +33,18 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(loadViews({ modules }));
     this.store.dispatch(loadGrades());
-    if (!this.msal.getUser()) {
+    this.store.dispatch(loadCountries());
+    if ( !this.msal.getUser() ) {
       this.login();
     }
   }
 
   async login() {
-    const u = await this.msal.loginPopup();
-    console.log(u);
+    const scopes = [ 'https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation' ];
+    try {
+      await this.msal.acquireTokenSilent(scopes);
+    } catch {
+      await this.msal.loginRedirect(scopes);
+     }
   }
 }

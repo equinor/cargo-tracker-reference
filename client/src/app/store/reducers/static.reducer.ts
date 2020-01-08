@@ -27,7 +27,8 @@ export const initialState: State = {
 
 const staticReducer = createReducer(
   initialState,
-  // on(StaticActions.loadStatics, state => state),
+  on(StaticActions.loadGradesSuccess, (state, action) => ( { ...state, grades: action.grades } )),
+  on(StaticActions.loadCountriesSuccess, (state, action) => ( { ...state, countries: action.countries } )),
 );
 
 export function reducer(state: State | undefined, action: Action) {

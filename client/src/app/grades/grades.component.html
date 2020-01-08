@@ -1,0 +1,8 @@
+<div class="table-container">
+
+  <ctref-grade-filter (add)="add()" [countries]="countries$ | async"></ctref-grade-filter>
+  <sto-datatable [autoSize]="true"
+                 [sortable]="true"
+                 [columns]="columns"
+                 [rows]="rows$ | async"></sto-datatable>
+</div>

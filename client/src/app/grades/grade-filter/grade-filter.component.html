@@ -1,0 +1,45 @@
+<sto-filter-panel #panel
+                  (toggled)="toggled()"
+                  [expanded]="false"
+                  [expandable]="true">
+
+  <sto-filter-title style="display: inline-flex">Grades
+    <mat-chip-list [style.opacity]="panel.expanded ? 0 : 1"
+                   style="margin-left: 16px">
+      <mat-chip color="primary"
+                *ngFor="let f of filter$ | async"
+                style="margin: 2px 4px"
+                [selected]="true"
+                [removable]="true"
+                (removed)="clearFilter(f.key)"
+                [value]="f.key">
+        {{ f.value }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+
+      </mat-chip>
+    </mat-chip-list>
+  </sto-filter-title>
+  <sto-filter-table-actions>
+    <button mat-button (click)="add.emit()">Add</button>
+    <button mat-button>Upload</button>
+  </sto-filter-table-actions>
+  <div stoGrid
+       class="sto-form"
+       [formGroup]="form">
+    <mat-form-field stoGridColumn
+                    stoFormField>
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="countryId">
+        <mat-option *ngFor="let c of countries"
+                    [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div stoGridColumn>
+      <sto-slide-toggle formControlName="verified"
+                        label="Verified"></sto-slide-toggle>
+    </div>
+    <div stoGridColumn
+         [stoGridColumnDouble]="true"
+         stoGridSpacer></div>
+  </div>
+</sto-filter-panel>

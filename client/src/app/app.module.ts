@@ -19,6 +19,7 @@ import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { MsalInterceptor, MsalModule } from '@azure/msal-angular';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -48,14 +49,15 @@ import { MsalInterceptor, MsalModule } from '@azure/msal-angular';
       clientID: '18f46b40-3cb3-4bd4-b530-ab95114adb99',
       authority: 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
       redirectUri: 'http://localhost:4200/callback',
-      consentScopes: ['https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation']
+      consentScopes: [ 'https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation' ]
     }),
   ],
   providers: [
+    StaticService,
     { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'settings', text: 'CT Reference' } },
     { provide: BASE_URL, useValue: '/api/ct' },
     { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
-    StaticService
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
   ],
   bootstrap: [ AppComponent ]
 })
