@@ -1,3 +1,13 @@
 .wrapper {
   margin: 76px 16px 16px;
 }
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 32px;
+}
+
+sto-app-header button {
+  margin: 8px;
+}

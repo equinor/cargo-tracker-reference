@@ -1,5 +1,42 @@
-<sto-app-header [breadCrumbs]="breadCrumbs" [homeBreadCrumbConfig]="home"></sto-app-header>
+<sto-app-header [breadCrumbs]="breadCrumbs"
+                [homeBreadCrumbConfig]="home">
+  <button mat-icon-button
+          [matMenuTriggerFor]="menu"
+          *ngIf="user">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <button mat-stroked-button
+          color="primary"
+          *ngIf="!user">
+    Sign in
+  </button>
+</sto-app-header>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item class="dense">{{ user?.name }}</button>
+  <button mat-menu-item class="dense" (click)="logout()">Sign out</button>
+</mat-menu>
 
 <div class="wrapper">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="user"></router-outlet>
+  <div class="card-container"  *ngIf="!user">
+    <mat-card style="width: 450px">
+      <mat-card-title class="sto-card__title">Not logged on</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-content>
+        <p>You are not signed in to this application.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button
+                color="primary"
+                (click)="login()">
+          Sign in
+        </button>
+        <a mat-stroked-button
+           color="primary"
+           href="https://accessit.equinor.com/Search/Search?term=Cargo+Tracker">
+          Request access
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

@@ -19,7 +19,7 @@ import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { MsalInterceptor, MsalModule } from '@azure/msal-angular';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
+import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,9 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
       redirectUri: 'http://localhost:4200/callback',
       consentScopes: [ 'https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation' ]
     }),
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
   ],
   providers: [
     StaticService,

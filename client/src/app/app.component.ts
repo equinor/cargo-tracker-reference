@@ -4,6 +4,7 @@ import { loadViews } from './store/actions/view.actions';
 import { MsalService } from '@azure/msal-angular';
 import { loadCountries, loadGrades } from './store/actions/static.actions';
 import { Router } from '@angular/router';
+import { User } from 'msal';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -19,6 +20,7 @@ const modules = [
   styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit {
+  public user: User;
   public breadCrumbs = [
     // { label: 'CT Reference' },
     // { label: 'Reference' },
@@ -34,9 +36,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(loadViews({ modules }));
     this.store.dispatch(loadGrades());
     this.store.dispatch(loadCountries());
-    if ( !this.msal.getUser() ) {
-      this.login();
-    }
+    this.user = this.msal.getUser();
   }
 
   async login() {
@@ -46,5 +46,9 @@ export class AppComponent implements OnInit {
     } catch {
       await this.msal.loginRedirect(scopes);
      }
+  }
+
+  logout() {
+    this.msal.logout();
   }
 }
