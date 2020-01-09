@@ -21,7 +21,7 @@ export const initialState: State = {
   tradingAreas: null,
   regions: null,
   countries: null,
-  grades: null,
+  grades: [],
   terminals: null,
 };
 

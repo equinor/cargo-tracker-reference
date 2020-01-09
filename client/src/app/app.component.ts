@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { loadViews } from './store/actions/view.actions';
 import { MsalService } from '@azure/msal-angular';
 import { loadCountries, loadGrades } from './store/actions/static.actions';
+import { Router } from '@angular/router';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -23,11 +24,10 @@ export class AppComponent implements OnInit {
     // { label: 'Reference' },
   ];
   home = {
-    command: () => {
-    }
+    command: () => this.router.navigate(['/'])
   };
 
-  constructor(private store: Store<any>, private msal: MsalService) {
+  constructor(private store: Store<any>, private msal: MsalService, private router: Router) {
   }
 
   ngOnInit() {

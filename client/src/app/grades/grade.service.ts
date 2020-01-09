@@ -11,6 +11,10 @@ export class GradeService {
   constructor(private http: HttpClient, @Inject(BASE_URL) private baseUrl: string) {
   }
 
+  public verify(grade: Grade) {
+    return this.http.patch(`${this.baseUrl}/config/grade/${grade.id}/verify`, grade);
+  }
+
   public save(grade: Grade) {
     if ( grade.id ) {
       return this.update(grade);

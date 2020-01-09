@@ -1,0 +1,114 @@
+<sto-datatable [autoSize]="true"
+               [rowClass]="getRowClass"
+               [sortable]="true"
+               [loading]="loading"
+               class="sto-form"
+               [columns]="columns"
+               [rows]="rows"></sto-datatable>
+<ng-template #actionsTmpl
+             let-row="row">
+  <ng-container *ngIf="row.source === 'Cargo Tracking'">
+    <button mat-icon-button (click)="cancelGrade.emit(row)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>shuffle</mat-icon>
+    </button>
+  </ng-container>
+</ng-template>
+
+<ng-template #countryTmpl
+             let-row="row"
+             let-column="column"
+             let-value="value">
+  <span [title]="value | countryNameFromId:countries"
+        *ngIf="row.source !== 'Cargo Tracking'">
+    {{ value | countryNameFromId:countries }}
+  </span>
+  <mat-form-field stoFormField
+                  (keydown)="$event.stopPropagation()"
+                  (click)="$event.stopPropagation()"
+                  *ngIf="row.source === 'Cargo Tracking'">
+    <mat-select (valueChange)="onValueChange($event, row, column)"
+                [value]="row.countryId || null"
+                (keydown)="$event.stopPropagation()">
+      <mat-option *ngFor="let c of countries"
+                  [value]="c.id">
+        {{ c.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #verifiedTmpl
+             let-row="row"
+             let-column="column"
+             let-value="value">
+  <mat-checkbox color="primary"
+                *ngIf="row.id"
+                [checked]="value"
+                (change)="verifyGrade(row)"
+                [disabled]="row.source !== 'Cargo Tracking'"></mat-checkbox>
+</ng-template>
+
+<ng-template #nameTmpl
+             let-value="value"
+             let-row="row"
+             let-column="column">
+  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+        [title]="value">{{value}}</span>
+  <ng-template #edit>
+    <mat-form-field stoFormField>
+      <input matInput
+             [value]="value || ''"
+             (keyup)="onValueChange($event.target.value, row, column, $event)">
+    </mat-form-field>
+  </ng-template>
+</ng-template>
+
+<ng-template #apiTmpl
+             let-value="value"
+             let-row="row"
+             let-column="column">
+  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+        [title]="value">{{value}}</span>
+  <ng-template #edit>
+    <mat-form-field stoFormField>
+      <input matInput
+             type="number"
+             step=".01"
+             [value]="value"
+             (keyup)="onValueChange($event.target.value, row, column, $event)">
+    </mat-form-field>
+  </ng-template>
+</ng-template>
+
+<ng-template #sulphurTmpl
+             let-value="value"
+             let-row="row"
+             let-column="column">
+  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+        [title]="value">{{value}}</span>
+  <ng-template #edit>
+    <mat-form-field stoFormField>
+      <input matInput
+             type="number"
+             step=".01"
+             [value]="value"
+             (keyup)="onValueChange($event.target.value, row, column, $event)">
+    </mat-form-field>
+  </ng-template>
+</ng-template>
+
+<ng-template #ocdNameTmpl
+             let-value="value"
+             let-row="row"
+             let-column="column">
+  <mat-form-field stoFormField
+                  floatLabel="never">
+    <input matInput
+           [value]="value || ''"
+           placeholder="OCD alias"
+           (keyup)="onValueChange($event.target.value, row, column, $event)">
+  </mat-form-field>
+</ng-template>

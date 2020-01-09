@@ -22,6 +22,15 @@ export class GradeEffects {
     )
   );
 
+  verify$ = createEffect(() => this.actions$.pipe(
+    ofType(GradeActions.verifyGrade),
+    switchMap(action => this.service.verify(action.grade)
+      .pipe(
+        map(res => GradeActions.saveGradeSuccess())
+      )
+    )
+  ));
+
   cancel$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.cancelGrade),
     switchMap(action => this.service.cancel(action.grade)
@@ -31,7 +40,7 @@ export class GradeEffects {
   ));
 
   loading$ = createEffect(() => this.actions$.pipe(
-    ofType(GradeActions.cancelGrade, GradeActions.saveGrade),
+    ofType(GradeActions.cancelGrade, GradeActions.saveGrade, GradeActions.verifyGrade),
     map(() => GradeActions.loading({ loading: true }))
   ));
 

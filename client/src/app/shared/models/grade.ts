@@ -1,8 +1,8 @@
 import { VersionedEntity } from './versioned-entity';
 
 export interface Grade extends VersionedEntity {
-  reference?: string;
   name: string;
+  reference: string;
   api: number;
   sulphur: number;
   source: string;
@@ -14,6 +14,7 @@ export interface Grade extends VersionedEntity {
   updatedBy: string;
   active: boolean;
   verified: boolean;
+  cancelled: boolean;
   historicAnalyses: Analysis[];
 }
 

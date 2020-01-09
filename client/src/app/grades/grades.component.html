@@ -1,8 +1,13 @@
 <div class="table-container">
-
-  <ctref-grade-filter (add)="add()" [countries]="countries$ | async"></ctref-grade-filter>
-  <sto-datatable [autoSize]="true"
-                 [sortable]="true"
-                 [columns]="columns"
-                 [rows]="rows$ | async"></sto-datatable>
+  <ctref-grade-filter (add)="add()"
+                      [value]="filters$ | async"
+                      (filterChanged)="onFilterChange($event)"
+                      [countries]="countries$ | async"></ctref-grade-filter>
+  <ctref-grade-list [rows]="rows$ | async"
+                    [countries]="countries$ | async"
+                    [loading]="loading$ | async"
+                    (save)="save($event)"
+                    (cancelGrade)="cancelGrade($event)"
+                    (cancel)="cancel()"
+                    (verify)="verify($event)"></ctref-grade-list>
 </div>

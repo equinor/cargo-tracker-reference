@@ -20,7 +20,9 @@
     </mat-chip-list>
   </sto-filter-title>
   <sto-filter-table-actions>
-    <button mat-button (click)="add.emit()">Add</button>
+    <button mat-button
+            (click)="add.emit()">Add
+    </button>
     <button mat-button>Upload</button>
   </sto-filter-table-actions>
   <div stoGrid
@@ -34,12 +36,23 @@
                     [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div stoGridColumn>
-      <sto-slide-toggle formControlName="verified"
-                        label="Verified"></sto-slide-toggle>
-    </div>
+    <mat-form-field stoGridColumn
+                    stoFormField>
+      <mat-label>Verified</mat-label>
+      <mat-select formControlName="verified" placeholder="Show all">
+        <mat-option [value]="null"
+                    *ngIf="form.get('verified').value === false || form.get('verified').value === true">
+          Show all
+        </mat-option>
+        <mat-option [value]="true">Only show verified</mat-option>
+        <mat-option [value]="false">Only show unverified</mat-option>
+      </mat-select>
+    </mat-form-field>
+        <div stoGridColumn>
+          <sto-slide-toggle formControlName="cancelled"
+                            label="Include cancelled"></sto-slide-toggle>
+        </div>
     <div stoGridColumn
-         [stoGridColumnDouble]="true"
          stoGridSpacer></div>
   </div>
 </sto-filter-panel>

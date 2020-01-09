@@ -18,16 +18,19 @@ export class GradeFilterComponent extends FilterForm<GradeFilter> {
 
   formConfig = {
     countryId: [],
-    verified: [true]
+    verified: [true],
+    cancelled: [false]
   };
   serializer = map<GradeFilter, FilterList[]>(value => {
     const filters = [];
-    console.log(value);
     if ( value.countryId ) {
       const c = ( this.countries || [] ).find(c => c.id === value.countryId);
       if ( c ) {
         filters.push({ key: 'countryId', value: c.name });
       }
+    }
+    if (value.cancelled) {
+      filters.push({key: 'cancelled', value: 'Show cancelled grades'});
     }
     switch ( value.verified ) {
       case true:

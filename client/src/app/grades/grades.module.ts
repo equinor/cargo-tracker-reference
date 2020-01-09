@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { GradeFilterComponent } from './grade-filter/grade-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule, MatIconModule, MatSelectModule } from '@angular/material';
+import { MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { StoDirectivesModule } from '@ngx-stoui/core';
 import { StoFormModule, StoSlideToggleModule } from '@ngx-stoui/form';
 import { GradeService } from './grade.service';
@@ -17,10 +17,12 @@ import { StoreModule } from '@ngrx/store';
 import * as fromGrade from './store/grade.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { GradeEffects } from './store/grade.effects';
+import { GradeListComponent } from './grade-list/grade-list.component';
+import { CountryNameFromIdPipe } from './grade-list/country-name-from-id.pipe';
 
 
 @NgModule({
-  declarations: [ GradesComponent, GradeFilterComponent ],
+  declarations: [ GradesComponent, GradeFilterComponent, GradeListComponent, CountryNameFromIdPipe ],
   imports: [
     CommonModule,
     GradesRoutingModule,
@@ -36,7 +38,9 @@ import { GradeEffects } from './store/grade.effects';
     StoSlideToggleModule,
     StoFormModule,
     StoreModule.forFeature(fromGrade.gradeFeatureKey, fromGrade.reducer),
-    EffectsModule.forFeature([GradeEffects]),
+    EffectsModule.forFeature([ GradeEffects ]),
+    MatInputModule,
+    MatCheckboxModule,
   ],
   providers: [
     GradeService
