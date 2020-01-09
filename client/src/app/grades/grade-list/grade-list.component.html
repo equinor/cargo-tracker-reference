@@ -3,12 +3,36 @@
                [sortable]="true"
                [loading]="loading"
                class="sto-form"
+               [responsive]="true"
+               [responsiveView]="responsiveView"
                [columns]="columns"
                [rows]="rows"></sto-datatable>
+
+<ng-template #responsiveView
+             let-row="row">
+  <div class="responsive">
+    <div class="responsive__info">
+      <span>{{ row.name }}</span>
+      <span>{{ row.countryId | countryNameFromId:countries }}</span>
+    </div>
+    <div class="responsive__actions"
+         *ngIf="row.source === 'Cargo Tracking'">
+      <button mat-icon-button
+              (click)="cancelGrade.emit(row)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>shuffle</mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #actionsTmpl
              let-row="row">
   <ng-container *ngIf="row.source === 'Cargo Tracking'">
-    <button mat-icon-button (click)="cancelGrade.emit(row)">
+    <button mat-icon-button
+            (click)="cancelGrade.emit(row)">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button>

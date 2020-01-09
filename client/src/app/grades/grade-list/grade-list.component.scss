@@ -7,6 +7,25 @@
     padding: 0;
   }
   .sto-mdl-table {
+
+    .responsive {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      padding: 0 16px;
+      justify-content: space-between;
+      &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+      &__actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+    }
+
     .mat-form-field.sto-form__field {
       min-height: 30px;
       .mat-form-field-wrapper {
@@ -26,4 +45,3 @@
     }
   }
 }
-
