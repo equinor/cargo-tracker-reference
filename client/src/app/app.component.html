@@ -1,4 +1,4 @@
-<sto-app-header [breadCrumbs]="breadCrumbs"
+<sto-app-header [breadCrumbs]="breadCrumbs$ | async"
                 [homeBreadCrumbConfig]="home">
   <button mat-icon-button
           [matMenuTriggerFor]="menu"

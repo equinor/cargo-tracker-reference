@@ -1,16 +1,12 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as StaticActions from '../actions/static.actions';
-
-type TradingArea = any;
-type Region = any;
-type Country = any;
-type Grade = any;
-type Terminal = any;
+import { Region } from '../../shared/models/region';
+import { Country, Terminal } from '../../shared/models/location';
+import { Grade } from '../../shared/models/grade';
 
 export const staticFeatureKey = 'staticState';
 
 export interface State {
-  tradingAreas: TradingArea[];
   regions: Region[];
   countries: Country[];
   grades: Grade[];
@@ -18,7 +14,6 @@ export interface State {
 }
 
 export const initialState: State = {
-  tradingAreas: null,
   regions: null,
   countries: null,
   grades: [],
@@ -29,6 +24,7 @@ const staticReducer = createReducer(
   initialState,
   on(StaticActions.loadGradesSuccess, (state, action) => ( { ...state, grades: action.grades } )),
   on(StaticActions.loadCountriesSuccess, (state, action) => ( { ...state, countries: action.countries } )),
+  on(StaticActions.loadRegionsSuccess, (state, action) => ( { ...state, regions: action.regions } )),
 );
 
 export function reducer(state: State | undefined, action: Action) {

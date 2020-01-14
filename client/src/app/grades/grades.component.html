@@ -1,5 +1,6 @@
 <div class="table-container">
   <ctref-grade-filter (add)="add()"
+                      (uploadSheet)="upload($event)"
                       [value]="filters$ | async"
                       (filterChanged)="onFilterChange($event)"
                       [countries]="countries$ | async"></ctref-grade-filter>

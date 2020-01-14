@@ -10,24 +10,26 @@ import { Company } from './shared/models/company';
   providedIn: 'root'
 })
 export class StaticService {
+  private baseUrl: string;
 
-  constructor(private http: HttpClient, @Inject(BASE_URL) private baseUrl: string) {
+  constructor(private http: HttpClient, @Inject(BASE_URL) baseUrl: string) {
+    this.baseUrl = `${baseUrl}/config`;
   }
 
   grades() {
-    return this.http.get<Grade[]>(`${this.baseUrl}/config/grade`);
+    return this.http.get<Grade[]>(`${this.baseUrl}/grade`);
   }
 
   countries() {
-    return this.http.get<Country[]>(`${this.baseUrl}/config/country`);
+    return this.http.get<Country[]>(`${this.baseUrl}/country`);
   }
 
   regions() {
-    return this.http.get<Region[]>(`${this.baseUrl}/grade`);
+    return this.http.get<Region[]>(`${this.baseUrl}/region`);
   }
 
   terminals() {
-    return this.http.get<Terminal[]>(`${this.baseUrl}/grade`);
+    return this.http.get<Terminal[]>(`${this.baseUrl}/terminal`);
   }
 
   companies() {

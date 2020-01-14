@@ -1,0 +1,44 @@
+<sto-datatable [rows]="rows"
+               class="sto-form"
+               [responsiveView]="responsiveTmpl"
+               [responsive]="true"
+               [responsiveBreakPoint]="500"
+               [trackBy]="trackFn"
+               [autoSize]="true"
+               [columns]="columns"></sto-datatable>
+
+<ng-template #latLngTmpl
+             let-value="value"
+             let-row="row">
+  <a [href]="row | latLng" target="_blank">{{row.latitude}}, {{row.longitude}}</a>
+</ng-template>
+<ng-template #regionTmpl
+             let-value="value"
+             let-row="row">
+  <mat-form-field stoFormField floatLabel="never">
+    <mat-select [value]="value" (selectionChange)="onSelectCountry($event, row)">
+      <mat-option *ngFor="let r of regions" [value]="r.id">
+        {{ r.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #responsiveTmpl let-row="row">
+  <div style="width: 100%;">
+    <div style="display: flex; width: 50%; float: left; flex-direction: column">
+      <span>{{ row.name }}</span>
+      <a [href]="row | latLng" target="_blank">{{row.latitude}}, {{row.longitude}}</a>
+    </div>
+    <div style="width: 50%; float: left;">
+      <mat-form-field stoFormField floatLabel="never">
+        <mat-label>Region</mat-label>
+        <mat-select [value]="row.regionId" (selectionChange)="onSelectCountry($event, row)">
+          <mat-option *ngFor="let r of regions" [value]="r.id">
+            {{ r.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</ng-template>

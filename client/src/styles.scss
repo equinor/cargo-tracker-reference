@@ -2,6 +2,8 @@
 @import "~@ngx-stoui/core/ngx-stoui.css";
 @import "~@ngx-stoui/form/sto-form.css";
 @import "~@ngx-stoui/core/style/theme/typography";
+@import "~@ngx-stoui/core/style/theme/theme";
+@import "./table";
 
 .grid {
   display: flex;
@@ -36,15 +38,33 @@
   }
 }
 
-@mixin grid-typography($config) {
+.table-container {
+  max-width: 1200px;
+}
 
+@mixin table-container-theme($theme, $variables) {
+  $background: map_get($theme, background);
+  $background-color: mat-color($background, card);
+
+  .table-container {
+    background-color: $background-color;
+  }
+}
+
+body:not(.sto-dark-theme) {
+  @include table-container-theme($sto-theme, $variables);
+}
+
+body.sto-dark-theme {
+  @include table-container-theme($sto-dark-theme, $dark-variables);
+}
+
+@mixin grid-typography($config) {
   .grid__container__section {
     font-size: mat-font-size($config, subheading-2);
     font-weight: mat-font-weight($config, button);
   }
-
 }
-
 
 .mat-typography {
   @include grid-typography($sto-typography);

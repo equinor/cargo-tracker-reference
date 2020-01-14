@@ -1,6 +1,6 @@
 import * as fromRouter from '@ngrx/router-store';
 import { State } from '../reducers';
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
 
@@ -13,3 +13,10 @@ export const {
   selectRouteData,      // select the current route data
   selectUrl,            // select the current url
 } = fromRouter.getSelectors(selectRouter);
+
+export const selectRouteTitle = createSelector(selectRouteData, data => {
+  if (data && data.title) {
+    return [{label: data.title}];
+  }
+  return [];
+});

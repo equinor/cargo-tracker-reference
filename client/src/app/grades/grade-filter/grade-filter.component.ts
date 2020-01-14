@@ -15,6 +15,8 @@ export class GradeFilterComponent extends FilterForm<GradeFilter> {
   countries: Country[];
   @Output()
   add = new EventEmitter<void>();
+  @Output()
+  uploadSheet = new EventEmitter<File>();
 
   formConfig = {
     countryId: [],
@@ -26,7 +28,7 @@ export class GradeFilterComponent extends FilterForm<GradeFilter> {
     if ( value.countryId ) {
       const c = ( this.countries || [] ).find(c => c.id === value.countryId);
       if ( c ) {
-        filters.push({ key: 'countryId', value: c.name });
+        filters.push({ key: 'countryId', value: `Country: ${c.name}` });
       }
     }
     if (value.cancelled) {
@@ -47,6 +49,9 @@ export class GradeFilterComponent extends FilterForm<GradeFilter> {
     super(fb);
   }
 
-  // serializer: OperatorFunction<{ countryId: string; verified: boolean }, string>;
-
+  upload(event: Event) {
+    const file: File = (event.currentTarget as HTMLInputElement).files[ 0 ];
+    (event.currentTarget as HTMLInputElement).value = null;
+    this.uploadSheet.emit(file);
+  }
 }

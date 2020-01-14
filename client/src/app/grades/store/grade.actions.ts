@@ -30,3 +30,8 @@ export const verifyGrade = createAction(
   '[Grade] Verify',
   props<{ grade: Grade }>()
 );
+
+export const uploadGrades = createAction(
+  '[Grade] Upload',
+  props<{ file: File }>()
+);

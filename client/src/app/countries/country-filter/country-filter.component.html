@@ -1,0 +1,35 @@
+<sto-filter-panel #panel
+                  [expandable]="true">
+  <sto-filter-title style="display: inline-flex">
+    Countries
+    <mat-chip-list [style.opacity]="panel.expanded ? 0 : 1"
+                   style="margin-left: 16px">
+      <mat-chip color="primary"
+                *ngFor="let f of filter$ | async"
+                style="margin: 2px 4px"
+                [selected]="true"
+                [removable]="true"
+                (removed)="clearFilter(f.key)"
+                [value]="f.key">
+        {{ f.value }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </sto-filter-title>
+  <div class="sto-form"
+       stoGrid
+       [formGroup]="form">
+    <mat-form-field stoFormField
+                    stoGridColumn>
+      <mat-label>Region</mat-label>
+      <mat-select formControlName="region">
+        <mat-option *ngFor="let r of regions"
+                    [value]="r.id">
+          {{ r.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div stoGridColumn stoGridSpacer></div>
+    <div stoGridColumn [stoGridColumnDouble]="true" stoGridSpacer></div>
+  </div>
+</sto-filter-panel>

@@ -23,7 +23,15 @@
     <button mat-button
             (click)="add.emit()">Add
     </button>
-    <button mat-button>Upload</button>
+    <button mat-button
+            color="primary"
+            (click)="fileInput.click();">
+      Upload grades
+    </button>
+    <input type="file"
+           style="display:none"
+           #fileInput
+           (change)="upload($event)">
   </sto-filter-table-actions>
   <div stoGrid
        class="sto-form"

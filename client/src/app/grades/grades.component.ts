@@ -6,7 +6,7 @@ import * as fromStatic from '../store/selectors/static.selectors';
 import * as fromGrade from './store/grade.selectors';
 import { Country } from '../shared/models/location';
 import { map, startWith } from 'rxjs/operators';
-import { cancelGrade, filterGrade, saveGrade, verifyGrade } from './store/grade.actions';
+import { cancelGrade, filterGrade, saveGrade, uploadGrades, verifyGrade } from './store/grade.actions';
 import { GradeFilter } from './models';
 import { format, startOfMonth } from 'date-fns';
 
@@ -45,7 +45,7 @@ export class GradesComponent implements OnInit {
     const g = {} as Grade;
     g.verified = false;
     g.source = 'Cargo Tracking';
-    g.validFrom = format(startOfMonth(new Date()), 'YYYY-MM-DD')
+    g.validFrom = format(startOfMonth(new Date()), 'YYYY-MM-DD');
     g.id = null;
     g.historicAnalyses = [];
     this.row$.next(g);
@@ -69,10 +69,14 @@ export class GradesComponent implements OnInit {
   }
 
   cancelGrade(grade: Grade) {
-    if (grade.id) {
+    if ( grade.id ) {
       this.store.dispatch(cancelGrade({ grade }));
     } else {
       this.row$.next(null);
     }
+  }
+
+  upload(file: File) {
+    this.store.dispatch(uploadGrades({ file }));
   }
 }

@@ -20,6 +20,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { MsalInterceptor, MsalModule } from '@azure/msal-angular';
 import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { RouterEffects } from './store/effects/router.effects';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([ StaticEffects, ViewEffects ]),
+    EffectsModule.forRoot([ StaticEffects, ViewEffects, RouterEffects ]),
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),

@@ -1,17 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { concatMap, map, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import * as GradeActions from './grade.actions';
 import { GradeService } from '../grade.service';
-import { loadGrades } from '../../store/actions/static.actions';
+import { loadGrades, loadGradesSuccess } from '../../store/actions/static.actions';
+import { navigate } from '../../store/actions/router.actions';
+import { saveGradeSuccess } from './grade.actions';
 
 
 @Injectable()
 export class GradeEffects {
 
+  upload$ = createEffect(() => this.actions$.pipe(
+    ofType(GradeActions.uploadGrades),
+    switchMap(action => this.service.upload(action.file).pipe(
+      map(() => saveGradeSuccess())
+    ))
+  ));
+
+  filter$ = createEffect(() => this.actions$.pipe(
+    ofType(GradeActions.filterGrade),
+    map(action => navigate({ commands: [], extras: { queryParams: action.filter } }))
+  ));
 
   save$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.saveGrade),
@@ -40,12 +52,12 @@ export class GradeEffects {
   ));
 
   loading$ = createEffect(() => this.actions$.pipe(
-    ofType(GradeActions.cancelGrade, GradeActions.saveGrade, GradeActions.verifyGrade),
+    ofType(GradeActions.cancelGrade, GradeActions.saveGrade, GradeActions.verifyGrade, GradeActions.uploadGrades, loadGrades),
     map(() => GradeActions.loading({ loading: true }))
   ));
 
   loadingDone$ = createEffect(() => this.actions$.pipe(
-    ofType(GradeActions.saveGradeSuccess),
+    ofType(GradeActions.saveGradeSuccess, loadGradesSuccess),
     map(() => GradeActions.loading({ loading: false }))
   ));
 
