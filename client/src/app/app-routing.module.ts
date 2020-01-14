@@ -14,12 +14,6 @@ const routes: Routes = [
     loadChildren: () => import('./grades/grades.module').then(m => m.GradesModule)
   },
   {
-    path: 'regions',
-    data: { title: 'Regions' },
-    canActivate: [ MsalGuard ],
-    loadChildren: () => import('./regions/regions.module').then(m => m.RegionsModule)
-  },
-  {
     path: 'countries', data: { title: 'Countries' },
     canActivate: [ MsalGuard ],
     loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule)
