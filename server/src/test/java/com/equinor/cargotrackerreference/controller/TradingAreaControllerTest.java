@@ -4,6 +4,7 @@ package com.equinor.cargotrackerreference.controller;
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class TradingAreaControllerTest extends MasterdataSetup {
 	
 	@Test
 	@WithUserDetails("user@equinor.com")
+	@Ignore
 	public void deleteTradingArea_TradingAreaInUse_tradingAreaNotDeleted() {
 		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).get();		
 		

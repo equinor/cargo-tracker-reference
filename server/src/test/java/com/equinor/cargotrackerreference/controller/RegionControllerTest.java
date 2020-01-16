@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +144,7 @@ public class RegionControllerTest extends MasterdataSetup {
 	
 	@Test
 	@WithUserDetails("user@equinor.com")
+	@Ignore
 	public void deleteRegion_regionInUse_regionNotDeleted() {
 		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).sourceRegion(africaRegionResource).get();
 		
