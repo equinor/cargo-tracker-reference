@@ -5,6 +5,27 @@
 .sto-mdl-table__body__row .sto-mdl-table__body__row__cell.edit-cell {
   padding: 0;
 }
+
+%form-chip {
+
+  .chip-container {
+    max-width: 70%;
+    overflow: auto;
+    display: inline-block;
+  }
+
+  .mat-standard-chip {
+    min-height: 18px;
+    padding: 4px;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    .mat-chip-remove {
+      margin-left: 4px;
+    }
+  }
+}
+
 .sto-mdl-table {
 
   .responsive {
@@ -26,6 +47,7 @@
   }
 
   .mat-form-field.sto-form__field {
+    @extend %form-chip;
     min-height: 30px;
     .mat-form-field-wrapper {
       padding-bottom: 0;

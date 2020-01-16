@@ -8,6 +8,7 @@
                     [countries]="countries$ | async"
                     [loading]="loading$ | async"
                     (save)="save($event)"
+                    (merge)="onMergeGrade($event)"
                     (cancelGrade)="cancelGrade($event)"
                     (cancel)="cancel()"
                     (verify)="verify($event)"></ctref-grade-list>

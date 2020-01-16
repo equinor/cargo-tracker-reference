@@ -1,0 +1,41 @@
+<sto-datatable [autoSize]="true"
+               [columns]="columns"
+               [loading]="loading"
+               [rowHeight]="40"
+               [rows]="rows"
+               [sortable]="true"
+               [trackBy]="trackFn"></sto-datatable>
+
+<ng-template #countryTmpl
+             let-row="row"
+             let-value="value">
+  {{ value | nameFromId:countries }}
+</ng-template>
+<ng-template #aliasTmpl
+             let-row="row"
+             let-value="value">
+  <mat-form-field stoFormField>
+    <mat-chip-list #chipList
+                   aria-label="Fruit selection">
+      <div class="chip-container">
+        <mat-chip (removed)="remove(v, row)"
+                  *ngFor="let v of (editing[row.id]?.aliases || row.aliases)"
+                  [removable]="true"
+                  [selectable]="false"
+                  color="primary">
+          {{v}}
+        </mat-chip>
+      </div>
+      <input (matChipInputTokenEnd)="add($event, row)"
+             [matChipInputAddOnBlur]="false"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+    </mat-chip-list>
+  </mat-form-field>
+</ng-template>
+<ng-template #latLngTmpl
+             let-row="row"
+             let-value="value">
+  <a [href]="row | latLng"
+     target="_blank">{{row.latitude}}, {{row.longitude}}</a>
+</ng-template>

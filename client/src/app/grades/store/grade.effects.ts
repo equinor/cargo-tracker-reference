@@ -4,10 +4,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 
 import * as GradeActions from './grade.actions';
+import { saveGradeSuccess } from './grade.actions';
 import { GradeService } from '../grade.service';
 import { loadGrades, loadGradesSuccess } from '../../store/actions/static.actions';
 import { navigate } from '../../store/actions/router.actions';
-import { saveGradeSuccess } from './grade.actions';
 
 
 @Injectable()
@@ -40,6 +40,13 @@ export class GradeEffects {
       .pipe(
         map(res => GradeActions.saveGradeSuccess())
       )
+    )
+  ));
+
+  merge$ = createEffect(() => this.actions$.pipe(
+    ofType(GradeActions.merge),
+    switchMap((action) => this.service.merge(action.payload.from, action.payload.into)
+      .pipe(map(res => GradeActions.saveGradeSuccess()))
     )
   ));
 

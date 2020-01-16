@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 
 import * as CountryActions from './country.actions';
 import { CountryService } from '../country.service';
 import { navigate } from '../../store/actions/router.actions';
+import { loadCountries } from '../../store/actions/static.actions';
 
 
 @Injectable()
@@ -17,6 +18,11 @@ export class CountryEffects {
         map(() => CountryActions.saveCountrySuccess())
       )
     )
+  ));
+
+  saveSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(CountryActions.saveCountrySuccess),
+    map(() => loadCountries())
   ));
 
   filter$ = createEffect(() => this.actions$.pipe(

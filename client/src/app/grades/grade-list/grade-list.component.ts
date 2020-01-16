@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Grade } from '../../shared/models/grade';
 import { Column } from '@ngx-stoui/datatable';
 import { Country } from '../../shared/models/location';
@@ -18,6 +18,8 @@ export class GradeListComponent implements AfterViewInit {
   loading: boolean;
   @Output()
   save = new EventEmitter<Grade>();
+  @Output()
+  merge = new EventEmitter<Grade>();
   @Output()
   verify = new EventEmitter<Grade>();
   @Output()
@@ -48,7 +50,7 @@ export class GradeListComponent implements AfterViewInit {
   ngAfterViewInit() {
     const editCellClassFn = (value, column, row: Grade) => {
       const edit = !row.id || row.source === 'Cargo Tracking';
-      return edit ? 'edit-cell' : '';
+      return edit && !row.cancelled ? 'edit-cell' : '';
     };
     requestAnimationFrame(() => {
       this.columns = [
@@ -81,7 +83,14 @@ export class GradeListComponent implements AfterViewInit {
   }
 
   getRowClass(row: Grade) {
-    return row.id ? '' : 'add-grade';
+    let css = '';
+    if ( !row.id ) {
+      css = 'add-grade';
+    }
+    if ( row.cancelled ) {
+      css = 'cancelled';
+    }
+    return css;
   }
 
   onValueChange(value: any, row: Grade, column: Column, event?: KeyboardEvent) {

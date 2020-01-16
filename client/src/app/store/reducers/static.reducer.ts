@@ -22,9 +22,10 @@ export const initialState: State = {
 
 const staticReducer = createReducer(
   initialState,
-  on(StaticActions.loadGradesSuccess, (state, action) => ( { ...state, grades: action.grades } )),
-  on(StaticActions.loadCountriesSuccess, (state, action) => ( { ...state, countries: action.countries } )),
-  on(StaticActions.loadRegionsSuccess, (state, action) => ( { ...state, regions: action.regions } )),
+  on(StaticActions.loadGradesSuccess, (state, { grades }) => ( { ...state, grades } )),
+  on(StaticActions.loadCountriesSuccess, (state, { countries }) => ( { ...state, countries } )),
+  on(StaticActions.loadRegionsSuccess, (state, { regions }) => ( { ...state, regions } )),
+  on(StaticActions.loadTerminalsSuccess, (state, { terminals }) => ( { ...state, terminals } )),
 );
 
 export function reducer(state: State | undefined, action: Action) {

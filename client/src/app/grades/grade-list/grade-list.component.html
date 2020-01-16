@@ -35,7 +35,8 @@
             (click)="cancelGrade.emit(row)">
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button (click)="merge.emit(row)"
+            mat-icon-button>
       <mat-icon>shuffle</mat-icon>
     </button>
   </ng-container>
@@ -46,22 +47,24 @@
              let-column="column"
              let-value="value">
   <span [title]="value | countryNameFromId:countries"
-        *ngIf="row.source !== 'Cargo Tracking'">
+        *ngIf="row.cancelled || (row.source !== 'Cargo Tracking'); else edit">
     {{ value | countryNameFromId:countries }}
   </span>
-  <mat-form-field stoFormField
-                  (keydown)="$event.stopPropagation()"
-                  (click)="$event.stopPropagation()"
-                  *ngIf="row.source === 'Cargo Tracking'">
-    <mat-select (valueChange)="onValueChange($event, row, column)"
-                [value]="row.countryId || null"
-                (keydown)="$event.stopPropagation()">
-      <mat-option *ngFor="let c of countries"
-                  [value]="c.id">
-        {{ c.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <ng-template #edit>
+    <mat-form-field (click)="$event.stopPropagation()"
+                    (keydown)="$event.stopPropagation()"
+                    *ngIf="row.source === 'Cargo Tracking'"
+                    stoFormField>
+      <mat-select (keydown)="$event.stopPropagation()"
+                  (valueChange)="onValueChange($event, row, column)"
+                  [value]="row.countryId || null">
+        <mat-option *ngFor="let c of countries"
+                    [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-template>
 </ng-template>
 
 <ng-template #verifiedTmpl
@@ -72,14 +75,14 @@
                 *ngIf="row.id"
                 [checked]="value"
                 (change)="verifyGrade(row)"
-                [disabled]="row.source !== 'Cargo Tracking'"></mat-checkbox>
+                [disabled]="row.cancelled || row.source !== 'Cargo Tracking'"></mat-checkbox>
 </ng-template>
 
 <ng-template #nameTmpl
              let-value="value"
              let-row="row"
              let-column="column">
-  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+  <span *ngIf="row.cancelled || (row.id && row.source !== 'Cargo Tracking'); else edit"
         [title]="value">{{value}}</span>
   <ng-template #edit>
     <mat-form-field stoFormField>
@@ -94,7 +97,7 @@
              let-value="value"
              let-row="row"
              let-column="column">
-  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+  <span *ngIf="row.cancelled || (row.id && row.source !== 'Cargo Tracking'); else edit"
         [title]="value">{{value}}</span>
   <ng-template #edit>
     <mat-form-field stoFormField>
@@ -111,7 +114,7 @@
              let-value="value"
              let-row="row"
              let-column="column">
-  <span *ngIf="row.id && row.source !== 'Cargo Tracking'; else edit"
+  <span *ngIf="row.cancelled || (row.id && row.source !== 'Cargo Tracking'); else edit"
         [title]="value">{{value}}</span>
   <ng-template #edit>
     <mat-form-field stoFormField>
@@ -131,6 +134,7 @@
   <mat-form-field stoFormField
                   floatLabel="never">
     <input matInput
+           [readonly]="row.cancelled"
            [value]="value || ''"
            placeholder="OCD alias"
            (keyup)="onValueChange($event.target.value, row, column, $event)">

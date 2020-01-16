@@ -5,10 +5,12 @@ import { Grade } from '../shared/models/grade';
 import * as fromStatic from '../store/selectors/static.selectors';
 import * as fromGrade from './store/grade.selectors';
 import { Country } from '../shared/models/location';
-import { map, startWith } from 'rxjs/operators';
-import { cancelGrade, filterGrade, saveGrade, uploadGrades, verifyGrade } from './store/grade.actions';
+import { map, startWith, take } from 'rxjs/operators';
+import { cancelGrade, filterGrade, merge, saveGrade, uploadGrades, verifyGrade } from './store/grade.actions';
 import { GradeFilter } from './models';
 import { format, startOfMonth } from 'date-fns';
+import { MergeGradeComponent } from './merge-grade/merge-grade.component';
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -25,7 +27,7 @@ export class GradesComponent implements OnInit {
   public loading$: Observable<boolean>;
   public filters$: Observable<GradeFilter>;
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -78,5 +80,25 @@ export class GradesComponent implements OnInit {
 
   upload(file: File) {
     this.store.dispatch(uploadGrades({ file }));
+  }
+
+  async onMergeGrade(grade: Grade) {
+    const grades = await this.grades$.pipe(take(1)).toPromise();
+    const ref = this.dialog.open(MergeGradeComponent, {
+      data: {
+        grade,
+        grades
+      },
+      panelClass: 'sto-dialog',
+      width: '300px'
+    });
+    const result = await ref.afterClosed().toPromise();
+    if ( result ) {
+      const payload = {
+        from: grade,
+        into: result
+      };
+      this.store.dispatch(merge({ payload }));
+    }
   }
 }

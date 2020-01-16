@@ -15,4 +15,5 @@ export interface Country extends RegionLocation {
 export interface Terminal extends RegionLocation {
   countryId: string;
   source: string;
+  aliases: string[];
 }

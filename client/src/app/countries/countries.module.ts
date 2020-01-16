@@ -15,12 +15,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoDirectivesModule } from '@ngx-stoui/core';
 import { StoFilterPanelModule } from '@ngx-stoui/common';
 import { StoDatatableModule } from '@ngx-stoui/datatable';
-import { LatLngPipe } from './country-list/lat-lng.pipe';
 import { CountryService } from './country.service';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [ CountriesComponent, CountryFilterComponent, CountryListComponent, LatLngPipe ],
+  declarations: [ CountriesComponent, CountryFilterComponent, CountryListComponent ],
   imports: [
     CommonModule,
     CountriesRoutingModule,
@@ -35,6 +35,7 @@ import { CountryService } from './country.service';
     MatFormFieldModule,
     StoFormModule,
     StoDatatableModule,
+    SharedModule,
   ],
   providers: [ CountryService ]
 })

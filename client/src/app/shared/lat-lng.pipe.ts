@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Country } from '../../shared/models/location';
+import { Country } from './models/location';
 
 @Pipe({
   name: 'latLng'

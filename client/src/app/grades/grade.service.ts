@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Grade } from '../shared/models/grade';
 import { BASE_URL } from '../tokens';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,18 @@ export class GradeService {
 
   public verify(grade: Grade) {
     return this.http.patch(`${this.baseUrl}/${grade.id}/verify`, grade);
+  }
+
+  public count(grade: Grade) {
+    return this.http.get(`/api/ct/cargo/grade/${grade.id}/count`, { responseType: 'text' })
+      .pipe(
+        map(res => Number(res))
+      );
+  }
+
+
+  public merge(from: Grade, into: Grade) {
+    return this.http.put<Grade>(`${this.baseUrl}/${from.id}/replace`, into);
   }
 
   public save(grade: Grade) {

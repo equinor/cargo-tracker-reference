@@ -1,4 +1,4 @@
-import { LatLngPipe } from './lat-lng.pipe';
+import { LatLngPipe } from '../../shared/lat-lng.pipe';
 
 describe('LatLngPipe', () => {
   it('create an instance', () => {
