@@ -1,16 +1,3 @@
-FROM node:alpine as clientbuilder
-
-COPY client/package.json client/yarn.lock ./
-RUN yarn
-
-RUN mkdir /client && cp -R ./node_modules ./client
-
-WORKDIR /client
-COPY client/src ./src
-COPY client/*.json ./
-
-RUN $(npm bin)/ng build --configuration=prod --progress=false
-
 FROM ubuntu:18.04 AS builder
 RUN apt-get update && apt-get install -y \
     default-jdk \
@@ -29,11 +16,10 @@ COPY pom.xml /usr/src/app
 
 
 RUN mvn -f /usr/src/app/pom.xml clean compile
-COPY --from=clientbuilder /client/dist/cargo-tracking-web /usr/src/app/target/classes/static
 RUN cd /usr/src/app && \
     mvn package
 
 FROM openjdk:11 AS runtime
 VOLUME /tmp
-COPY --from=builder /usr/src/app/target/cargo-tracking-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=builder /usr/src/app/target/cargo-tracker-reference-0.0.1-SNAPSHOT.jar ./app.jar
 ENTRYPOINT ["java","-Xmx8196m","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
