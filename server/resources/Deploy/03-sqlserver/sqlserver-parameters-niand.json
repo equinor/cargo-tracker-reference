@@ -1,0 +1,18 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUser": {
+      "value": "ct-niand"
+    },
+    "serverName": {
+	    "value": "ct-db-server-niand"
+    },
+    "workspaceName": {
+	    "value": "ct-workspace-niand"
+    },
+    "retentionDays": {
+	    "value": 30
+    }
+  }
+}

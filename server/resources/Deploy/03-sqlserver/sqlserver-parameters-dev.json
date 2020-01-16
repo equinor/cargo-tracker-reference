@@ -1,0 +1,21 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUser": {
+      "value": "ct-dev"
+    },
+    "serverName": {
+	    "value": "ct-db-server-dev"
+    },
+    "workspaceName": {
+	    "value": "ct-workspace-dev"
+    },
+    "retentionDays": {
+	    "value": 30
+    },
+    "storageAccountName": {
+	    "value": "cargotrackersadev"
+    }
+  }
+}

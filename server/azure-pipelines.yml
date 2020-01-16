@@ -1,0 +1,62 @@
+# Trigger on changes to these branches
+# Without this section, the pipeline triggers on changes i all branches
+trigger:
+- master
+
+# Pull request trigger. 
+# Without this section, the pipeline trigger on all pull requests
+pr: none
+
+jobs:
+# Deployment jobs don't support containers atm, so using job for now
+- job: Deploy_development
+  pool:
+    vmImage: 'ubuntu-16.04'
+  container: niand/ct-build:latest  
+  #variables:
+  #  imageName: 'niand/ct-build:latest'
+  #steps:
+  #- script: printenv
+  #condition: eq(variables['build.sourceBranch'], 'refs/heads/master')
+  steps:
+  - task: DockerInstaller@0
+    displayName: Docker Installer
+    inputs:
+      dockerVersion: 17.09.0-ce
+      releaseType: stable
+  - script: ./build-deploy-image.sh -e dev -b master -t latest
+    displayName: 'Changes to master, deploying code to development environment'
+    env:
+      AZ_PASS_dev: $(pw_dev)
+
+  
+#- job: Deploy_systemtest
+#  pool:
+    vmImage: 'ubuntu-16.04'
+  container: niand/ct-build:latest  
+#  steps:
+#  - script: ./build-completeGH.sh -e test
+  - task: DockerInstaller@0
+    displayName: Docker Installer
+    inputs:
+      dockerVersion: 17.09.0-ce
+      releaseType: stable
+  - script: ./build-deploy-image.sh -e test -b release/2 -t test
+    displayName: 'Changes to release/2, deploying code to systemtest environment'
+#  condition: eq(variables['build.sourceBranch'], 'refs/heads/release/1')
+      AZ_PASS_dev: $(pw_test)
+
+
+#    env:
+#      azurePassword: $(AZ_PASS_prod)  
+    vmImage: 'ubuntu-16.04'
+  container: niand/ct-build:latest
+  - task: DockerInstaller@0
+    displayName: Docker Installer
+    inputs:
+      dockerVersion: 17.09.0-ce
+      releaseType: stable
+  - script: ./build-deploy-image.sh -e prod -b release/1 -t prod
+    displayName: 'Changes to release/1, deploying code to production environment'
+      AZ_PASS_dev: $(pw_production)
+  

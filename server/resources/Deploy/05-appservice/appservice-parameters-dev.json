@@ -1,0 +1,56 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "allowAutoTeardown": {
+      "value": "true"
+    },
+    "siteName": {
+        "value": "ct-app-dev"
+    },
+    "containerRegistryName": {
+        "value": "ctregistrydev"
+    },
+    "applicationId": {
+	"value": "c176aebb-5104-42ba-a0dd-a8be3d7e0907"
+    },
+    "baseUrl": {
+	"value": "https://ct-app-dev.azurewebsites.net"
+    },
+    "appServicePlanName": {
+        "value": "ct-app-serverfarm-dev"
+    },
+    "appSettingDbAppJdbcString": {
+        "value": "jdbc:sqlserver://ct-db-server-dev.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+    },
+    "appSettingDbAppUser": {
+        "value": "ctapp"
+    },
+    "appSettingDbServerAdminUser": {
+        "value": "ct-dev"
+    },
+    "appSettingDockerRegistryServerUserName": {
+        "value": "ctregistrydev"
+    },
+    "appSettingDockerRegistryServerUrl": {
+        "value": "https://ctregistrydev.azurecr.io"
+    },
+    "appInsightsName": {
+        "value": "ct-appinsight-dev"
+    },
+	"skuName" : {
+		"value" : "B1"
+	},
+	"skuTier" : {
+		"value" : "Basic"
+	},
+	"actionGroupName" : {
+		"value" : "MailToSupport_dev"
+	},
+	"emails" : {
+		"value" : [
+			"heh@equinor.com"
+		]
+	}
+  }
+}

@@ -1,0 +1,16 @@
+
+on:
+  push:
+    branches:
+      - release/2
+ 
+jobs:
+  deploy_to_dev:
+    runs-on: ubuntu-18.04
+    name: Deploys release/2 branch to test
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy release/2
+      env:
+        AZ_PASS_test: ${{ secrets.azurePasswordTest }}
+      run: ./multistage.sh -e test -b release/2 -t cargo-tracking:test

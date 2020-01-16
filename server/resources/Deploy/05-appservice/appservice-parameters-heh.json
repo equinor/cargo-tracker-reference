@@ -1,0 +1,48 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "allowAutoTeardown": {
+      "value": "true"
+    },
+    "siteName": {
+        "value": "ct-app-heh"
+    },
+    "containerRegistryName": {
+        "value": "ctregistryheh"
+    },
+    "appServicePlanName": {
+        "value": "HehSuperDuperPlanFTW"
+    },
+    "dockerImageName": {
+        "value": "cargo-tracking:latest"
+    },
+    "appSettingDbAppJdbcString": {
+        "value": "jdbc:sqlserver://msssqlserver.database.windows.net:1433;database=mssDbCargoTracking;"
+    },
+    "appSettingDbAppUser": {
+        "value": "mssHehAppUser"
+    },
+    "appSettingDbServerAdminUser": {
+        "value": "mssSqlServer"
+    },
+    "appSettingDockerRegistryServerUserName": {
+        "value": "ctregistryheh"
+    },
+    "appSettingDockerRegistryServerUrl": {
+        "value": "https://ctregistryheh.azurecr.io"
+    },
+    "appSettingSpringProfilesActive": {
+        "value": "azure_dev"
+    },
+    "appInsightsName": {
+        "value": "ct-appinsight-heh"
+    },
+	"skuName" : {
+		"value" : "B1"
+	},
+	"skuTier" : {
+		"value" : "Basic"
+	}
+  }
+}

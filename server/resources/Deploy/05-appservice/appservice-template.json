@@ -1,0 +1,557 @@
+{
+	"$schema" : "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"siteName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the web app that you wish to create."
+			}
+		},
+		"appServicePlanName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the App Service plan to use for hosting the web app."
+			}
+		},
+		"applicationId" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "App registration ID in Azure AD. Needed for SSO"
+			}
+		},
+		"baseUrl" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The base url of the web application"
+			}
+		},
+		"diagnosticsLogsEnabled" : {
+			"type" : "string",
+			"defaultValue" : "true"
+		},
+		"allowAutoTeardown" : {
+			"type" : "string",
+			"defaultValue" : "true"
+		},
+		"containerRegistryName" : {
+			"type" : "string"
+		},
+		"dockerImageTag" : {
+			"type" : "string"
+		},
+		"location" : {
+			"type" : "string",
+			"defaultValue" : "[resourceGroup().location]"
+		},
+		"skuName" : {
+			"type" : "string"
+		},
+		"skuTier" : {
+			"type" : "string"
+		},
+		"appSettingWebsitesPort" : {
+			"type" : "string",
+			"defaultValue" : "8080"
+		},
+		"appSettingDbAppJdbcString" : {
+			"type" : "string"
+		},
+		"appSettingSbSportConnectionUri" : {
+			"type" : "string",
+			"defaultValue" : "amqps://niandtest.servicebus.windows.net?amqp.idleTimeout=120000&amqp.traceFrames=true"
+		},
+		"appSettingSbSportSasKey" : {
+			"type" : "string"
+		},
+		"appSettingSbSportSasKeyName" : {
+			"type" : "string"
+		},
+		"appSettingFlywayOutOfOrder" : {
+			"type" : "string",
+			"defaultValue" : "true"
+		},
+		"appSettingDbAppPassword" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Password of the application db user"
+			}
+		},
+		"appSettingDbAppUser" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Username of the db user"
+			}
+		},
+		"appSettingDbServerAdminPassword" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Password of the SQL Server admin. Needed first time the application is run on a fresh database. This property should then be removed."
+			}
+		},
+		"appSettingDbServerAdminUser" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Username of the SQL Server admin. Needed first time the application is run on a fresh database. This property should then be removed."
+			}
+		},
+		"appSettingDockerEnableCI" : {
+			"type" : "string",
+			"defaultValue" : "true"
+		},
+		"appSettingDockerRegistryServerPassword" : {
+			"type" : "string"
+		},
+		"appSettingDockerRegistryServerUserName" : {
+			"type" : "string"
+		},
+		"appSettingDockerRegistryServerUrl" : {
+			"type" : "string"
+		},
+		"appSettingSpringProfilesActive" : {
+			"type" : "string",
+			"defaultValue" : "sql_server"
+		},
+		"appSettingWebsiteHttploggingRetentionDays" : {
+			"type" : "string",
+			"defaultValue" : "2"
+		},
+		"appSettingWebsitesEnableAppServiceStorage" : {
+			"type" : "string",
+			"defaultValue" : "false"
+		},
+        "appInsightsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Describes the name of the Application Insights resource"
+            },
+			"defaultValue" : "CT_AppInsight"
+        },
+        "actionGroupName": {
+            "type": "string",
+			"defaultValue" : "MailToSupport_dev"
+        },
+        "emailSupport": {
+            "type": "string",
+			"defaultValue" : "fg_CargoTrackerSupport@equinor.com"
+        },
+		"emails" : {
+			"type" : "array",
+			"metadata" : {
+				"description" : "A list of strings representing the email addresses to send alerts to."
+			}
+		}
+	},
+	"resources" : [{
+			"apiVersion" : "2018-02-01",
+			"name" : "[parameters('appServicePlanName')]",
+			"type" : "Microsoft.Web/serverfarms",
+			"location" : "[parameters('location')]",
+			"kind" : "linux",
+			"scale" : null,
+			"properties" : {
+				"name" : "[parameters('appServicePlanName')]",
+				"workerSizeId" : "1",
+				"reserved" : true,
+				"numberOfWorkers" : "1",
+				"hostingEnvironment" : ""
+			},
+			"tags" : {
+				"allowAutoTeardown" : "[parameters('allowAutoTeardown')]"
+			},
+			"sku": {
+                "Tier": "[parameters('skuTier')]",
+                "Name": "[parameters('skuName')]"
+            }
+		}, {
+			"apiVersion" : "2018-02-01",
+			"name" : "[parameters('siteName')]",
+			"type" : "Microsoft.Web/sites",
+			"location" : "[parameters('location')]",
+			"kind" : "app,linux,container",
+			"tags" : {
+				"allowAutoTeardown" : "[parameters('allowAutoTeardown')]"
+			},
+			"properties" : {
+				"serverFarmId" : "[resourceId('Microsoft.Web/serverFarms',parameters('appServicePlanName'))]",
+				"enabled" : true,
+				"clientAffinityEnabled" : false,
+				"httpsOnly" : true,
+				"hostNameSslStates" : [{
+						"name" : "[concat(parameters('siteName'),'.azurewebsites.net')]",
+						"sslState" : "Disabled",
+						"hostType" : "Standard"
+					}, {
+						"name" : "[concat(parameters('siteName'),'.scm.azurewebsites.net')]",
+						"sslState" : "Disabled",
+						"hostType" : "Repository"
+					}
+				],
+				"reserved" : true,
+				"siteConfig" : {
+					"ftpsState" : "Disabled",
+					"linuxFxVersion" : "[concat('DOCKER|', parameters('containerRegistryName'), '.azurecr.io/', parameters('dockerImageTag'))]",
+					"httpLoggingEnabled" : "[parameters('diagnosticsLogsEnabled')]",
+					"cors" : {
+						"allowedOrigins" : "[parameters('baseUrl')]"
+					},
+					"ipSecurityRestrictions": [
+						{
+							"ipAddress": "143.97.2.35/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "208.98.244.89/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "74.202.66.134/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "189.17.148.135/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "52.67.94.160/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "34.194.195.175/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "34.251.173.88/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "4.31.5.5/32",
+							"name": "AllowOnPrem"
+						},
+						{
+							"ipAddress": "165.225.112.0/23",
+							"name": "ZScaler Singapore"
+						},
+						{
+							"ipAddress": "199.168.151.0/24",
+							"name": "Stamford (Zscaler NY II)"
+						},
+						{
+							"ipAddress": "165.225.38.0/23",
+							"name": "Stamford (Zscaler NY III)"
+						},
+						{
+							"ipAddress": "104.129.194.0/23",
+							"name": "Stamford (Zscaler WDC 1)"
+						}
+					],
+					"appSettings" : [{
+							"name" : "DB_APP_JDBC_STRING",
+							"value" : "[parameters('appSettingDbAppJdbcString')]"
+						}, {
+							"name" : "AAD_APPLICATION_ID",
+							"value" : "[parameters('applicationId')]"
+						}, {
+							"name" : "DB_APP_PASSWORD",
+							"value" : "[parameters('appSettingDbAppPassword')]"
+						}, {
+							"name" : "DB_APP_USER",
+							"value" : "[parameters('appSettingDbAppUser')]"
+						}, {
+							"name" : "DB_SERVER_ADMIN_PASSWORD",
+							"value" : "[parameters('appSettingDbServerAdminPassword')]"
+						}, {
+							"name" : "DB_SERVER_ADMIN_USER",
+							"value" : "[parameters('appSettingDbServerAdminUser')]"
+						}, {
+							"name" : "SB_SPORT_CONNECTION_URI",
+							"value" : "[parameters('appSettingSbSportConnectionUri')]"
+						}, {
+							"name" : "SB_SPORT_SAS_KEY",
+							"value" : "[parameters('appSettingSbSportSasKey')]"
+						}, {
+							"name" : "SB_SPORT_SAS_KEY_NAME",
+							"value" : "[parameters('appSettingSbSportSasKeyName')]"
+						}, {
+							"name" : "DOCKER_ENABLE_CI",
+							"value" : "[parameters('appSettingDockerEnableCI')]"
+						}, {
+							"name" : "DOCKER_REGISTRY_SERVER_PASSWORD",
+							"value" : "[parameters('appSettingDockerRegistryServerPassword')]"
+						}, {
+							"name" : "DOCKER_REGISTRY_SERVER_URL",
+							"value" : "[parameters('appSettingDockerRegistryServerUrl')]"
+						}, {
+							"name" : "DOCKER_REGISTRY_SERVER_USERNAME",
+							"value" : "[parameters('appSettingDockerRegistryServerUserName')]"
+						}, {
+							"name" : "SPRING_PROFILES_ACTIVE",
+							"value" : "[parameters('appSettingSpringProfilesActive')]"
+						}, {
+							"name" : "WEBSITE_HTTP_LOGGING_RETENTION_DAYS",
+							"value" : "[parameters('appSettingWebsiteHttpLoggingRetentionDays')]"
+						}, {
+							"name" : "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+							"value" : "[parameters('appSettingWebsitesEnableAppServiceStorage')]"
+						}, {
+							"name" : "WEBSITES_PORT",
+							"value" : "[parameters('appSettingWebsitesPort')]"
+						}, {
+							"name" : "FLYWAY_OUT_OF_ORDER",
+							"value" : "[parameters('appSettingFlywayOutOfOrder')]"
+						}, {
+							"name" : "APPINSIGHTS_INSTRUMENTATIONKEY",
+							"value" : "[reference(concat('microsoft.insights/components/', parameters('appInsightsName'))).InstrumentationKey]"
+						}
+					]
+				}
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Web/serverFarms/',parameters('appServicePlanName'))]",
+                "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+			]
+		},
+        {
+            "apiVersion": "2018-05-01-preview",
+            "name": "[parameters('appInsightsName')]",
+            "type": "Microsoft.Insights/components",
+            "kind": "java",
+            "location" : "[parameters('location')]",
+            "properties": {
+                "applicationId": "[parameters('appInsightsName')]"
+            },
+			"resources": [
+	        {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "extension_securityextensionspackage",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "extension_securityextensionspackage",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "slowpageloadtime",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "slowpageloadtime",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "slowserverresponsetime",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "slowserverresponsetime",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "longdependencyduration",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "longdependencyduration",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "degradationinserverresponsetime",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "degradationinserverresponsetime",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "degradationindependencyduration",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "degradationindependencyduration",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "extension_traceseveritydetector",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "extension_traceseveritydetector",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "extension_exceptionchangeextension",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "extension_exceptionchangeextension",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }, {
+	          "apiVersion": "2018-05-01-preview",
+	          "name": "extension_memoryleakextension",
+	          "type": "ProactiveDetectionConfigs",
+	          "location" : "[parameters('location')]",
+	          "dependsOn": [
+	            "[resourceId('microsoft.insights/components/', parameters('appInsightsName'))]"
+	          ],
+	          "properties": {
+	            "name": "extension_memoryleakextension",
+	            "sendEmailsToSubscriptionOwners": false,
+	            "customEmails": "[parameters('emails')]",
+	            "enabled": true
+	          }
+	        }
+	      ]
+        },{
+			"name" : "[parameters('actionGroupName')]",
+			"type" : "microsoft.insights/actionGroups",
+			"location" : "global",
+			"apiVersion" : "2018-09-01",
+			"properties" : {
+				"groupShortName" : "App Service",
+				"enabled" : true,
+				"emailReceivers" : [{
+						"name" : "Cargo Tracker support team",
+						"emailAddress" : "[parameters('emails')[0]]"
+					}
+				]
+			}
+		},
+		{
+			"name": "InternalServerException",
+			"type": "Microsoft.Insights/scheduledQueryRules",
+			"location": "[parameters('location')]",
+			"dependsOn" : [
+				"[resourceId('microsoft.insights/components', parameters('appInsightsName'))]",
+				"[resourceId('microsoft.insights/actionGroups', parameters('actionGroupName'))]"
+			],
+			"apiVersion": "2018-04-16",
+			"properties": {
+				"description": "500 Internal Server Error ",
+				"enabled": "true",
+				"source": {
+					"query": "requests | where resultCode == \"500\"",
+					"dataSourceId": "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]",
+					"queryType": "ResultCount",
+					"authorizedResources": [
+					"[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
+					]
+				},
+				"schedule": {
+					"frequencyInMinutes": 5,
+					"timeWindowInMinutes": 5
+				},
+				"action": {
+					"severity": "3",
+					"aznsAction": {
+						"actionGroup": [
+							"[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+							]
+					},
+					"trigger": {
+						"thresholdOperator": "GreaterThan",
+						"threshold": 0
+					},
+					"odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+				}
+			}
+		},
+		{
+			"name": "CargoAvailabilityCounterAlert",
+			"type": "Microsoft.Insights/scheduledQueryRules",
+			"location": "[parameters('location')]",
+			"dependsOn" : [
+				"[resourceId('microsoft.insights/components', parameters('appInsightsName'))]",
+				"[resourceId('microsoft.insights/actionGroups', parameters('actionGroupName'))]"
+			],
+			"apiVersion": "2018-04-16",
+			"properties": {
+				"description": "Alert for the \"Populate cargo availability\"-job that should run once every night",
+				"enabled": "true",
+				"source": {
+					"query": "customEvents \n| where name == \"populateAnalyticsCargoAvailability_FAILED\"",
+					"dataSourceId": "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]",
+					"queryType": "ResultCount",
+					"authorizedResources": [
+						"[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
+					]
+				},
+				"schedule": {
+					"frequencyInMinutes": 360,
+					"timeWindowInMinutes": 360
+				},
+				"action": {
+					"severity": "3",
+					"aznsAction": {
+						"actionGroup": [
+							"[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+						]
+					},
+					"trigger": {
+						"thresholdOperator": "GreaterThan",
+						"threshold": 0
+					},
+					"odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+				}
+			}
+		}
+	],
+	"outputs" : {
+		"publishingUserName" : {
+			"value" : "[list(resourceId('Microsoft.Web/sites/config', parameters('siteName'), 'publishingcredentials'), '2016-08-01').properties.publishingUserName]",
+			"type" : "string"
+		},
+		"publishingPassword" : {
+			"value" : "[list(resourceId('Microsoft.Web/sites/config', parameters('siteName'), 'publishingcredentials'), '2016-08-01').properties.publishingPassword]",
+			"type" : "string"
+		}
+	}
+
+}

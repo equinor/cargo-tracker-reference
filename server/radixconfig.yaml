@@ -1,0 +1,68 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: cargotrackerreference
+spec:
+  environments:
+    - name: development
+      build:
+        from: master
+#    - name: systemtest
+#      build:
+#        from: release/2
+#    - name: production
+#      build:
+#        from: release/1
+  components:
+    - name: ct
+      src: .
+      dockerfileName: Dockerfile.ms
+      ports:
+      - name: https
+        port: 8080
+      publicPort: https
+      monitoring: true
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "100m"
+        limits:
+          memory: "96Mi"
+          cpu: "200m"
+      secrets:
+          - DB_APP_PASSWORD
+      environmentConfig:
+        - environment: development
+          variables:
+            PORT: 8080
+            DB_APP_USER: ctapp
+            DB_APP_JDBC_STRING: jdbc:sqlserver://ct-db-server-dev.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+            AAD_APPLICATION_ID: c176aebb-5104-42ba-a0dd-a8be3d7e0907
+            SPRING_PROFILES_ACTIVE: sql_server
+            FLYWAY_OUT_OF_ORDER: true
+            APPINSIGHTS_INSTRUMENTATIONKEY: 26b548b3-f263-426f-8111-b024174b92dd
+#        - environment: systemtest
+#          variables:
+#            PORT: 8080
+#            DB_APP_USER: ctapp
+#            DB_APP_JDBC_STRING: jdbc:sqlserver://ct-db-server-test.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+#            AAD_APPLICATION_ID: 18f46b40-3cb3-4bd4-b530-ab95114adb99
+#            SPRING_PROFILES_ACTIVE: sql_server
+#            FLYWAY_OUT_OF_ORDER: true
+#            APPINSIGHTS_INSTRUMENTATIONKEY: 5c358c3b-a016-48af-b5b8-a0a9c535ff43
+#        - environment: production
+#          variables:
+#            PORT: 8080
+#            DB_APP_USER: ctapp
+#            DB_APP_JDBC_STRING: jdbc:sqlserver://ct-db-server-prod.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+#            AAD_APPLICATION_ID: 3d2c1eaa-efa6-42eb-b2a2-17ee9083825f
+#            SPRING_PROFILES_ACTIVE: sql_server
+#            FLYWAY_OUT_OF_ORDER: true
+#            APPINSIGHTS_INSTRUMENTATIONKEY: f47aa199-03b8-45d9-a93c-7c939dcdf457
+#  dnsAppAlias:
+#    environment: production
+#    component: ct
+#  dnsExternalAlias:
+#    - alias: cargotracker.equinor.com
+#      environment: production
+#      component: ct  

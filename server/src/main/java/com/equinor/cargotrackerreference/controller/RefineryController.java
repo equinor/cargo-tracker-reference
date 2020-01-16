@@ -1,0 +1,64 @@
+package com.equinor.cargotrackerreference.controller;
+
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.equinor.cargotrackerreference.domain.Refinery;
+import com.equinor.cargotrackerreference.service.RefineryService;
+
+@RestController
+@RequestMapping(value = "/ct/config")
+@CrossOrigin(origins = "*")
+public class RefineryController {
+
+	@Autowired
+	private RefineryService refineryService;
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@RequestMapping(value = "/refinery", method = RequestMethod.GET)
+	public Iterable<Refinery> getRefineries() {
+		logger.debug("Getting refineries.");
+		return refineryService.getRefineries();
+	}
+
+	@RequestMapping(value = "/refinery/{id}", method = RequestMethod.GET)
+	public Refinery getRefinery(@PathVariable(value = "id") UUID id) {
+		logger.debug("Getting refinery with id {} ", id);
+		return refineryService.getRefinery(id).orElse(null);
+	}
+
+	@RequestMapping(value = "/refinery", method = RequestMethod.POST)
+	public Refinery createRefinery(@RequestBody Refinery refinery) {
+		logger.debug("Creating refinery {} ", refinery);
+		return refineryService.createRefiney(refinery);
+	}
+
+	@RequestMapping(value = "/refinery/{id}", method = RequestMethod.PUT)
+	public Refinery updateRefinery(@PathVariable(value = "id") UUID id, @RequestBody Refinery refinery) {
+		logger.debug("Updating refinery {} ", refinery);
+		return refineryService.updateRefinery(id, refinery);
+	}
+
+	@RequestMapping(value = "/refinery/{id}", method = RequestMethod.DELETE)
+	public void cancelRefinery(@PathVariable(value = "id") UUID id) {
+		logger.debug("Cancelling refinery with id {} ", id);
+		refineryService.cancelRefinery(id);
+	}
+
+	@RequestMapping(value = "/region/{id}/refinery", method = RequestMethod.GET)
+	public Iterable<Refinery> getRefineriesForRegion(@PathVariable(value = "id") UUID id) {
+		logger.debug("Getting refineries for region id {} ", id);
+		return refineryService.getRefineriesForRegion(id);
+	}
+
+}

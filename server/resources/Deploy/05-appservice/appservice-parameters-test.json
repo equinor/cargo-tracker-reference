@@ -1,0 +1,59 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "allowAutoTeardown": {
+      "value": "true"
+    },
+    "siteName": {
+        "value": "ct-app-test"
+    },
+    "containerRegistryName": {
+        "value": "ctregistrytest"
+    },
+    "appServicePlanName": {
+        "value": "ct-app-serverfarm-test"
+    },
+    "applicationId": {
+        "value": "18f46b40-3cb3-4bd4-b530-ab95114adb99"
+    },
+    "baseUrl": {
+        "value": "https://ct-app-test.azurewebsites.net"
+    },
+    "appSettingDbAppJdbcString": {
+        "value": "jdbc:sqlserver://ct-db-server-test.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+    },
+    "appSettingDbAppUser": {
+        "value": "ctapp"
+    },
+    "appSettingDbServerAdminUser": {
+        "value": "ct-test"
+    },
+    "appSettingDockerRegistryServerUserName": {
+        "value": "ctregistrytest"
+    },
+    "appSettingDockerRegistryServerUrl": {
+        "value": "https://ctregistrytest.azurecr.io"
+    },
+    "appSettingSpringProfilesActive": {
+        "value": "sql_server"
+    },
+    "appInsightsName": {
+        "value": "ct-appinsight-test"
+    },
+	"skuName" : {
+		"value" : "B1"
+	},
+	"skuTier" : {
+		"value" : "Basic"
+	},
+	"actionGroupName" : {
+		"value" : "MailToSupport_test"
+	},
+	"emails" : {
+		"value" : [
+			"heh@equinor.com"
+		]
+	}
+  }
+}

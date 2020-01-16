@@ -1,0 +1,16 @@
+
+on:
+  push:
+    branches:
+      - release/1
+ 
+jobs:
+  deploy_to_dev:
+    runs-on: ubuntu-18.04
+    name: Deploys release/1 branch to prod
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy release/1
+      env:
+        AZ_PASS_prod: ${{ secrets.azurePasswordProd }}
+      run: ./multistage.sh -e prod -b release/1 -t cargo-tracking:prod

@@ -1,0 +1,45 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "allowAutoTeardown": {
+      "value": "true"
+    },
+    "siteName": {
+        "value": "ct-app-niand"
+    },
+    "containerRegistryName": {
+        "value": "ctregistryniand"
+    },
+    "appServicePlanName": {
+        "value": "ct-app-serverfarm-niand"
+    },
+    "dockerImageName": {
+        "value": "cargo-tracking:sport-ifc"
+    },
+    "appSettingDbAppJdbcString": {
+        "value": "jdbc:sqlserver://ct-db-server-niand.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+    },
+    "appSettingDbAppUser": {
+        "value": "ctapp"
+    },
+    "appSettingDbServerAdminUser": {
+        "value": "ct-niand"
+    },
+    "appSettingDockerRegistryServerUserName": {
+        "value": "ctregistryniand"
+    },
+    "appSettingDockerRegistryServerUrl": {
+        "value": "https://ctregistryniand.azurecr.io"
+    },
+    "appInsightsName": {
+        "value": "ct-appinsight-niand"
+    },
+	"skuName" : {
+		"value" : "B1"
+	},
+	"skuTier" : {
+		"value" : "Basic"
+	}
+  }
+}

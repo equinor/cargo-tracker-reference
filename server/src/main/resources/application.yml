@@ -1,0 +1,94 @@
+spring: 
+  application:
+    name: CargoTrackerReference
+    jobschedule: ${JOB_SCHEDULE:0 01 0 * * *}
+  jackson:
+     serialization:
+        FAIL_ON_EMPTY_BEANS: false            
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ct
+        jdbc.batch_size: 50
+  flyway:
+    out_of_order: ${FLYWAY_OUT_OF_ORDER}
+azure:
+    application-insights:
+        instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:”dummy”}
+server:
+    port: 8080
+    tomcat:
+        max-http-header-size: 50000
+hibernate:
+    show_sql: false
+    dialect: org.hibernate.dialect.SQLServer2012Dialect
+    globally_quoted_identifiers: false
+    connection:
+        pool_size: 10
+    cache:
+        provider_class: org.hibernate.cache.internal.NoCacheProvider
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health, info
+security:
+  oauth2: 
+    resource:
+      jwk.key-set-uri: https://login.microsoftonline.com/common/discovery/keys
+      id: ${AAD_APPLICATION_ID}
+      
+---      
+        
+spring:
+  profiles: servicebus_sport       
+sport:
+  servicebus:
+    connection_uri: ${SB_SPORT_CONNECTION_URI}
+    key_name: ${SB_SPORT_SAS_KEY_NAME}
+    key: ${SB_SPORT_SAS_KEY} 
+    client_id: CargoTracking
+    cargo_topic: cargoinfo
+    cargo_subscription: CTCargoSub 
+   
+---
+
+spring:
+    profiles: sql_server   
+    datasource:      
+      url: ${DB_APP_JDBC_STRING}
+      username: ${DB_APP_USER}
+      password: ${DB_APP_PASSWORD}
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver      
+         
+---
+
+spring:
+    profiles: local_sql_express   
+    datasource:
+      url: jdbc:sqlserver://localhost:1433;database=mssDbCargoTracking
+      username: mssSqlServer
+      password: ${DB_APP_PASSWORD}
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver    
+
+---
+
+spring:
+    profiles: h2    
+    datasource:
+        driverClassName: org.h2.Driver
+        url: jdbc:h2:mem:ct;INIT=RUNSCRIPT FROM 'src/test/resources/init.sql';DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        username: mssSqlServer
+        password:
+    flyway:
+        enabled: false
+hibernate:
+    show_sql: true
+    dialect: org.hibernate.dialect.H2Dialect
+security:
+  oauth2: 
+    resource:
+      id: ${AAD_APPLICATION_ID:”dummy”}
+azure:
+    application-insights:
+        instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:”dummy”}

@@ -1,0 +1,420 @@
+{
+	"$schema" : "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"diagnosticSettingsName" : {
+			"type" : "string",
+			"defaultValue" : "[concat('diagnosticSettings-', uniqueString(resourceGroup().id, deployment().name))]"
+		},
+		"workspaceName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Specifies the name of the workspace. Note! Must correspond with the name in the Keyvault template where the workspace is created."
+			}
+		},
+		"retentionDays" : {
+			"type" : "int",
+			"defaultValue" : 30,
+			"metadata" : {
+				"description" : "Specifies the name of the workspace."
+			}
+		},
+		"serverName" : {
+			"type" : "string",
+			"defaultValue" : "[concat('server-', uniqueString(resourceGroup().id, deployment().name))]",
+			"metadata" : {
+				"description" : "Name for the SQL server"
+			}
+		},
+		"databaseName" : {
+			"type" : "string",
+			"defaultValue" : "ct",
+			"metadata" : {
+				"description" : "Name of the Cargo Tracking database"
+			}
+		},
+		"location" : {
+			"type" : "string",
+			"defaultValue" : "[resourceGroup().location]",
+			"metadata" : {
+				"description" : "Location for server and optional DB"
+			}
+		},
+		"emailAddresses" : {
+			"type" : "array",
+			"defaultValue" : [
+				"fg_CargoTrackerSupport@equinor.com"
+			],
+			"metadata" : {
+				"description" : "Email addresses for receiving alerts"
+			}
+		},
+		"adminUser" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Username for admin"
+			}
+		},
+		"adminPassword" : {
+			"type" : "securestring",
+			"metadata" : {
+				"description" : "Password for admin"
+			}
+		},
+		"allowAutoTeardown" : {
+			"type" : "bool",
+			"defaultValue" : true,
+			"metadata" : {
+				"description" : "Tag value indicating whether scripts are allowed to take down the resource, for example at 17:00."
+			}
+		},
+		"storageAccountName" : {
+			"type" : "string",
+			"defaultValue" : "cargotrackerstacc"
+		}
+	},
+	"variables" : {
+		"databaseServerName" : "[toLower(parameters('serverName'))]",
+		"databaseServerLocation" : "[parameters('location')]",
+		"databaseServerAdminLogin" : "[parameters('adminUser')]",
+		"databaseServerAdminLoginPassword" : "[parameters('adminPassword')]",
+		"emailAddresses" : "[parameters('emailAddresses')]"
+	},
+	"resources" : [{
+			"type" : "Microsoft.Sql/servers",
+			"apiVersion" : "2015-05-01-preview",
+			"location" : "[variables('databaseServerLocation')]",
+			"name" : "[variables('databaseServerName')]",
+			"properties" : {
+				"administratorLogin" : "[variables('databaseServerAdminLogin')]",
+				"administratorLoginPassword" : "[variables('databaseServerAdminLoginPassword')]",
+				"version" : "12.0"
+			},
+			"tags" : {
+				"DisplayName" : "[variables('databaseServerName')]",
+				"allowAutoTeardown" : "[parameters('allowAutoTeardown')]"
+			},
+			"resources" : [{
+					  "type": "databases",
+					  "apiVersion": "2017-03-01-preview",
+					  "location": "[variables('databaseServerLocation')]",
+					  "dependsOn": [
+						"[variables('databaseServerName')]"
+					  ],
+					  "name": "master",
+					  "properties": {}
+					},{
+					"apiVersion" : "2017-03-01-preview",
+					"type" : "securityAlertPolicies",
+					"name" : "DefaultSecurityAlert",
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					],
+					"properties" : {
+						"state" : "Enabled",
+						"emailAddresses" : "[variables('emailAddresses')]",
+						"emailAccountAdmins" : true
+					}
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "143.97.2.35",
+						"endIpAddress" : "143.97.2.35"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps2",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "208.98.244.89",
+						"endIpAddress" : "208.98.244.89"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps3",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "74.202.66.134",
+						"endIpAddress" : "74.202.66.134"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps4",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "189.17.148.135",
+						"endIpAddress" : "189.17.148.135"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps5",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "52.67.94.160",
+						"endIpAddress" : "52.67.94.160"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps6",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "34.194.195.175",
+						"endIpAddress" : "34.194.195.175"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps7",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "34.251.173.88",
+						"endIpAddress" : "34.251.173.88"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowOnPremIps8",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "4.31.5.5",
+						"endIpAddress" : "4.31.5.5"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "firewallrules",
+					"name" : "AllowAllWindowsAzureIps",
+					"apiVersion" : "2014-04-01-preview",
+					"location" : "[variables('databaseServerLocation')]",
+					"properties" : {
+						"startIpAddress" : "0.0.0.0",
+						"endIpAddress" : "0.0.0.0"
+					},
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					]
+				}, {
+					"type" : "databases/providers/diagnosticSettings",
+					"name" : "[concat('master/microsoft.insights/', parameters('diagnosticSettingsName'))]",
+					"dependsOn" : [
+						"[variables('databaseServerName')]",
+						"[concat('Microsoft.Sql/servers/', variables('databaseServerName'), '/databases/master')]"
+					],
+					"apiVersion" : "2017-05-01-preview",
+					"properties" : {
+						"name" : "parameters('diagnosticSettingsName')",
+						"workspaceId" : "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]",
+						"logs" : [{
+								"category" : "SQLSecurityAuditEvents",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "SQLInsights",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "AutomaticTuning",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "QueryStoreRuntimeStatistics",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "QueryStoreWaitStatistics",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "Errors",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "DatabaseWaitStatistics",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "Timeouts",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "Blocks",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "Deadlocks",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}, {
+								"category" : "Audit",
+								"enabled" : true,
+								"retentionPolicy" : {
+									"days" : "[parameters('retentionDays')]",
+									"enabled" : true
+								}
+							}
+						]
+					}
+				}, {
+					"apiVersion" : "2017-03-01-preview",
+					"type" : "auditingSettings",
+					"name" : "DefaultAuditingSettings",
+					"dependsOn" : [
+						"[variables('databaseServerName')]"
+					],
+					"properties" : {
+						"State" : "Enabled",
+						"auditActionsAndGroups" : null,
+						"isAzureMonitorTargetEnabled" : true,
+						 "storageAccountAccessKey": "1"
+					}
+				}
+			]
+		}, {
+			"name": "[concat(variables('databaseServerName'), '/Microsoft.Authorization/sqlServerLock')]",
+			"type": "Microsoft.Sql/servers/providers/locks",
+			"apiVersion": "2016-09-01",
+			"dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', variables('databaseServerName'))]"
+            ],
+			"properties": {
+				"level": "CannotDelete",
+				"notes": "This is an important resource and should not be deleted!"
+			}
+		},
+        {
+            "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+            "apiVersion": "2018-06-01-preview",
+            "name": "[concat(variables('databaseServerName'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', variables('databaseServerName'))]",
+                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "storageContainerPath": "[concat('https://', parameters('storageAccountName'), '.blob.core.windows.net/vulnerability-assessment/')]",
+                "recurringScans": {
+                    "isEnabled": true,
+                    "emailSubscriptionAdmins": false,
+                    "emails": "[variables('emailAddresses')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-04-01",
+            "name": "[parameters('storageAccountName')]",
+            "location" : "[variables('databaseServerLocation')]",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(parameters('storageAccountName'), '/default/vulnerability-assessment')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-04-01",
+            "name": "[concat(parameters('storageAccountName'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        }
+	]
+}

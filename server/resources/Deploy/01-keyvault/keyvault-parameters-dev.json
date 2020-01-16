@@ -1,0 +1,36 @@
+{
+	"$schema" : "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"keyVaultName" : {
+			"value" : "ct-kv-dev"
+		},
+		"enabledForTemplateDeployment" : {
+			"value" : true
+		},
+		"accessPolicies" : {
+			"value" : [{
+					"tenantId" : "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+					"objectId" : "548b2829-fd97-4fc7-a97e-3b3f8ebd8a85",
+					"permissions" : {
+						"keys" : ["all"],
+						"secrets" : ["all"]
+					}
+				}, {
+					"tenantId" : "3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
+					"objectId" : "eb92f3ab-9c1b-44d1-b542-0184abc25416",
+					"permissions" : {
+						"keys" : ["all"],
+						"secrets" : ["all"]
+					}
+				}
+			]
+		},
+		"workspaceName" : {
+			"value" : "ct-workspace-dev"
+		},
+		"retentionDays" : {
+			"value" : 0
+		}
+	}
+}

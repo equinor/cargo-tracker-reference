@@ -1,0 +1,1 @@
+drop table ct_reporting.analytics_cargo_availability;

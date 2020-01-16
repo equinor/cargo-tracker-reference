@@ -1,0 +1,106 @@
+package com.equinor.cargotracking;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
+
+/**
+ * Security setup for OAuth2
+ * 
+ *
+ */
+@EnableWebSecurity  
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) 
+@Profile("oauth-server")
+public class Oauth2SecurityConfiguration extends WebSecurityConfigurerAdapter {			
+	
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {  
+		http
+        	.authorizeRequests()
+        	.antMatchers(HttpMethod.DELETE, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
+        	.antMatchers(HttpMethod.PUT, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
+        	.antMatchers(HttpMethod.POST, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
+        	.antMatchers(HttpMethod.PATCH, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")        	
+        	.antMatchers(HttpMethod.GET, "/ct/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")
+        	.antMatchers("/ct/**").denyAll()
+        	.antMatchers("/manifest.json", "/static/manifest.json", "/error**", "/logout**").permitAll()        	
+        	.anyRequest().authenticated()
+        	.and()
+        	.oauth2Login()
+        	.userInfoEndpoint()
+        	.oidcUserService(idTokenUserService());
+	}
+			
+	private OAuth2UserService<OidcUserRequest, OidcUser> idTokenUserService() {
+		return new OAuth2UserService<OidcUserRequest, OidcUser>() {
+			
+			final Map<String, String> appRegRoleToAppRole = 
+					Map.of("CrudeCargoTrackingUser", "ROLE_USER",
+						   "CrudeCargoTrackingReadOnlyUser", "ROLE_READ_ONLY_USER",
+						   "CrudeCargoTrackingSuperUser", "ROLE_SUPER_USER");
+
+			@Override
+			public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {				
+				Assert.notNull(userRequest, "userRequest cannot be null");
+				
+				Map<String, Object> claims = userRequest.getIdToken().getClaims();
+				
+				if (!claims.containsKey("roles")) {
+					throw new OAuth2AuthenticationException(new OAuth2Error("roles_claim_missing"));
+				}
+				
+				OidcUserInfo userInfo = null;	
+				
+				List<String> roles = userRequest.getIdToken().getClaimAsStringList("roles");
+				
+				if (roles == null || roles.size() == 0) {
+					throw new OAuth2AuthenticationException(new OAuth2Error("roles_claim_empty"));
+				}
+
+				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+				
+				for (String role : roles) {		
+					if (!appRegRoleToAppRole.containsKey(role)) {
+						throw new OAuth2AuthenticationException(new OAuth2Error("unknown_role_claim"));
+					}
+					authorities.add(new OidcUserAuthority(appRegRoleToAppRole.get(role), userRequest.getIdToken(), userInfo));
+				}
+				
+				OidcUser user;
+
+				String userNameAttributeName = userRequest.getClientRegistration()
+					.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+				
+				if (StringUtils.hasText(userNameAttributeName)) {
+					user = new DefaultOidcUser(authorities, userRequest.getIdToken(), userInfo, userNameAttributeName);
+				} else {
+					user = new DefaultOidcUser(authorities, userRequest.getIdToken(), userInfo);
+				}
+
+				return user;
+			}			
+		};
+	}	
+}

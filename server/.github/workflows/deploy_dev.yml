@@ -1,0 +1,16 @@
+
+on:
+  push:
+    branches:
+      - master
+ 
+jobs:
+  deploy_to_dev:
+    runs-on: ubuntu-18.04
+    name: Deploys master branch to dev
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy master
+      env:
+        AZ_PASS_dev: ${{ secrets.azurePasswordDev }}
+      run: ./multistage.sh -e dev -b master -t cargo-tracking:latest

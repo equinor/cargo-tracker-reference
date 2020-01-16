@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<variable name="WEB_LOG_LEVEL" value="${WEB_LOG_LEVEL:-INFO}"/>
+	<variable name="DB_LOG_LEVEL" value="${DB_LOG_LEVEL:-INFO}"/>
+	<variable name="JMS_LOG_LEVEL" value="${JMS_LOG_LEVEL:-INFO}"/>
+	<variable name="SPRING_LOG_LEVEL" value="${SPRING_LOG_LEVEL:-INFO}"/>
+	<variable name="APP_LOG_LEVEL" value="${APP_LOG_LEVEL:-INFO}"/>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<logger name="org.springframework.web" level="${WEB_LOG_LEVEL}"/>
+	<logger name="org.springframework" level="${SPRING_LOG_LEVEL}"/>
+	<logger name="org.springframework.jms" level="${JMS_LOG_LEVEL}"/>
+	<logger name="org.hibernate.SQL" level="${DB_LOG_LEVEL}"/>   
+    <logger name="org.hibernate.type.descriptor.sql" level="${DB_LOG_LEVEL}" />
+	<logger name="com.equinor" level="${APP_LOG_LEVEL}" /> 
+	<logger name="org.flywaydb" level="INFO" />
+	
+	<appender name="aiAppender" class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
+    </appender>
+    <root level="INFO">
+      <appender-ref ref="aiAppender" />
+    </root>
+    
+</configuration>

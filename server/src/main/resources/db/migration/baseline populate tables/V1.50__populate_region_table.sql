@@ -1,0 +1,14 @@
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('b14465d4-dd0f-4d67-9810-3f050c4449ad','AFRICA',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('c0bca3c1-a56c-4d3b-9d22-5b9dcf144ee7','CANADA',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('98ade7b6-2ab7-4712-9586-97152fc52f58','CARIBS',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('3ced4520-de33-49e1-92a6-2e7b1330b219','CHINA',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('b8e282fb-c67e-4b33-a994-658e28752d8f','DELIVERED EAST',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('f8cef143-2144-4706-934e-8ece14870df8','FAR EAST',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('037751e5-e7d1-4ba5-9556-f70286f2150a','INDIA',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('b2fb85c9-3873-462a-99fd-f30228a394b8','MED',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('edb5df61-8c7d-4f3a-84f7-9eff46af5ad8','NW EUROPE',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('590cca19-f976-4db2-ab91-54f3edee76af','SOUTH AMERICA',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('f0bc7301-3693-4f07-a19e-d3f8dcdebd61','TBN',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('e9686da4-f750-42ec-b626-d82fc59b0fca','USAC',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('9b88a559-9101-45f8-86f1-f756c5982e82','USGC',1, 0,'SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('24097c15-c2f9-48d1-bcdb-cd07ab44e464','USWC',1, 0,'SYSTEM', '2019-01-01T00:00:00');

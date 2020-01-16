@@ -1,0 +1,59 @@
+# This is a sample build configuration for Java (Maven).
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: niand/ct-build:latest
+
+pipelines:
+  custom:
+    incremental-build-dev:
+      - step:
+        script:
+          - ./build-complete.sh -e dev -b master -t latest
+    incremental-build-test:
+      - step:
+        script:
+          - ./build-complete.sh -e test -b master -t test
+    reset-dev:
+      - step:
+        script:
+          - ./resources/Deploy/manage.sh teardown -e dev 
+          - ./build-complete.sh -e dev -b master -t latest
+  branches:
+    master:
+      - step:
+          deployment: test
+          caches:
+            - docker
+            - maven
+            - yarn
+          script:
+            - ./build-deploy-image.sh -e dev -b master -t latest           
+          services:
+            - docker
+    release/2:
+        - step:
+            deployment: test
+            caches: 
+                - docker
+                - maven
+                - yarn
+            script:
+                - ./build-deploy-image.sh -e test -b release/2 -t test
+            services:
+                - docker
+    release/1:
+        - step:
+            deployment: prod
+            caches: 
+                - docker
+                - maven
+                - yarn
+            script:
+                - ./build-deploy-image.sh -e prod -b release/1 -t prod
+            services:
+                - docker
+definitions:
+  caches:
+    yarn: client/node_modules

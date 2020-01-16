@@ -1,0 +1,4 @@
+INSERT INTO [CT].[grade]([id],[version],[verified],[name],[source],[updated_by],[updated_date_time]) VALUES ('0d24caa4-8ab0-47c2-ba3c-79a2a3dbb1b6',0,1,'Varg'					,'COE','SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[grade]([id],[version],[verified],[name],[source],[updated_by],[updated_date_time]) VALUES ('c311f25b-87a8-4139-bef8-d77c4ae07f98',0,1,'Sleipner Condensate'	,'COE','SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[grade]([id],[version],[verified],[name],[source],[updated_by],[updated_date_time]) VALUES ('0118530d-8252-4ecc-a6fe-76e93a8538a5',0,1,'Glitne'				,'COE','SYSTEM', '2019-01-01T00:00:00');
+INSERT INTO [CT].[grade]([id],[version],[verified],[name],[source],[updated_by],[updated_date_time]) VALUES ('d2369ae9-5c70-4ea6-a2f6-b266e673dc99',0,1,'Volve'					,'COE','SYSTEM', '2019-01-01T00:00:00');

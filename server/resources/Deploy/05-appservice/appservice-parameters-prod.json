@@ -1,0 +1,56 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "allowAutoTeardown": {
+      "value": "true"
+    },
+    "siteName": {
+        "value": "ct-app-prod"
+    },
+    "containerRegistryName": {
+        "value": "ctregistryprod"
+    },
+    "appServicePlanName": {
+        "value": "ct-app-serverfarm-prod"
+    },
+    "applicationId": {
+        "value": "3d2c1eaa-efa6-42eb-b2a2-17ee9083825f"
+    },
+    "baseUrl": {
+        "value": "https://ct-app.azurewebsites.net"
+    },
+    "appSettingDbAppJdbcString": {
+        "value": "jdbc:sqlserver://ct-db-server-prod.database.windows.net:1433;database=ct;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+    },
+    "appSettingDbAppUser": {
+        "value": "ctapp"
+    },
+    "appSettingDbServerAdminUser": {
+        "value": "ct-prod"
+    },
+    "appSettingDockerRegistryServerUserName": {
+        "value": "ctregistryprod"
+    },
+    "appSettingDockerRegistryServerUrl": {
+        "value": "https://ctregistryprod.azurecr.io"
+    },
+    "appSettingSpringProfilesActive": {
+        "value": "sql_server"
+    },
+	"skuName" : {
+		"value" : "P1v2"
+	},
+	"skuTier" : {
+		"value" : "PremiumV2"
+	},
+	"actionGroupName" : {
+		"value" : "MailToSupport"
+	},
+	"emails" : {
+		"value" : [
+			"fg_CargoTrackerSupport@equinor.com"
+		]
+	}
+  }
+}

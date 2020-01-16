@@ -1,0 +1,1 @@
+DROP VIEW ct_reporting.analytics_cargo_view;

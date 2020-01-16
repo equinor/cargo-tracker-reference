@@ -1,0 +1,45 @@
+.classpath
+.project
+.settings/
+target/
+.springBeans
+.project
+.factorypath
+*.log
+*.log.*
+.gradle
+.sts4-cache
+.vscode
+
+
+# compiled output
+/cargo-tracking-web/dist
+/cargo-tracking-web/tmp
+/cargo-tracking-web/out-tsc
+
+# dependencies
+/cargo-tracking-web/node_modules
+
+# IDEs and editors
+/cargo-tracking-web/.idea
+/cargo-tracking-web.c9/
+/cargo-tracking-web/*.sublime-workspace
+
+# misc
+/cargo-tracking-web/.sass-cache
+/cargo-tracking-web/connect.lock
+/cargo-tracking-web/coverage
+/cargo-tracking-web/libpeerconnection.log
+/cargo-tracking-web/npm-debug.log
+/cargo-tracking-web/yarn-error.log
+/cargo-tracking-web/testem.log
+/cargo-tracking-web/typings
+
+# azure deployment logs
+/resources/Deploy/logs
+
+# System Files
+/cargo-tracking-web/.DS_Store
+/cargo-tracking-web/Thumbs.db
+
+client/src/assets/datetime.txt
