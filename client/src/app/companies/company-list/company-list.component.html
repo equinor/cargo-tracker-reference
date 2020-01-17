@@ -1,0 +1,58 @@
+<sto-datatable [autoSize]="true"
+               [columns]="columns"
+               [rows]="rows"
+               [sortable]="true"
+               [trackBy]="trackFn"
+               class="sto-form"></sto-datatable>
+
+<ng-template #nameTmpl
+             let-row="row"
+             let-value="value">
+  <mat-form-field stoFormField>
+    <input [value]="editing[row.id]?.name || row.name"
+           matInput>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #aliasTmpl
+             let-row="row"
+             let-value="value">
+  <mat-form-field stoFormField>
+    <mat-chip-list #chipList
+                   aria-label="Fruit selection">
+      <div class="chip-container">
+        <mat-chip (removed)="remove(v, row)"
+                  *ngFor="let v of (editing[row.id]?.aliases || row.aliases)"
+                  [removable]="true"
+                  [selectable]="false"
+                  color="primary">
+          {{v}}
+        </mat-chip>
+      </div>
+      <input (matChipInputTokenEnd)="add($event, row)"
+             [matChipInputAddOnBlur]="false"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+    </mat-chip-list>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #verifiedTmpl
+             let-row="row"
+             let-value="value">
+  <mat-checkbox (change)="verifiedChange($event, row)"
+                [checked]="value"
+                color="primary"></mat-checkbox>
+</ng-template>
+
+<ng-template #actionsTmpl
+             let-row="row"
+             let-value="value">
+  <button *ngIf="!row.cancelled"
+          mat-icon-button>
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>shuffle</mat-icon>
+  </button>
+</ng-template>

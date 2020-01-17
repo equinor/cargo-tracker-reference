@@ -1,32 +1,27 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Country, Terminal } from '../../shared/models/location';
 import { Column } from '@ngx-stoui/datatable';
-import { MatChipInputEvent } from '@angular/material';
-import { ENTER } from '@angular/cdk/keycodes';
+import { TableChips } from '../../shared/table';
 
 @Component({
   selector: 'ctref-terminal-list',
   templateUrl: './terminal-list.component.html',
   styleUrls: [ './terminal-list.component.scss' ]
 })
-export class TerminalListComponent implements AfterViewInit, OnChanges {
+export class TerminalListComponent extends TableChips<Terminal> implements AfterViewInit, OnChanges {
   @Input()
   rows: Terminal[];
   @Input()
   countries: Country[];
   @Input()
   loading: boolean;
-  @Output()
-  save = new EventEmitter<Terminal>();
   @ViewChild('countryTmpl', { static: true })
   countryTmpl: TemplateRef<any>;
   @ViewChild('latLngTmpl', { static: true })
   latLngTmpl: TemplateRef<any>;
   @ViewChild('aliasTmpl', { static: true })
   aliasTmpl: TemplateRef<any>;
-  public editing: { [ id: string ]: Terminal } = {};
   public columns: Column[];
-  readonly separatorKeysCodes: number[] = [ ENTER ];
 
   trackFn = (index, terminal: Terminal) => terminal.id;
 
@@ -59,31 +54,4 @@ export class TerminalListComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  remove(value: string, row: Terminal) {
-    const editing = this.editing[ row.id ] || { ...row };
-    editing.aliases.splice(editing.aliases.indexOf(value), 1);
-    editing.aliases = [ ...editing.aliases ];
-    this.editing = {
-      ...this.editing,
-      [ editing.id ]: { ...editing }
-    };
-  }
-
-  add(event: MatChipInputEvent, row: Terminal) {
-    const val = event.value;
-    if ( !val ) {
-      this.save.emit(this.editing[ row.id ]);
-      return;
-    }
-    const editing = this.editing[ row.id ] || { ...row };
-    if ( editing.aliases.includes(val) ) {
-      return;
-    }
-    editing.aliases = [ ...editing.aliases, val ];
-    this.editing = {
-      ...this.editing,
-      [ editing.id ]: { ...editing }
-    };
-    event.input.value = '';
-  }
 }

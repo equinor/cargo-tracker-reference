@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
 
@@ -22,6 +22,11 @@ const routes: Routes = [
     path: 'terminals', data: { title: 'Terminals' },
     canActivate: [ MsalGuard ],
     loadChildren: () => import('./terminals/terminals.module').then(m => m.TerminalsModule)
+  },
+  {
+    path: 'companies', data: { title: 'Companies' },
+    canActivate: [ MsalGuard ],
+    loadChildren: () => import('./companies/companies.module').then(m => m.CompaniesModule)
   },
 ];
 
