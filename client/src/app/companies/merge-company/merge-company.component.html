@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Merge {{ data.company.name }}</h1>
+<mat-dialog-content class="sto-form">
+  <mat-form-field class="sto-form__field">
+    <input [formControl]="control"
+           [matAutocomplete]="auto"
+           matInput
+           placeholder="Merge into"
+           type="text">
+    <mat-autocomplete #auto="matAutocomplete"
+                      [displayWith]="displayFn"
+                      autoActiveFirstOption>
+      <mat-option *ngFor="let c of data.companies | filterCompanies:control.value"
+                  [value]="c">
+        {{ c.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <p *ngIf="count$ | async"
+     class="warning">
+    {{ count$ | async }} cargoes will be affected by this merge
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions style="justify-content: flex-end">
+  <button color="warn"
+          mat-dialog-close
+          mat-flat-button>Cancel
+  </button>
+  <button [disabled]="!control.value?.hasOwnProperty('id')"
+          [mat-dialog-close]="control.value"
+          color="primary"
+          mat-flat-button
+          style="margin-left: 8px;">Merge
+  </button>
+</mat-dialog-actions>

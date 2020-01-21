@@ -1,17 +1,24 @@
 <sto-datatable [autoSize]="true"
                [columns]="columns"
                [rows]="rows"
+               [loading]="loading"
                [sortable]="true"
                [trackBy]="trackFn"
                class="sto-form"></sto-datatable>
 
 <ng-template #nameTmpl
              let-row="row"
+             let-column="column"
              let-value="value">
-  <mat-form-field stoFormField>
-    <input [value]="editing[row.id]?.name || row.name"
-           matInput>
-  </mat-form-field>
+  <span *ngIf="row.cancelled; else edit"
+        [title]="value">{{value}}</span>
+  <ng-template #edit>
+    <mat-form-field stoFormField>
+      <input (keyup)="onValueChange($event.target.value, row, column, $event)"
+             [value]="editing[row.id]?.name || value"
+             matInput>
+    </mat-form-field>
+  </ng-template>
 </ng-template>
 
 <ng-template #aliasTmpl
@@ -32,6 +39,8 @@
       <input (matChipInputTokenEnd)="add($event, row)"
              [matChipInputAddOnBlur]="false"
              [matChipInputFor]="chipList"
+             #inp
+             (keydown.escape)="inp.value = ''"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
     </mat-chip-list>
   </mat-form-field>
@@ -49,10 +58,12 @@
              let-row="row"
              let-value="value">
   <button *ngIf="!row.cancelled"
+          (click)="cancel.emit(row);"
           mat-icon-button>
     <mat-icon>delete</mat-icon>
   </button>
-  <button mat-icon-button>
+  <button (click)="merge.emit(row)"
+          mat-icon-button>
     <mat-icon>shuffle</mat-icon>
   </button>
 </ng-template>

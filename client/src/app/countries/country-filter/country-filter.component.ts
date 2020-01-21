@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FilterForm, FilterList } from '../../shared/filter-form';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { CountryFilter } from '../country-filter';
 import { Region } from '../../shared/models/region';
+import { FilterForm, FilterList } from '@ngx-stoui/common';
 
 @Component({
   selector: 'ctref-country-filter',

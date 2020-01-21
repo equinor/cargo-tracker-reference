@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FilterForm, FilterList } from '../../shared/filter-form';
 import { Country } from '../../shared/models/location';
 import { map } from 'rxjs/operators';
 import { FormBuilder } from '@angular/forms';
+import { FilterForm, FilterList } from '@ngx-stoui/common';
 
 @Component({
   selector: 'ctref-terminal-filter',

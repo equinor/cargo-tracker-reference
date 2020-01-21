@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FilterForm, FilterList } from '../../shared/filter-form';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { GradeFilter } from '../models';
 import { Country } from '../../shared/models/location';
+import { FilterForm, FilterList } from '@ngx-stoui/common';
 
 @Component({
   selector: 'ctref-grade-filter',

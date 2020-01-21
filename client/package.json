@@ -27,7 +27,7 @@
     "@ngrx/schematics": "^8.6.0",
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
-    "@ngx-stoui/common": "^7.0.2",
+    "@ngx-stoui/common": "^7.1.1",
     "@ngx-stoui/core": "^7.0.1",
     "@ngx-stoui/datatable": "^7.0.1",
     "@ngx-stoui/form": "^7.0.4",

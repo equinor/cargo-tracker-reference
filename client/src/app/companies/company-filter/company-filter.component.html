@@ -1,23 +1,10 @@
-<sto-filter-panel #panel
+<sto-filter-panel [filterList]="filter$ | async"
                   (toggled)="toggled()"
                   [expandable]="true"
                   [expanded]="false">
 
-  <sto-filter-title style="display: inline-flex">Companies
-    <mat-chip-list [style.opacity]="panel.expanded ? 0 : 1"
-                   style="margin-left: 16px">
-      <mat-chip (removed)="clearFilter(f.key)"
-                *ngFor="let f of filter$ | async"
-                [removable]="true"
-                [selected]="true"
-                [value]="f.key"
-                color="primary"
-                style="margin: 2px 4px">
-        {{ f.value }}
-        <mat-icon matChipRemove>cancel</mat-icon>
-
-      </mat-chip>
-    </mat-chip-list>
+  <sto-filter-title style="display: inline-flex">
+    Companies
   </sto-filter-title>
   <sto-filter-table-actions>
     <button (click)="add.emit()"

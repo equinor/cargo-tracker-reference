@@ -12,6 +12,21 @@ export const saveCompany = createAction(
   props<{ company: Company }>()
 );
 
+export const verifyCompany = createAction(
+  '[Company] Verify',
+  props<{ company: Company }>()
+);
+
+export const mergeCompanies = createAction(
+  '[Company] Merge',
+  props<{ from: Company, into: Company }>()
+);
+
+export const cancelCompany = createAction(
+  '[Company] Cancel',
+  props<{ company: Company }>()
+);
+
 export const saveCompanySuccess = createAction(
   '[Company] Save success',
 );
@@ -20,5 +35,3 @@ export const companyLoading = createAction(
   '[Company] Loading',
   props<{ loading: boolean }>()
 );
-
-

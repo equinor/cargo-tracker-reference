@@ -823,9 +823,9 @@
     tree-kill "1.2.1"
     webpack-sources "1.4.3"
 
-"@ngx-stoui/common@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.npmjs.org/@ngx-stoui/common/-/common-7.0.2.tgz#242a2dcd34bb699bd44a925de7b7df5aaebef4ff"
+"@ngx-stoui/common@^7.1.1":
+  version "7.1.1"
+  resolved "https://registry.npmjs.org/@ngx-stoui/common/-/common-7.1.1.tgz#b1b1475a71042289e59bdd0e51cd7c8ead4a6ec6"
   dependencies:
     tslib "^1.9.0"
 

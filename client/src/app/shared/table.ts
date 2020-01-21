@@ -28,8 +28,9 @@ export abstract class TableChips<T extends Alias> extends TableBase<T> implement
 
   remove(value: string, row: T) {
     const editing = this.editing[ row.id ] || { ...row };
-    editing.aliases.splice(editing.aliases.indexOf(value), 1);
-    editing.aliases = [ ...editing.aliases ];
+    const aliases = [ ...editing.aliases ];
+    aliases.splice(editing.aliases.indexOf(value), 1);
+    editing.aliases = aliases;
     this.editing = {
       ...this.editing,
       [ editing.id ]: { ...editing }

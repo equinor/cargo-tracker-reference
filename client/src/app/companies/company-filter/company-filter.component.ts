@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FilterForm, FilterList } from '../../shared/filter-form';
 import { map } from 'rxjs/operators';
 import { FormBuilder } from '@angular/forms';
 import { CompanyFilter } from '../company-filter';
+import { FilterForm, FilterList } from '@ngx-stoui/common';
 
 @Component({
   selector: 'ctref-company-filter',
