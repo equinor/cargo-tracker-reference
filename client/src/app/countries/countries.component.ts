@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Region } from '../shared/models/region';
@@ -11,7 +11,8 @@ import { filterCountries, saveCountry } from './store/country.actions';
 @Component({
   selector: 'ctref-countries',
   templateUrl: './countries.component.html',
-  styleUrls: [ './countries.component.scss' ]
+  styleUrls: [ './countries.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CountriesComponent implements OnInit {
   public regions$: Observable<Region[]>;

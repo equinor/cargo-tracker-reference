@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { Company } from '../shared/models/company';
@@ -12,12 +12,13 @@ import { map, take } from 'rxjs/operators';
 @Component({
   selector: 'ctref-companies',
   templateUrl: './companies.component.html',
-  styleUrls: [ './companies.component.scss' ]
+  styleUrls: [ './companies.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
   public rows$: Observable<Company[]>;
   public loading$: Observable<boolean>;
-  private row$ = new BehaviorSubject<Company>(null);
+  readonly row$ = new BehaviorSubject<Company>(null);
   public filters$: Observable<CompanyFilter>;
   private companies$: Observable<Company[]>;
 
@@ -41,6 +42,7 @@ export class CompaniesComponent implements OnInit {
   }
 
   save(company: Company) {
+    this.row$.next(null);
     this.store.dispatch(saveCompany({ company }));
   }
 

@@ -59,13 +59,13 @@ export class CompanyListComponent extends TableChips<Company> implements AfterVi
     return row.cancelled ? 'cancelled' : '';
   }
 
-  verifiedChange(event: MatCheckboxChange, row: Company) {
+  public verifiedChange(event: MatCheckboxChange, row: Company) {
     const editing = this.editing[ row.id ] || { ...row };
     editing.verified = event.checked;
     this.verify.emit(editing);
   }
 
-  onValueChange(value: any, row: Company, column: Column, event?: KeyboardEvent) {
+  public onValueChange(value: any, row: Company, event?: KeyboardEvent) {
     if ( ( event && event.key === 'Enter' ) ) {
       this.save.emit(this.editing[ row.id ]);
       return;
@@ -80,6 +80,6 @@ export class CompanyListComponent extends TableChips<Company> implements AfterVi
     } else {
       this.editing[ row.id ] = { ...row };
     }
-    this.editing[ row.id ][ column.prop ] = value;
+    this.editing[ row.id ].name = value;
   }
 }

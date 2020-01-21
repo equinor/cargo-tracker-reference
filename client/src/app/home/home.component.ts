@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import * as fromView from '../store/selectors/view.selectors';
 import { Observable } from 'rxjs';
 import { ViewModule } from '../shared/models/module';
-import { BroadcastService, MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'ctref-home',
@@ -13,7 +12,7 @@ import { BroadcastService, MsalService } from '@azure/msal-angular';
 export class HomeComponent implements OnInit {
   public modules$: Observable<ViewModule[]>;
 
-  constructor(private store: Store<any>, private msal: MsalService ) {
+  constructor(private store: Store<any>) {
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Country, Terminal } from '../shared/models/location';
@@ -9,7 +9,8 @@ import { filterTerminals, saveTerminal } from './store/terminals.actions';
 @Component({
   selector: 'ctref-terminals',
   templateUrl: './terminals.component.html',
-  styleUrls: [ './terminals.component.scss' ]
+  styleUrls: [ './terminals.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TerminalsComponent implements OnInit {
   public terminals$: Observable<Terminal[]>;

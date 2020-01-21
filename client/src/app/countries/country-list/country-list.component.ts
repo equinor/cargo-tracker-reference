@@ -55,7 +55,7 @@ export class CountryListComponent implements AfterViewInit {
     ]);
   }
 
-  onSelectCountry(event: MatSelectChange, country: Country) {
+  onSelectRegion(event: MatSelectChange, country: Country) {
     const updated = { ...country, regionId: event.value };
     this.save.emit(updated);
   }

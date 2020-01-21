@@ -15,7 +15,7 @@
         [title]="value">{{value}}</span>
   <ng-template #edit>
     <mat-form-field stoFormField>
-      <input (keyup)="onValueChange($event.target.value, row, column, $event)"
+      <input (keyup)="onValueChange($event.target.value, row, $event)"
              [value]="editing[row.id]?.name || value"
              matInput>
     </mat-form-field>

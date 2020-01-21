@@ -20,7 +20,7 @@ describe('TerminalsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TerminalsComponent);
     component = fixture.componentInstance;
-    store = TestBed.get<Store>(Store);
+    store = TestBed.get<Store<any>>(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
     fixture.detectChanges();

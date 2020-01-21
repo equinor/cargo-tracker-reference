@@ -17,7 +17,8 @@
              let-value="value"
              let-row="row">
   <mat-form-field stoFormField floatLabel="never">
-    <mat-select [value]="value" (selectionChange)="onSelectCountry($event, row)">
+    <mat-select (selectionChange)="onSelectRegion($event, row)"
+                [value]="value">
       <mat-option *ngFor="let r of regions" [value]="r.id">
         {{ r.name }}
       </mat-option>
@@ -34,7 +35,8 @@
     <div style="width: 50%; float: left;">
       <mat-form-field stoFormField floatLabel="never">
         <mat-label>Region</mat-label>
-        <mat-select [value]="row.regionId" (selectionChange)="onSelectCountry($event, row)">
+        <mat-select (selectionChange)="onSelectRegion($event, row)"
+                    [value]="row.regionId">
           <mat-option *ngFor="let r of regions" [value]="r.id">
             {{ r.name }}
           </mat-option>
