@@ -1,6 +1,7 @@
 <sto-datatable [autoSize]="true"
                [columns]="columns"
                [rows]="rows"
+               [rowClass]="rowClass"
                [loading]="loading"
                [sortable]="true"
                [trackBy]="trackFn"
@@ -24,7 +25,8 @@
 <ng-template #aliasTmpl
              let-row="row"
              let-value="value">
-  <mat-form-field stoFormField>
+  <mat-form-field *ngIf="!row.cancelled"
+                  stoFormField>
     <mat-chip-list #chipList
                    aria-label="Fruit selection">
       <div class="chip-container">
@@ -44,6 +46,10 @@
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
     </mat-chip-list>
   </mat-form-field>
+  <span *ngIf="row.cancelled"
+        [title]="value.join(', ')">
+    {{ value.join(', ') }}
+  </span>
 </ng-template>
 
 <ng-template #verifiedTmpl

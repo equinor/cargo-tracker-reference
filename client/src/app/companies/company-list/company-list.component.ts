@@ -32,9 +32,18 @@ export class CompanyListComponent extends TableChips<Company> implements AfterVi
   nameTmpl: TemplateRef<any>;
 
   ngAfterViewInit(): void {
+    const getEditCellClass = (value, column, row: Company) => row.cancelled ? '' : 'edit-cell';
     requestAnimationFrame(() => this.columns = [
-      { prop: 'name', name: 'Name', flexGrow: 0, flexBasis: 200, flexShrink: 0, cellTemplate: this.nameTmpl, cellClass: 'edit-cell' },
-      { prop: 'alias', name: 'Aliases', cellTemplate: this.aliasTmpl, cellClass: 'edit-cell' },
+      {
+        prop: 'name',
+        name: 'Name',
+        flexGrow: 0,
+        flexBasis: 200,
+        flexShrink: 0,
+        cellTemplate: this.nameTmpl,
+        cellClass: getEditCellClass as any
+      },
+      { prop: 'aliases', name: 'Aliases', cellTemplate: this.aliasTmpl, cellClass: getEditCellClass as any },
       { prop: 'verified', name: 'Verified', flexGrow: 0, flexBasis: 80, cellTemplate: this.verifiedTmpl, flexShrink: 0 },
       { prop: '', name: '', flexGrow: 0, flexBasis: 80, cellTemplate: this.actionsTmpl, flexShrink: 0, disableSort: true },
     ]);
@@ -44,6 +53,10 @@ export class CompanyListComponent extends TableChips<Company> implements AfterVi
     if ( changes.rows && changes.rows.currentValue ) {
       this.editing = {};
     }
+  }
+
+  public rowClass(row: Company) {
+    return row.cancelled ? 'cancelled' : '';
   }
 
   verifiedChange(event: MatCheckboxChange, row: Company) {

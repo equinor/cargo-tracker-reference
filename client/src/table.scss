@@ -6,6 +6,11 @@
   padding: 0;
 }
 
+.sto-mdl-table__body__row.cancelled {
+  text-decoration: line-through;
+  font-style: italic;
+}
+
 %form-chip {
 
   .chip-container {
