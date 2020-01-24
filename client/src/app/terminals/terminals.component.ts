@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Country, Terminal } from '../shared/models/location';
-import { selectLoading, selectSourceSystems, selectTerminalFilters, selectTerminals } from './store/terminals.selectors';
-import { selectCountries } from '../store/selectors/static.selectors';
+import * as fromTerminals from './store/terminals.selectors';
+import * as fromStatic from '../store/selectors/static.selectors';
 import { filterTerminals, saveTerminal } from './store/terminals.actions';
 
 @Component({
@@ -23,11 +23,11 @@ export class TerminalsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.terminals$ = this.store.pipe(select(selectTerminals));
-    this.sourceSystems$ = this.store.pipe(select(selectSourceSystems));
-    this.countries$ = this.store.pipe(select(selectCountries));
-    this.filters$ = this.store.pipe(select(selectTerminalFilters));
-    this.loading$ = this.store.pipe(select(selectLoading));
+    this.countries$ = this.store.pipe(select(fromStatic.selectCountries));
+    this.terminals$ = this.store.pipe(select(fromTerminals.selectTerminals));
+    this.sourceSystems$ = this.store.pipe(select(fromTerminals.selectSourceSystems));
+    this.filters$ = this.store.pipe(select(fromTerminals.selectTerminalFilters));
+    this.loading$ = this.store.pipe(select(fromTerminals.selectLoading));
   }
 
   save(terminal: Terminal) {

@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material';
 })
 export class GradesComponent implements OnInit {
   public grades$: Observable<Grade[]>;
-  private row$ = new ReplaySubject<Grade>();
+  readonly row$ = new ReplaySubject<Grade>();
   public rows$: Observable<Grade[]>;
   public countries$: Observable<Country[]>;
   public loading$: Observable<boolean>;
