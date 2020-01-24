@@ -1,1 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ngx-stoui/core/ngx-stoui.css";
+@import "~@ngx-stoui/form/sto-form.css";
+@import "~@ngx-stoui/core/style/theme/typography";
+@import "~@ngx-stoui/core/style/theme/theme";
+@import "./table";
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__container {
+    display: grid;
+    max-width: 100%;
+    width: 1000px;
+    grid-template-columns: repeat(auto-fill, 175px);
+    grid-auto-flow: row;
+    grid-gap: 8px 16px;
+    align-items: center;
+
+    &__section {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12)
+      }
+
+      &:focus {
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+        outline: none;
+      }
+    }
+  }
+}
+
+
+.table-container {
+  max-width: 1200px;
+}
+
+@mixin table-container-theme($theme, $variables) {
+  $background: map_get($theme, background);
+  $background-color: mat-color($background, card);
+
+  .table-container {
+    background-color: $background-color;
+  }
+}
+
+body:not(.sto-dark-theme) {
+  @include table-container-theme($sto-theme, $variables);
+}
+
+body.sto-dark-theme {
+  @include table-container-theme($sto-dark-theme, $dark-variables);
+}
+
+@mixin grid-typography($config) {
+  .grid__container__section {
+    font-size: mat-font-size($config, subheading-2);
+    font-weight: mat-font-weight($config, button);
+  }
+}
+
+.mat-typography {
+  @include grid-typography($sto-typography);
+}
+
+.mat-typography.sto-sm-typography {
+  @include grid-typography($sto-sm-typography);
+}
+
+.mat-typography.sto-l-typography {
+  @include grid-typography($sto-l-typography);
+}

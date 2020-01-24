@@ -1,0 +1,38 @@
+<sto-filter-panel [filterList]="filter$ | async"
+                  (toggled)="toggled()"
+                  [expandable]="true"
+                  [expanded]="false">
+
+  <sto-filter-title style="display: inline-flex">
+    Companies
+  </sto-filter-title>
+  <sto-filter-table-actions>
+    <button (click)="add.emit()"
+            mat-button>Add
+    </button>
+  </sto-filter-table-actions>
+  <div [formGroup]="form"
+       class="sto-form"
+       stoGrid>
+    <mat-form-field stoFormField
+                    stoGridColumn>
+      <mat-label>Verified</mat-label>
+      <mat-select formControlName="verified"
+                  placeholder="Show all">
+        <mat-option *ngIf="form.get('verified').value === false || form.get('verified').value === true"
+                    [value]="null">
+          Show all
+        </mat-option>
+        <mat-option [value]="true">Only show verified</mat-option>
+        <mat-option [value]="false">Only show unverified</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div stoGridColumn>
+      <sto-slide-toggle formControlName="cancelled"
+                        label="Include cancelled"></sto-slide-toggle>
+    </div>
+    <div [stoGridColumnDouble]="true"
+         stoGridColumn
+         stoGridSpacer></div>
+  </div>
+</sto-filter-panel>

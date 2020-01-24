@@ -1,0 +1,11 @@
+<div class="table-container">
+  <ctref-company-filter (filterChanged)="onFilterChanged($event)"
+                        (add)="add()"
+                        [value]="filters$ | async"></ctref-company-filter>
+  <ctref-company-list (cancel)="cancel($event)"
+                      (merge)="merge($event)"
+                      (save)="save($event)"
+                      (verify)="verify($event)"
+                      [loading]="loading$ | async"
+                      [rows]="rows$ | async"></ctref-company-list>
+</div>
