@@ -2,12 +2,12 @@ name: ClientBuild
 on:
   pull_request:
     paths:
-      - './client/**'
+      - 'client/**'
     branches:
       - master
   push:
     paths:
-      - './client/**'
+      - 'client/**'
     branches:
       - master
 
@@ -37,5 +37,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn build --prod
+      - run: yarn test
         working-directory: ${{env.working-directory}}
