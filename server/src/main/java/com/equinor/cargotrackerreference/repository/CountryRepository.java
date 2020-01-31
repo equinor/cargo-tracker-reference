@@ -15,7 +15,7 @@ public interface CountryRepository extends CrudRepository<Country, String> {
 	public Iterable<Country> findAllByOrderByName(); 
 
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE ct.country SET region_id = NULL where region_id =?1", nativeQuery = true)
+	@Query(value = "UPDATE CTREF.country SET region_id = NULL where region_id =?1", nativeQuery = true)
 	public void updateCountriesWithDeletedRegionToNull(String id);
 	
 }

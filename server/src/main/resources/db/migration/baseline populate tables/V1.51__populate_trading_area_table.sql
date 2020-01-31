@@ -1,6 +1,0 @@
-INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('f0517621-9d2a-4229-b13c-33ac0903fb0f','NWE','North Sea',1, 0, 'SYSTEM', '2019-01-01T00:00:00');
-INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('95d35b23-fa79-42b3-a4f5-1066d6a026b9','WAF','West Africa',1, 0, 'SYSTEM', '2019-01-01T00:00:00');
-INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('5b0e1955-8162-49d0-b0d1-b4b595420bd3','US','North America',1, 0, 'SYSTEM', '2019-01-01T00:00:00');
-INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('bb4825f1-afe0-4b56-806f-6daa7ba33480','MED','Med and Urals',1, 0, 'SYSTEM', '2019-01-01T00:00:00');
-INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('e5f79ce0-b7a1-4489-818d-40cd80a7ec5b','AP','Asia',1, 0, 'SYSTEM', '2019-01-01T00:00:00');
- 

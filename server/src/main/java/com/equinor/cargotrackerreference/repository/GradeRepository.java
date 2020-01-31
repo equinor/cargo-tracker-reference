@@ -19,7 +19,7 @@ public interface GradeRepository extends CrudRepository<Grade, String> {
 	public Optional<Grade> findByName(String name);
 
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE ct.grade SET trading_area_id = NULL where trading_area_id =?1", nativeQuery = true)
+	@Query(value = "UPDATE CTREF.grade SET trading_area_id = NULL where trading_area_id =?1", nativeQuery = true)
 	public void updateGradesWithDeletedTradingAreaToNull(String id);
 
 }

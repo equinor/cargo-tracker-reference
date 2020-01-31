@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("flyway")
+//@Profile("flyway")
 public class FlywayConfiguration {
 	@Value("${spring.datasource.url}")
 	private String url;
+	@Value("${spring.jpa.properties.hibernate.default_schema}")
+	private String schema;
 	@Value("${spring.datasource.username}")
 	private String user;
 	@Value("${spring.datasource.password}")
@@ -21,7 +23,7 @@ public class FlywayConfiguration {
 	@Bean(initMethod = "migrate")	
 	public Flyway flyway() {
 		Flyway flyway = null;
-		flyway = Flyway.configure().dataSource(url, user, password).outOfOrder(outOfOrder).load();		
+		flyway = Flyway.configure().dataSource(url, user, password).outOfOrder(outOfOrder).schemas(schema).load();		
 		return flyway;
 	}
 }

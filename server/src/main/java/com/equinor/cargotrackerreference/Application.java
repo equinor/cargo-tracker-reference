@@ -18,9 +18,9 @@ public class Application {
 
 	public static void main(String[] args) {
 				
-//		if (FirsttimeSqlDbSetup.validInitPrecond()) {
-//			FirsttimeSqlDbSetup.verify();
-//		}
+		if (FirsttimeSqlDbSetup.validInitPrecond()) {
+			FirsttimeSqlDbSetup.verify();
+		}
 		
 		SpringApplication app = new SpringApplication(Application.class);				
 		app.run(args);		

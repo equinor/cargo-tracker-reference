@@ -11,7 +11,7 @@ import com.equinor.cargotrackerreference.domain.Terminal;
 public interface TerminalRepository extends CrudRepository<Terminal, String> {
 
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE ct.terminal SET region_id = NULL where region_id =?1", nativeQuery = true)
+	@Query(value = "UPDATE CTREF.terminal SET region_id = NULL where region_id =?1", nativeQuery = true)
 	public void updateTerminalsWithDeletedRegionToNull(String id);
 	
 	public Iterable<Terminal> findAllByOrderByName();

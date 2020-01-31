@@ -1,1 +1,0 @@
-INSERT INTO [CT].[region]([id],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('1646b6a3-ac85-4c11-9cd6-34db0e4d671c','MIDDLE EAST',1, 0,'SYSTEM', '2019-11-13T00:00:00');

@@ -8,7 +8,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        default_schema: ct
+        default_schema: ctref
         jdbc.batch_size: 50
   flyway:
     out_of_order: ${FLYWAY_OUT_OF_ORDER}
@@ -57,8 +57,8 @@ spring:
     profiles: sql_server   
     datasource:      
       url: ${DB_APP_JDBC_STRING}
-      username: ${DB_APP_USER}
-      password: ${DB_APP_PASSWORD}
+      username: ${DB_APP_REF_USER}
+      password: ${DB_APP_REF_PASSWORD}
       driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver      
          
 ---

@@ -18,7 +18,7 @@ public class FirsttimeSqlDbSetup {
 	public static void verify() {
 			
 		String[] requiredKeys = { "DB_SERVER_ADMIN_USER","DB_SERVER_ADMIN_PASSWORD", 
-								  "DB_APP_USER", "DB_APP_PASSWORD",
+								  "DB_APP_REF_USER", "DB_APP_REF_PASSWORD",
 				                  "DB_APP_JDBC_STRING" };
 		
 		for (String key : requiredKeys) {
@@ -94,42 +94,49 @@ public class FirsttimeSqlDbSetup {
 		String checkUserSql = "SELECT name FROM " + DB_NAME + ".sys.database_principals WHERE name = ?";
 		
 		PreparedStatement checkUser = masterCtDbCon.prepareStatement(checkUserSql);
-		checkUser.setString(1, get("DB_APP_USER"));
+		checkUser.setString(1, get("DB_APP_REF_USER"));
 		
 		ResultSet rs = checkUser.executeQuery();
 		
 		if (rs.next()) {
-			log.debug("Database user " + get("DB_APP_USER") + " already exists in " + DB_NAME + ", doing nothing");
+			log.debug("Database user " + get("DB_APP_REF_USER") + " already exists in " + DB_NAME + ", doing nothing");
 		} else {
-			String createUserSql = "CREATE USER " + get("DB_APP_USER") + " FROM LOGIN " + get("DB_APP_USER");
-			log.debug("Creating database user: " + get("DB_APP_USER") + " in " + DB_NAME);
+			String createUserSql = "CREATE USER " + get("DB_APP_REF_USER") + " FROM LOGIN " + get("DB_APP_REF_USER");
+			log.debug("Creating database user: " + get("DB_APP_REF_USER") + " in " + DB_NAME);
 			PreparedStatement createUser = masterCtDbCon.prepareStatement(createUserSql);
 			createUser.execute();
 			createUser.close();
 			
-			log.debug("Granting CREATE SCHEMA to " + get("DB_APP_USER"));
-			String grantSchemaSql = "GRANT CREATE SCHEMA TO " + get("DB_APP_USER");
+			log.debug("Granting CREATE SCHEMA to " + get("DB_APP_REF_USER"));
+			String grantSchemaSql = "GRANT CREATE SCHEMA TO " + get("DB_APP_REF_USER");
 			PreparedStatement grantCreateSchema = masterCtDbCon.prepareStatement(grantSchemaSql);		
 			grantCreateSchema.execute();
 			grantCreateSchema.close();
 			
-			log.debug("Granting CREATE TABLE to " + get("DB_APP_USER"));
-			String grantTableSql = "GRANT CREATE TABLE TO " + get("DB_APP_USER");
+			log.debug("Granting CREATE TABLE to " + get("DB_APP_REF_USER"));
+			String grantTableSql = "GRANT CREATE TABLE TO " + get("DB_APP_REF_USER");
 			PreparedStatement grantCreateTable = masterCtDbCon.prepareStatement(grantTableSql);	
 			grantCreateTable.execute();
 			grantCreateTable.close();
 			
-			log.debug("Granting CREATE VIEW to " + get("DB_APP_USER"));
-			String grantViewSql = "GRANT CREATE VIEW TO " + get("DB_APP_USER");
+			log.debug("Granting CREATE VIEW to " + get("DB_APP_REF_USER"));
+			String grantViewSql = "GRANT CREATE VIEW TO " + get("DB_APP_REF_USER");
 			PreparedStatement grantCreateView = masterCtDbCon.prepareStatement(grantViewSql);	
 			grantCreateView.execute();
 			grantCreateView.close();	
 			
-			log.debug("Granting INSERT, ALTER, SELECT on schema :: dbo TO " + get("DB_APP_USER"));
-			String grantDboSql = "GRANT INSERT, ALTER, SELECT on schema :: dbo TO " + get("DB_APP_USER");
-			PreparedStatement grantDbo = masterCtDbCon.prepareStatement(grantDboSql);	
-			grantDbo.execute();
-			grantDbo.close();			
+			/*log.debug("Granting INSERT, ALTER, SELECT on schema :: ctref TO " + get("DB_APP_REF_USER"));
+			String grantCtRefSql = "GRANT INSERT, ALTER, SELECT on schema :: ctref TO " + get("DB_APP_REF_USER");
+			PreparedStatement grantCtRef = masterCtDbCon.prepareStatement(grantCtRefSql);	
+			grantCtRef.execute();
+			grantCtRef.close();*/
+			
+			log.debug("Granting SELECT on schema :: CT TO " + get("DB_APP_REF_USER"));
+			String grantCtSql = "GRANT SELECT on schema :: CT TO " + get("DB_APP_REF_USER");
+			PreparedStatement grantCt = masterCtDbCon.prepareStatement(grantCtSql);	
+			grantCt.execute();
+			grantCt.close();
+			
 		}
 		
 		checkUser.close();
@@ -139,14 +146,14 @@ public class FirsttimeSqlDbSetup {
 		String checkLoginSql = "SELECT name FROM master.sys.sql_logins WHERE name = ?";
 						
 		PreparedStatement checkLogin = masterCon.prepareStatement(checkLoginSql);
-		checkLogin.setString(1, get("DB_APP_USER"));
+		checkLogin.setString(1, get("DB_APP_REF_USER"));
 		
 		ResultSet  rs = checkLogin.executeQuery();
 		if (rs.next()) {
-			log.debug("Application login user " + get("DB_APP_USER") + " already exists, doing nothing");							
+			log.debug("Application login user " + get("DB_APP_REF_USER") + " already exists, doing nothing");							
 		} else {
-			String createLoginSql = "CREATE LOGIN " + get("DB_APP_USER") + " WITH PASSWORD = '" + get("DB_APP_PASSWORD") + "'";
-			log.debug("Creating login user: " + get("DB_APP_USER"));
+			String createLoginSql = "CREATE LOGIN " + get("DB_APP_REF_USER") + " WITH PASSWORD = '" + get("DB_APP_REF_PASSWORD") + "'";
+			log.debug("Creating login user: " + get("DB_APP_REF_USER"));
 			PreparedStatement createLogin = masterCon.prepareStatement(createLoginSql);									
 			createLogin.execute();
 			createLogin.close();
