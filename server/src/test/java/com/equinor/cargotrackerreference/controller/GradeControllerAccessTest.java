@@ -53,31 +53,31 @@ public class GradeControllerAccessTest extends MasterdataSetup {
 				.buildGrade();
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.post("/ct/config/grade")					
+				.post("/ctref/config/grade")					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());					
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.patch("/ct/config/grade/" + asiaGrade1.id)					
+				.patch("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.put("/ct/config/grade/" + asiaGrade1.id)					
+				.put("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/ct/config/grade/" + asiaGrade1.id)					
+				.delete("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/ct/config/grade/" + asiaGrade1.id)
+				.get("/ctref/config/grade/" + asiaGrade1.id)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());
 		
@@ -98,31 +98,31 @@ public class GradeControllerAccessTest extends MasterdataSetup {
 				.buildGrade();
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.post("/ct/config/grade")					
+				.post("/ctref/config/grade")					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());					
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.patch("/ct/config/grade/" + asiaGrade1.id)					
+				.patch("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.put("/ct/config/grade/" + asiaGrade1.id)					
+				.put("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/ct/config/grade/" + asiaGrade1.id)					
+				.delete("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/ct/config/grade/" + asiaGrade1.id)
+				.get("/ctref/config/grade/" + asiaGrade1.id)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());
 		
@@ -144,7 +144,7 @@ public class GradeControllerAccessTest extends MasterdataSetup {
 		
 		MvcResult result = 
 			mockMvc.perform(MockMvcRequestBuilders
-					.post("/ct/config/grade")					
+					.post("/ctref/config/grade")					
 					.content(objectMapper.writeValueAsString(grade))
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 				).andExpect(status().isOk()).andReturn();
@@ -152,24 +152,24 @@ public class GradeControllerAccessTest extends MasterdataSetup {
 		String id = JsonPath.parse(result.getResponse().getContentAsString()).read("$.id");
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.patch("/ct/config/grade/" + asiaGrade1.id)					
+				.patch("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.put("/ct/config/grade/" + asiaGrade1.id)					
+				.put("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());
 					
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/ct/config/grade/" + asiaGrade1.id)
+				.get("/ctref/config/grade/" + asiaGrade1.id)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/ct/config/grade/" + id)					
+				.delete("/ctref/config/grade/" + id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isOk());		
@@ -190,31 +190,31 @@ public class GradeControllerAccessTest extends MasterdataSetup {
 				.buildGrade();
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.post("/ct/config/grade")					
+				.post("/ctref/config/grade")					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());					
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.patch("/ct/config/grade/" + asiaGrade1.id)					
+				.patch("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.put("/ct/config/grade/" + asiaGrade1.id)					
+				.put("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete("/ct/config/grade/" + asiaGrade1.id)					
+				.delete("/ctref/config/grade/" + asiaGrade1.id)					
 				.content(objectMapper.writeValueAsString(grade))
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/ct/config/grade/" + asiaGrade1.id)
+				.get("/ctref/config/grade/" + asiaGrade1.id)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 			).andExpect(status().isForbidden());
 		

@@ -25,12 +25,9 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
-import com.equinor.cargotrackerreference.builder.AnalyticsCargoResourceBuilder;
 import com.equinor.cargotrackerreference.builder.CompanyResourceBuilder;
-import com.equinor.cargotrackerreference.builder.TitleTransferBuilder;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.AnalyticsCargoResource;
 import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
 import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 
@@ -80,34 +77,10 @@ public class CompanyControllerTest extends MasterdataSetup {
 		assertTrue(company.cancelled);
 
 	}
-	
+		
 	@Test
-	@Ignore("Not valid anymore, as company can now be deleted even though it is in use")
-	public void deleteCompany_companyInUseAsTitleTransfer_companyNotDeleted() {
-		CompanyIdNameProperty companyShell = createCompanyAndReference("Shell");
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource)
-				.appendTitleTransfer(TitleTransferBuilder.aTitleTransferResource().withCompany(companyShell).get()).get();
-				
-		exception.expect(InvalidOperationException.class);
-		companyController.cancelCompany(companyShell.getId());
-	}
-	
-	@Test
-	@Ignore("Not valid anymore, as company can now be deleted even though it is in use")
-	public void deleteCompany_companyInUseAsBuyer_companyNotDeleted() {
-		CompanyIdNameProperty companyShell = createCompanyAndReference("Shell");
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).appendTitleTransfer(TitleTransferBuilder.aTitleTransferResource().withCompany(companyShell).get()).get();
-				
-		exception.expect(InvalidOperationException.class);
-		companyController.cancelCompany(companyShell.getId());
-	}
-
-	@Test
-	public void fetchCompanyWithAndWithoutAlias() {
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.title_transfer_rm");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.analytics_cargo_property_status_rm");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.analytics_cargo_rm");		
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.company");
+	public void fetchCompanyWithAndWithoutAlias() {				
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ctref.company");
 
 		companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Statoil").buildCompanyResource());
 		companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Exxon").buildCompanyResource());
@@ -131,11 +104,8 @@ public class CompanyControllerTest extends MasterdataSetup {
 	
 	@Test
 	public void createCompanies_fetchAllCompanies_companiesAreSortedByName() {
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.company_ocd_mapping");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.title_transfer_rm");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.analytics_cargo_property_status_rm");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.analytics_cargo_rm");
-		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ct.company");
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ctref.company_ocd_mapping");		
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "ctref.company");
 		
 		String[] companyNames = {"AA", "BP", "Exxon", "Statoil", "Zaxxon" };
 		companyController.createCompany(CompanyResourceBuilder.aCompany().withName(companyNames[1]).buildCompanyResource());
@@ -155,26 +125,6 @@ public class CompanyControllerTest extends MasterdataSetup {
 
 		assertEquals(5, count);
 
-	}
-
-	@Test
-	@Ignore("Not valid anymore, as replace company will be removed.")
-	public void createCompanies_replaceCompany_companyIsUpdatedInCargoesAndReplacedCompanyDeleted() {
-		CompanyResource persistedCompany1 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company1").buildCompanyResource());
-		CompanyResource persistedCompany2 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company2").buildCompanyResource());
-		CompanyResource persistedCompany3 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company3").buildCompanyResource());
-		CompanyIdNameProperty companyIdNameProperty1 = new CompanyIdNameProperty(UUID.fromString(persistedCompany1.id), persistedCompany1.name, null);
-		CompanyIdNameProperty companyIdNameProperty2 = new CompanyIdNameProperty(UUID.fromString(persistedCompany2.id), persistedCompany2.name, null);
-		CompanyIdNameProperty companyIdNameProperty3 = new CompanyIdNameProperty(UUID.fromString(persistedCompany3.id), persistedCompany3.name, null);
-
-		// Create cargoes using the company
-		LocalDate bldate = LocalDate.of(2012, 3, 4);
-		
-		// Replace company3 with company2
-		companyController.replaceCompany(companyIdNameProperty3.getId(), persistedCompany2);
-
-		// company3 should now not exist
-		assertNull(companyController.getCompany(persistedCompany3.getId()));
 	}
 
 	@Test
@@ -212,18 +162,7 @@ public class CompanyControllerTest extends MasterdataSetup {
 		assertTrue(companyController.getCompany(persistedCompany1.getId()).aliases.contains(persistedCompany2.name));
 
 	}
-	
-	@Test 
-	public void createCompanyFromCargoResource_usingAlias_companyFromAliasIsusedOnCargo() {
-		CompanyResource persistedCompany = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company1").buildCompanyResource());
-		CompanyResource aliasCompanyResource = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("aliasCompany").buildCompanyResource());
-		persistedCompany = companyController.aliasCompany(aliasCompanyResource.getId(), persistedCompany);
-		
-		CompanyIdNameProperty aliasCompany = new CompanyIdNameProperty(null, aliasCompanyResource.name, null);
-		
-		LocalDate bldate = LocalDate.of(2010, 2, 3);
-	}
-	
+			
 
 	@Test
 	public void createCompany_verifyCompany_companyIsVerified() {

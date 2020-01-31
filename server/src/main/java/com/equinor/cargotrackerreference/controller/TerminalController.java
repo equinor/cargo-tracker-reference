@@ -18,7 +18,7 @@ import com.equinor.cargotrackerreference.controller.resources.TerminalResourceIt
 import com.equinor.cargotrackerreference.service.TerminalService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class TerminalController {
 

@@ -35,7 +35,7 @@ import com.equinor.cargotrackerreference.service.FileUploadService;
 import com.equinor.cargotrackerreference.service.GradeService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class GradeController {
 

@@ -74,7 +74,7 @@ spring:
 ---
 
 spring:
-    profiles: h2    
+    profiles: h2
     datasource:
         driverClassName: org.h2.Driver
         url: jdbc:h2:mem:ct;INIT=RUNSCRIPT FROM 'src/test/resources/init.sql';DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE

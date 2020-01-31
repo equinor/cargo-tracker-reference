@@ -18,7 +18,7 @@ import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.service.RegionService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class RegionController {
 

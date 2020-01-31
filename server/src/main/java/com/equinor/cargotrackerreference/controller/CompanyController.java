@@ -24,7 +24,7 @@ import com.equinor.cargotrackerreference.repository.CompanyResourceRepository;
 import com.equinor.cargotrackerreference.service.CompanyService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class CompanyController {
 

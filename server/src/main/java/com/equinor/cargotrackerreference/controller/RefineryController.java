@@ -16,7 +16,7 @@ import com.equinor.cargotrackerreference.domain.Refinery;
 import com.equinor.cargotrackerreference.service.RefineryService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class RefineryController {
 

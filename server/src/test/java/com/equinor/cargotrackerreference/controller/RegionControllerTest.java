@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
-import com.equinor.cargotrackerreference.builder.AnalyticsCargoResourceBuilder;
 import com.equinor.cargotrackerreference.builder.GradeResourceBuilder;
 import com.equinor.cargotrackerreference.builder.RegionBuilder;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.AnalyticsCargoResource;
 import com.equinor.cargotrackerreference.domain.Region;
 import com.equinor.cargotrackerreference.domain.TradingArea;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 
 @RunWith(SpringRunner.class)
@@ -140,15 +136,5 @@ public class RegionControllerTest extends MasterdataSetup {
 		//Check if tradingAreaId is set to null after trading area is deleted
 		Assert.assertEquals(null, updatedGrade.tradingAreaId);
 
-	}
-	
-	@Test
-	@WithUserDetails("user@equinor.com")
-	@Ignore
-	public void deleteRegion_regionInUse_regionNotDeleted() {
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).sourceRegion(africaRegionResource).get();
-		
-		exception.expect(InvalidOperationException.class);
-		regionController.deleteRegion(africaRegionResource.getId());
-	}
+	}		
 }

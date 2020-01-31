@@ -21,7 +21,7 @@ import com.equinor.cargotrackerreference.service.GradeService;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class TradingAreaController {
 	

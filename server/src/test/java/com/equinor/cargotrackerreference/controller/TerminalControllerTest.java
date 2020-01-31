@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
-import com.equinor.cargotrackerreference.builder.AnalyticsCargoResourceBuilder;
 import com.equinor.cargotrackerreference.builder.CountryBuilder;
 import com.equinor.cargotrackerreference.builder.TerminalBuilder;
 import com.equinor.cargotrackerreference.controller.resources.CountryResource;
 import com.equinor.cargotrackerreference.controller.resources.LocationResource;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.AnalyticsCargoResource;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -99,15 +95,4 @@ public class TerminalControllerTest extends MasterdataSetup {
 		assertTrue(terminalController.getTerminal(terminalResource.id).cancelled);
 
 	}
-	
-	@Test
-	@WithUserDetails("user@equinor.com")
-	@Ignore("Not valid anymore as terminal is not deleted, status is changed to cancelled.")
-	public void deleteTerminal_terminalInUse_terminalNotDeleted() {
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).destinationPort(terminalWaf1).get();		
-		
-		exception.expect(InvalidOperationException.class);
-		terminalController.cancelTerminal(terminalWaf1.getId());
-	}
-
 }

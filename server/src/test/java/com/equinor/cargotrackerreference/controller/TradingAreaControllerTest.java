@@ -4,7 +4,6 @@ package com.equinor.cargotrackerreference.controller;
 import java.time.LocalDateTime;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
-import com.equinor.cargotrackerreference.builder.AnalyticsCargoResourceBuilder;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.AnalyticsCargoResource;
 import com.equinor.cargotrackerreference.domain.TradingArea;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -51,15 +47,5 @@ public class TradingAreaControllerTest extends MasterdataSetup {
 		Assert.assertTrue(result.getUpdatedDateTime().isAfter(minTime)
 							&& result.getUpdatedDateTime().isBefore(maxTime));
 
-	}	
-	
-	@Test
-	@WithUserDetails("user@equinor.com")
-	@Ignore
-	public void deleteTradingArea_TradingAreaInUse_tradingAreaNotDeleted() {
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(wafTradingAreaResource).get();		
-		
-		exception.expect(InvalidOperationException.class);
-		taController.deleteTradingArea(wafTradingAreaResource.getId());
 	}
 }

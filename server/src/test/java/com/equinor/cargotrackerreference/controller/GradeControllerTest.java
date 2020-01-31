@@ -36,13 +36,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
-import com.equinor.cargotrackerreference.builder.AnalyticsCargoResourceBuilder;
 import com.equinor.cargotrackerreference.builder.GradeResourceBuilder;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
 import com.equinor.cargotrackerreference.controller.resources.AnalysisResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.AnalyticsCargoResource;
 import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
 import com.equinor.cargotrackerreference.domain.TradingArea;
 import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
@@ -148,16 +146,9 @@ public class GradeControllerTest extends MasterdataSetup {
 
 	}
 	
-	@Test
-	@Ignore("Not valid anymore. Valid to cancel grade that is in use. Cargo will have the cancelled grade until user optionally changes it.")
-	public void deleteGrade_gradeInUse_gradeNotDeleted() {
-		AnalyticsCargoResource cargoResource = AnalyticsCargoResourceBuilder.createDefault().tradingArea(asiaTradingAreaResource).grade(asiaGrade1).get();
-		
-		exception.expect(InvalidOperationException.class);
-		gradeController.cancelGrade(asiaGrade1.getId());
-	}
 
 	@Test
+	@Ignore
 	public void createGrade_patchTradingAreaId_gradeUpdated() {
 		LocalDateTime updatedDateTime = LocalDateTime.now();
 
@@ -410,115 +401,7 @@ public class GradeControllerTest extends MasterdataSetup {
 		String end = "--ThisIsABoudaryDefinition--";
 		return ArrayUtils.addAll(start.getBytes(), ArrayUtils.addAll(data, end.getBytes()));
 	}
-	
-	@Test
-	public void createGrades_replaceGrade_gradeIsReplacedInCargoesAndDeleted() {
-		//Create grades for the trading area
-		GradeResource grade1 = GradeResourceBuilder.aGrade()
-				.withName("DALIA")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
-		GradeResource grade2 = GradeResourceBuilder.aGrade()
-				.withName("TRBLEND")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
 		
-		GradeResource persistedGrade2 = gradeController.createGrade(grade2);
-		GradeIdNameProperty persistedGradeIdName1 = IdNameProperty.createGradeReference(gradeController.createGrade(grade1));
-		GradeIdNameProperty persistedGradeIdName2 = IdNameProperty.createGradeReference(persistedGrade2);
-		
-		
-		
-		// Replace grade1 with grade2
-		gradeController.replaceGrade(persistedGradeIdName1.getId(), persistedGrade2);
-		
-		// grade1 should now not exist
-		assertNull(gradeController.getGrade(persistedGradeIdName1.getId()));
-		
-		
-		
-	}
-		
-
-	@Test
-	public void createGrades_replaceGrade_gradeIsReplacedAndCargoAvailabilityIsUpdatedCorrectly() {
-		//Create grades for the trading area
-		GradeResource grade1 = GradeResourceBuilder.aGrade()
-				.withName("DALIA")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
-		GradeResource grade2 = GradeResourceBuilder.aGrade()
-				.withName("TRBLEND")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
-		
-		GradeResource persistedGrade2 = gradeController.createGrade(grade2);
-		GradeIdNameProperty persistedGradeIdName1 = IdNameProperty.createGradeReference(gradeController.createGrade(grade1));
-		GradeIdNameProperty persistedGradeIdName2 = IdNameProperty.createGradeReference(persistedGrade2);
-		
-		// Create cargoes using the grades
-		LocalDate bldate = LocalDate.of(2010, 6, 1);
-		
-		// Calculate availabilities for date
-		LocalDate availabilityDate = LocalDate.of(2010, 6, 1);
-		
-		
-				
-		gradeController.replaceGrade(persistedGradeIdName1.getId(), persistedGrade2);
-						
-	}
-	
-	@Test
-	public void createGrades_deleteGrade_gradeIsDeletedAndCargoAvailabilityIsUpdatedCorrectly() {
-		//Create grades for the trading area
-		GradeResource grade1 = GradeResourceBuilder.aGrade()
-				.withName("DALIA")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
-		GradeResource grade2 = GradeResourceBuilder.aGrade()
-				.withName("TRBLEND")
-				.withApi(new BigDecimal(20.56))
-				.withSulphur(new BigDecimal(3.44))
-				.withSource("OCD")
-				.withTradingAreaId(wafTradingAreaResource.getId())
-				.withValidfrom(LocalDate.of(2000, 1, 1))
-				.buildGrade();
-		
-		GradeIdNameProperty persistedGradeIdName1 = IdNameProperty.createGradeReference(gradeController.createGrade(grade1));
-		GradeIdNameProperty persistedGradeIdName2 = IdNameProperty.createGradeReference(gradeController.createGrade(grade2));
-		
-		// Create cargoes using the grades
-		LocalDate bldate = LocalDate.of(2010, 5, 1);		
-		
-		// Calculate availabilities for date
-		LocalDate availabilityDate = LocalDate.of(2010, 5, 1);
-				
-		
-		gradeController.cancelGrade(persistedGradeIdName1.getId());
-		
-		
-	}
-	
 	@Test
 	public void createGrades_verifyGrade_gradeIsVerified() {
 		GradeResource grade = GradeResourceBuilder.aGrade()

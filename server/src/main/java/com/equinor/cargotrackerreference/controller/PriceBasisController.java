@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.equinor.cargotrackerreference.domain.PriceBasis;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class PriceBasisController {
 	

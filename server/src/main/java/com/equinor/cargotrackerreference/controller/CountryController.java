@@ -18,7 +18,7 @@ import com.equinor.cargotrackerreference.controller.resources.CountryResourceIte
 import com.equinor.cargotrackerreference.service.CountryService;
 
 @RestController
-@RequestMapping(value = "/ct/config")
+@RequestMapping(value = "/ctref/config")
 @CrossOrigin(origins = "*")
 public class CountryController {
 
