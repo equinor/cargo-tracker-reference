@@ -1,13 +1,9 @@
-name: ClientBuild
+name: ClientUnitTests
 on:
   pull_request:
-    paths:
-      - './client/**'
     branches:
       - master
   push:
-    paths:
-      - './client/**'
     branches:
       - master
 
@@ -37,5 +33,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn build --prod
+      - run: yarn test
         working-directory: ${{env.working-directory}}

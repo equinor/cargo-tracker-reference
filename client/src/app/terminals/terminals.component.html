@@ -1,0 +1,9 @@
+<div class="table-container">
+  <ctref-terminal-filter (filterChanged)="onFilterChange($event)"
+                         [countries]="countries$ | async"
+                         [value]="filters$ | async"></ctref-terminal-filter>
+  <ctref-terminal-list (save)="save($event)"
+                       [countries]="countries$ | async"
+                       [loading]="loading$ | async"
+                       [rows]="terminals$ | async"></ctref-terminal-list>
+</div>

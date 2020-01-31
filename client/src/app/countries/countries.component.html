@@ -1,0 +1,8 @@
+<div class="table-container">
+  <ctref-country-filter [regions]="regions$ | async"
+                        [value]="filters$ | async"
+                        (filterChanged)="onFilterChange($event)"></ctref-country-filter>
+  <ctref-country-list [rows]="countries$ | async"
+                      (save)="save($event)"
+                      [regions]="regions$ | async"></ctref-country-list>
+</div>

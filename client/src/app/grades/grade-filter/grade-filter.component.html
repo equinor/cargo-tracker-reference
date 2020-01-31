@@ -1,0 +1,52 @@
+<sto-filter-panel [filterList]="filter$ | async"
+                  (toggled)="toggled()"
+                  [expanded]="false"
+                  [expandable]="true">
+
+  <sto-filter-title style="display: inline-flex">Grades
+  </sto-filter-title>
+  <sto-filter-table-actions>
+    <button mat-button
+            (click)="add.emit()">Add
+    </button>
+    <button mat-button
+            color="primary"
+            (click)="fileInput.click();">
+      Upload grades
+    </button>
+    <input type="file"
+           style="display:none"
+           #fileInput
+           (change)="upload($event)">
+  </sto-filter-table-actions>
+  <div stoGrid
+       class="sto-form"
+       [formGroup]="form">
+    <mat-form-field stoGridColumn
+                    stoFormField>
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="countryId">
+        <mat-option *ngFor="let c of countries"
+                    [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field stoGridColumn
+                    stoFormField>
+      <mat-label>Verified</mat-label>
+      <mat-select formControlName="verified" placeholder="Show all">
+        <mat-option [value]="null"
+                    *ngIf="form.get('verified').value === false || form.get('verified').value === true">
+          Show all
+        </mat-option>
+        <mat-option [value]="true">Only show verified</mat-option>
+        <mat-option [value]="false">Only show unverified</mat-option>
+      </mat-select>
+    </mat-form-field>
+        <div stoGridColumn>
+          <sto-slide-toggle formControlName="cancelled"
+                            label="Include cancelled"></sto-slide-toggle>
+        </div>
+    <div stoGridColumn
+         stoGridSpacer></div>
+  </div>
+</sto-filter-panel>

@@ -1,0 +1,10 @@
+<div class="grid">
+  <div class="grid__container">
+    <mat-card [routerLink]="module.routerLink"
+              *ngFor="let module of modules$ | async"
+              role="link"
+              class="sto-card grid__container__section">
+      {{ module.label }}
+    </mat-card>
+  </div>
+</div>

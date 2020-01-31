@@ -1,0 +1,25 @@
+<sto-filter-panel [filterList]="filter$ | async"
+                  (toggled)="toggled()"
+                  [expandable]="true"
+                  [expanded]="false">
+
+  <sto-filter-title style="display: inline-flex">Terminals
+  </sto-filter-title>
+  <div [formGroup]="form"
+       class="sto-form"
+       stoGrid>
+    <mat-form-field stoFormField
+                    stoGridColumn>
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="countryId">
+        <mat-option *ngFor="let c of countries"
+                    [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div [stoGridColumnDouble]="true"
+         stoGridColumn
+         stoGridSpacer></div>
+    <div stoGridColumn
+         stoGridSpacer></div>
+  </div>
+</sto-filter-panel>

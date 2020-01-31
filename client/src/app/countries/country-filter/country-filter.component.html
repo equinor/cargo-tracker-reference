@@ -1,0 +1,22 @@
+<sto-filter-panel [filterList]="filter$ | async"
+                  [expandable]="true">
+  <sto-filter-title style="display: inline-flex">
+    Countries
+  </sto-filter-title>
+  <div class="sto-form"
+       stoGrid
+       [formGroup]="form">
+    <mat-form-field stoFormField
+                    stoGridColumn>
+      <mat-label>Region</mat-label>
+      <mat-select formControlName="region">
+        <mat-option *ngFor="let r of regions"
+                    [value]="r.id">
+          {{ r.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div stoGridColumn stoGridSpacer></div>
+    <div stoGridColumn [stoGridColumnDouble]="true" stoGridSpacer></div>
+  </div>
+</sto-filter-panel>
