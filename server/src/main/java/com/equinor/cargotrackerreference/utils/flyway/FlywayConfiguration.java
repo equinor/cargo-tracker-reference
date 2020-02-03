@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("flyway")
+//@Profile("flyway")
 public class FlywayConfiguration {
 	@Value("${spring.datasource.url}")
 	private String url;
