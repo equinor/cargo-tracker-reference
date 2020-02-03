@@ -38,12 +38,12 @@ public class Oauth2ImplicitFlowSecurityConfiguration extends ResourceServerConfi
 				.frameOptions()
 				.sameOrigin() /* Needed for ADAL token refresh */
 				.and()
-				.authorizeRequests()
-				.antMatchers(HttpMethod.DELETE, "/ct/config/**").access("hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.POST, "/ct/config/**").access("hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.PUT, "/ct/config/**").access("hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.PATCH, "/ct/config/**").access("hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.GET, "/ct/config/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")
+				.authorizeRequests() // TODO HEH: Verify setup now that ctref is introduced
+				.antMatchers(HttpMethod.DELETE, "/ctref/config/**").access("hasRole('SUPER_USER')")
+				.antMatchers(HttpMethod.POST, "/ctref/config/**").access("hasRole('SUPER_USER')")
+				.antMatchers(HttpMethod.PUT, "/ctref/config/**").access("hasRole('SUPER_USER')")
+				.antMatchers(HttpMethod.PATCH, "/ctref/config/**").access("hasRole('SUPER_USER')")
+				.antMatchers(HttpMethod.GET, "/ctref/config/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.DELETE, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.POST, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.PUT, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
