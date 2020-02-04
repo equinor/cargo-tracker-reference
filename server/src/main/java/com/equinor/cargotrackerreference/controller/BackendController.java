@@ -31,16 +31,24 @@ public class BackendController {
 		return companyService.getAllCompanies().iterator().next();
 	}
 	
-	public class CompanyList {
-		public List<Company> companies;
-		
-		public CompanyList() {
-			
-		}
-		
-		public CompanyList(List<Company> companies) {
-			this.companies = companies;
-		}
+	
+	@RequestMapping(value = "/company2", method = RequestMethod.GET)
+	Company getAllCompanies2() {
+		logger.debug("Getting all companies");
+//		return new CompanyList(Lists.newArrayList(companyService.getAllCompanies()));		
+		return companyService.getAllCompanies().iterator().next();
 	}
+	
+//	public class CompanyList {
+//		public List<Company> companies;
+//		
+//		public CompanyList() {
+//			
+//		}
+//		
+//		public CompanyList(List<Company> companies) {
+//			this.companies = companies;
+//		}
+//	}
 
 }
