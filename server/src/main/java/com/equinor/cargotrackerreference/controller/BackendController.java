@@ -1,7 +1,5 @@
 package com.equinor.cargotrackerreference.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotrackerreference.domain.Company;
+import com.equinor.cargotrackerreference.domain.Country;
+import com.equinor.cargotrackerreference.domain.Grade;
+import com.equinor.cargotrackerreference.domain.Region;
+import com.equinor.cargotrackerreference.domain.Terminal;
+import com.equinor.cargotrackerreference.domain.TradingArea;
 import com.equinor.cargotrackerreference.service.CompanyService;
-import com.google.common.collect.Lists;
+import com.equinor.cargotrackerreference.service.CountryService;
+import com.equinor.cargotrackerreference.service.GradeService;
+import com.equinor.cargotrackerreference.service.RegionService;
+import com.equinor.cargotrackerreference.service.TerminalService;
+import com.equinor.cargotrackerreference.service.TradingAreaService;
+import com.microsoft.applicationinsights.core.dependencies.google.common.collect.Iterables;
 
 @RestController
 @RequestMapping(value = "/ctref/backend")
@@ -22,33 +30,57 @@ public class BackendController {
 	@Autowired
 	private CompanyService companyService;
 	
+	@Autowired
+	private CountryService countryService;
+	
+	@Autowired
+	private GradeService gradeService;
+	
+	@Autowired
+	private RegionService regionService; 
+	
+	@Autowired
+	private TradingAreaService tradingAreaService;
+	
+	@Autowired
+	private TerminalService terminalService;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping(value = "/company", method = RequestMethod.GET)
-	public Company getAllCompanies() {
+	@RequestMapping(value = "/companies", method = RequestMethod.GET)
+	Company[] getAllCompanies() {
 		logger.debug("Getting all companies");
-//		return new CompanyList(Lists.newArrayList(companyService.getAllCompanies()));		
-		return companyService.getAllCompanies().iterator().next();
+		return Iterables.toArray(companyService.getAllCompanies(), Company.class);
 	}
 	
-	
-	@RequestMapping(value = "/company2", method = RequestMethod.GET)
-	Company getAllCompanies2() {
-		logger.debug("Getting all companies");
-//		return new CompanyList(Lists.newArrayList(companyService.getAllCompanies()));		
-		return companyService.getAllCompanies().iterator().next();
+	@RequestMapping(value = "/countries", method = RequestMethod.GET)
+	Country[] getAllCountries() {
+		logger.debug("Getting all countries");
+		return Iterables.toArray(countryService.getAllCountries(), Country.class);
 	}
 	
-//	public class CompanyList {
-//		public List<Company> companies;
-//		
-//		public CompanyList() {
-//			
-//		}
-//		
-//		public CompanyList(List<Company> companies) {
-//			this.companies = companies;
-//		}
-//	}
+	@RequestMapping(value = "/grades", method = RequestMethod.GET)
+	Grade[] getAllGrades() {
+		logger.debug("Getting all grades");
+		return Iterables.toArray(gradeService.getAllGrades(), Grade.class);
+	}
+	
+	@RequestMapping(value = "/regions", method = RequestMethod.GET)
+	Region[] getAllRegions() {
+		logger.debug("Getting all regions");
+		return Iterables.toArray(regionService.getRegions(), Region.class);
+	}
+	
+	@RequestMapping(value = "/tradingareas", method = RequestMethod.GET)
+	TradingArea[] getAllTradingAreas() {
+		logger.debug("Getting all tradingareas");
+		return Iterables.toArray(tradingAreaService.getTradingAreas(), TradingArea.class);
+	}
+
+	@RequestMapping(value = "/terminals", method = RequestMethod.GET)
+	Terminal[] getAllTerminals() {
+		logger.debug("Getting all terminals");
+		return Iterables.toArray(terminalService.getTerminals(), Terminal.class);
+	}
 
 }
