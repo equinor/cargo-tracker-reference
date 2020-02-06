@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.builder;
 
 import java.time.LocalDateTime;
 
-import com.equinor.cargotrackerreference.domain.TradingArea;
+import com.equinor.cargotracker.common.domain.TradingArea;
 
 public class TradingAreaBuilder {
 

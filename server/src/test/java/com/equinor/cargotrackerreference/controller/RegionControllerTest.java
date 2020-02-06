@@ -15,14 +15,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.equinor.cargotracker.common.domain.Region;
+import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
 import com.equinor.cargotrackerreference.builder.GradeResourceBuilder;
 import com.equinor.cargotrackerreference.builder.RegionBuilder;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
-import com.equinor.cargotrackerreference.domain.Region;
-import com.equinor.cargotrackerreference.domain.TradingArea;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 
 @RunWith(SpringRunner.class)

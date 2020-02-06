@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equinor.cargotracker.common.domain.TradingArea;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceIterator;
-import com.equinor.cargotrackerreference.domain.TradingArea;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.service.GradeService;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 

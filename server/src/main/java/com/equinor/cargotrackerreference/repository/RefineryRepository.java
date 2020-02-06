@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.equinor.cargotrackerreference.domain.Refinery;
+import com.equinor.cargotracker.common.domain.Refinery;
+
 
 @Repository
 public interface RefineryRepository extends CrudRepository<Refinery, String> {

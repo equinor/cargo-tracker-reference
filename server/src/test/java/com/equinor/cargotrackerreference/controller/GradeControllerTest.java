@@ -8,7 +8,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -34,16 +33,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.equinor.cargotracker.common.domain.TradingArea;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
 import com.equinor.cargotrackerreference.builder.GradeResourceBuilder;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
 import com.equinor.cargotrackerreference.controller.resources.AnalysisResource;
-import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
-import com.equinor.cargotrackerreference.domain.TradingArea;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 
 @RunWith(SpringRunner.class)
@@ -378,8 +375,7 @@ public class GradeControllerTest extends MasterdataSetup {
 	}
 
 	private ResponseEntity<?> doUpload(String fileName) throws Exception {
-		InputStream is = getClass().getClassLoader().getResourceAsStream("258581_payload.json");		
-//		byte[] fileByteArray = IOUtils.toByteArray(getClass().getResourceAsStream(fileName));
+		
 		byte[] fileByteArray = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream(fileName));
 		
 		MockMultipartFile mockMultipartFile = new MockMultipartFile("data", fileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileByteArray);

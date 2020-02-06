@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.builder;
 
 import java.time.LocalDateTime;
 
-import com.equinor.cargotrackerreference.domain.Region;
+import com.equinor.cargotracker.common.domain.Region;
 
 public class RegionBuilder {
 

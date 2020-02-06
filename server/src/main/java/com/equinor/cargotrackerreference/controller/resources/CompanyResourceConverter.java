@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.UUID;
 
-import com.equinor.cargotrackerreference.domain.Company;
+import com.equinor.cargotracker.common.domain.Company;
 
 public class CompanyResourceConverter {
 	

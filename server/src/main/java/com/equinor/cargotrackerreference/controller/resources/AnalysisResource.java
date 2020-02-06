@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.equinor.cargotrackerreference.domain.Analysis;
+import com.equinor.cargotracker.common.domain.Analysis;
 
 public class AnalysisResource {
 	

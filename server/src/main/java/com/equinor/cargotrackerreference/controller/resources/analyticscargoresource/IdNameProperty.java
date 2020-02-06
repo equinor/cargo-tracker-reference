@@ -6,6 +6,12 @@ import java.util.UUID;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.equinor.cargotracker.common.domain.Company;
+import com.equinor.cargotracker.common.domain.Country;
+import com.equinor.cargotracker.common.domain.Grade;
+import com.equinor.cargotracker.common.domain.Region;
+import com.equinor.cargotracker.common.domain.Terminal;
+import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
 import com.equinor.cargotrackerreference.controller.resources.CountryIdNameProperty;
@@ -14,12 +20,6 @@ import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.RegionIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.TerminalIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.TradingAreaIdNameProperty;
-import com.equinor.cargotrackerreference.domain.Company;
-import com.equinor.cargotrackerreference.domain.Country;
-import com.equinor.cargotrackerreference.domain.Grade;
-import com.equinor.cargotrackerreference.domain.Region;
-import com.equinor.cargotrackerreference.domain.Terminal;
-import com.equinor.cargotrackerreference.domain.TradingArea;
 
 @MappedSuperclass
 public abstract class IdNameProperty {

@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.Iterator;
 
-import com.equinor.cargotrackerreference.domain.Country;
+import com.equinor.cargotracker.common.domain.Country;
 
 public class CountryResourceIterator implements Iterator<CountryResource>, Iterable<CountryResource> {
 

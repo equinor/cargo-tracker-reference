@@ -2,9 +2,9 @@ package com.equinor.cargotrackerreference.builder;
 
 import java.math.BigDecimal;
 
+import com.equinor.cargotracker.common.domain.PriceBasis;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.TitleTransferResource;
-import com.equinor.cargotrackerreference.domain.PriceBasis;
 
 public class TitleTransferBuilder {
 	private TitleTransferResource titleTransferProperty;

@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.equinor.cargotracker.common.domain.FileUpload;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceExcel;
-import com.equinor.cargotrackerreference.domain.FileUpload;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.repository.FileUploadRepository;
 
 

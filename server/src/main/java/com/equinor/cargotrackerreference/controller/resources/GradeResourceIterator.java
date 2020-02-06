@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.Iterator;
 
-import com.equinor.cargotrackerreference.domain.Grade;
+import com.equinor.cargotracker.common.domain.Grade;
 
 public class GradeResourceIterator implements Iterator<GradeResource>, Iterable<GradeResource> {
 

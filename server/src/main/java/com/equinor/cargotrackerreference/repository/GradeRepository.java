@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.equinor.cargotrackerreference.domain.Grade;
+import com.equinor.cargotracker.common.domain.Grade;
 
 @Repository
 public interface GradeRepository extends CrudRepository<Grade, String> {

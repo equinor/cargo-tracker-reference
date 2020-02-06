@@ -1,6 +1,6 @@
 package com.equinor.cargotrackerreference.controller.resources;
 
-import com.equinor.cargotrackerreference.domain.Terminal;
+import com.equinor.cargotracker.common.domain.Terminal;
 
 public class TerminalResourceConverter {
 	public static TerminalResource createResourceFromTerminal(Terminal terminal) {

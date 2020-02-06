@@ -13,10 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
 import com.equinor.cargotrackerreference.builder.TradingAreaBuilder;
-import com.equinor.cargotrackerreference.domain.TradingArea;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)

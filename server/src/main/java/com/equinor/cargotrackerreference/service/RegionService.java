@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.equinor.cargotrackerreference.domain.Region;
+import com.equinor.cargotracker.common.domain.Region;
 import com.equinor.cargotrackerreference.repository.RegionRepository;
 
 @Service

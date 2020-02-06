@@ -29,3 +29,11 @@ FROM ct.company;
 SELECT *
 INTO ctref.analysis
 FROM ct.analysis;
+
+SELECT *
+INTO ctref.company_ocd_mapping
+FROM ct.company_ocd_mapping;
+
+SELECT *
+INTO ctref.terminal_ocd_mapping
+FROM ct.terminal_ocd_mapping;

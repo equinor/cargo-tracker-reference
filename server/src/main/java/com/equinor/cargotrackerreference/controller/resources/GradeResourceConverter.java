@@ -3,10 +3,10 @@ package com.equinor.cargotrackerreference.controller.resources;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.equinor.cargotrackerreference.domain.Analysis;
-import com.equinor.cargotrackerreference.domain.Grade;
-import com.equinor.cargotrackerreference.domain.SourceSystem;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
+import com.equinor.cargotracker.common.domain.Analysis;
+import com.equinor.cargotracker.common.domain.Grade;
+import com.equinor.cargotracker.common.domain.SourceSystem;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 
 public class GradeResourceConverter {
 	public static GradeResource createResourceFromGrade(Grade grade) {

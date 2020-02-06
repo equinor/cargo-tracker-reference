@@ -3,7 +3,7 @@ package com.equinor.cargotrackerreference.builder;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.equinor.cargotrackerreference.domain.Refinery;
+import com.equinor.cargotracker.common.domain.Refinery;
 
 public class RefineryBuilder {
 

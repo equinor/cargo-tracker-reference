@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.equinor.cargotracker.common.domain.Region;
+import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotrackerreference.builder.CountryBuilder;
 import com.equinor.cargotrackerreference.builder.GradeResourceBuilder;
 import com.equinor.cargotrackerreference.builder.RegionBuilder;
@@ -30,8 +32,6 @@ import com.equinor.cargotrackerreference.controller.resources.TerminalIdNameProp
 import com.equinor.cargotrackerreference.controller.resources.TerminalResource;
 import com.equinor.cargotrackerreference.controller.resources.TradingAreaIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
-import com.equinor.cargotrackerreference.domain.Region;
-import com.equinor.cargotrackerreference.domain.TradingArea;
 
 public abstract class MasterdataSetup {
 	@Autowired

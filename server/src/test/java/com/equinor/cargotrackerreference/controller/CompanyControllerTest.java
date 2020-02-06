@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -23,13 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.Application;
 import com.equinor.cargotrackerreference.MasterdataSetup;
 import com.equinor.cargotrackerreference.builder.CompanyResourceBuilder;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
 import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -133,12 +132,9 @@ public class CompanyControllerTest extends MasterdataSetup {
 		CompanyResource persistedCompany1 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company1").buildCompanyResource());
 		CompanyResource persistedCompany2 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company2").buildCompanyResource());
 		CompanyResource persistedCompany3 = companyController.createCompany(CompanyResourceBuilder.aCompany().withName("Company3").buildCompanyResource());
-		CompanyIdNameProperty companyIdNameProperty1 = new CompanyIdNameProperty(UUID.fromString(persistedCompany1.id), persistedCompany1.name, null);
-		CompanyIdNameProperty companyIdNameProperty2 = new CompanyIdNameProperty(UUID.fromString(persistedCompany2.id), persistedCompany2.name, null);
+		
 		CompanyIdNameProperty companyIdNameProperty3 = new CompanyIdNameProperty(UUID.fromString(persistedCompany3.id), persistedCompany3.name, null);
 
-		// Create cargoes using the company
-		LocalDate bldate = LocalDate.of(2012, 3, 4);
 
 		// Alias company3 with company2
 		companyController.aliasCompany(companyIdNameProperty3.getId(), persistedCompany2);

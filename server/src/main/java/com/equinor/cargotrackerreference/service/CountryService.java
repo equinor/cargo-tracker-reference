@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.equinor.cargotracker.common.domain.Country;
 import com.equinor.cargotrackerreference.controller.resources.CountryResource;
 import com.equinor.cargotrackerreference.controller.resources.CountryResourceConverter;
-import com.equinor.cargotrackerreference.domain.Country;
 import com.equinor.cargotrackerreference.repository.CountryRepository;
 
 @Service

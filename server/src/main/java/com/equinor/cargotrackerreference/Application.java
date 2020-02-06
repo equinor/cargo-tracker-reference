@@ -2,6 +2,7 @@ package com.equinor.cargotrackerreference;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import com.microsoft.applicationinsights.web.internal.WebRequestTrackingFilter;
 @SpringBootApplication
 @Configuration
 @EnableScheduling
+@EntityScan(basePackages = {"com.equinor.cargotracker.common.domain", "com.equinor.cargotrackerreference.controller.resources"}) //TODO Remove @Entity from resources
 public class Application {
 
 

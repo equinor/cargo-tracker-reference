@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.equinor.cargotrackerreference.domain.Refinery;
+import com.equinor.cargotracker.common.domain.Refinery;
 import com.equinor.cargotrackerreference.repository.RefineryRepository;
 
 @Service

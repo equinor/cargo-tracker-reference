@@ -2,7 +2,8 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.Iterator;
 
-import com.equinor.cargotrackerreference.domain.Terminal;
+import com.equinor.cargotracker.common.domain.Terminal;
+
 
 public class TerminalResourceIterator implements Iterator<TerminalResource>, Iterable<TerminalResource> {
 

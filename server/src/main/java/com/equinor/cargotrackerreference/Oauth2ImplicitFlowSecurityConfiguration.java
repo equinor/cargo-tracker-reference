@@ -44,11 +44,11 @@ public class Oauth2ImplicitFlowSecurityConfiguration extends ResourceServerConfi
 				.antMatchers(HttpMethod.PUT, "/ctref/config/**").access("hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.PATCH, "/ctref/config/**").access("hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.GET, "/ctref/config/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.DELETE, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
+				/*.antMatchers(HttpMethod.DELETE, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.POST, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.PUT, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
 				.antMatchers(HttpMethod.PATCH, "/ct/**").access("hasRole('USER') or hasRole('SUPER_USER')")
-				.antMatchers(HttpMethod.GET, "/ct/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")
+				.antMatchers(HttpMethod.GET, "/ct/**").access("hasRole('READ_ONLY_USER') or hasRole('USER') or hasRole('SUPER_USER')")*/
 				.antMatchers("/**").permitAll();
 	}
 

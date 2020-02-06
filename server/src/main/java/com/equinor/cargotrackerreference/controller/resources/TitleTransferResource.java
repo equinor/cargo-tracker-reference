@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Immutable;
 
-import com.equinor.cargotrackerreference.domain.PriceBasis;
+import com.equinor.cargotracker.common.domain.PriceBasis;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity

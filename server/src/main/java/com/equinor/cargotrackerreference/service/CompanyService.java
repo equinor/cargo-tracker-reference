@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.equinor.cargotracker.common.domain.Company;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.AuthorityHelper;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
-import com.equinor.cargotrackerreference.domain.Company;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.repository.CompanyRepository;
 import com.equinor.cargotrackerreference.repository.CompanyResourceRepository;
 import com.microsoft.sqlserver.jdbc.SQLServerException;

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equinor.cargotrackerreference.domain.PriceBasis;
+import com.equinor.cargotracker.common.domain.PriceBasis;
+
 
 @RestController
 @RequestMapping(value = "/ctref/config")

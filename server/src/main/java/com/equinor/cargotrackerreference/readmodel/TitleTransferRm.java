@@ -10,8 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 
-import com.equinor.cargotrackerreference.domain.PriceBasis;
-import com.equinor.cargotrackerreference.domain.TitleTransfer;
+import com.equinor.cargotracker.common.domain.PriceBasis;
+import com.equinor.cargotracker.common.domain.TitleTransfer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity

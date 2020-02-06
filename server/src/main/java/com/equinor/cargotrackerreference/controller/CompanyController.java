@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equinor.cargotracker.common.domain.Company;
+import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.exceptions.InternalServerError;
 import com.equinor.cargotrackerreference.controller.exceptions.ResourceAlreadyExists;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResourceConverter;
-import com.equinor.cargotrackerreference.domain.Company;
-import com.equinor.cargotrackerreference.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.repository.CompanyResourceRepository;
 import com.equinor.cargotrackerreference.service.CompanyService;
 

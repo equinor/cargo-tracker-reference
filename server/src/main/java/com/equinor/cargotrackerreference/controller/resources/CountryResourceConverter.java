@@ -2,7 +2,7 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.UUID;
 
-import com.equinor.cargotrackerreference.domain.Country;
+import com.equinor.cargotracker.common.domain.Country;
 
 public class CountryResourceConverter {
 	public static CountryResource createResourceFromCountry(Country country) {

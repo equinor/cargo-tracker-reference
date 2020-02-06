@@ -18,8 +18,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Immutable;
 
+import com.equinor.cargotracker.common.domain.Analysis;
 import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
-import com.equinor.cargotrackerreference.domain.Analysis;
 import com.google.common.collect.Iterables;
 
 @Entity
