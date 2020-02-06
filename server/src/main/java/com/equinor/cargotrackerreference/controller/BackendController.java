@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equinor.cargotrackerreference.domain.Company;
-import com.equinor.cargotrackerreference.domain.Country;
-import com.equinor.cargotrackerreference.domain.Grade;
-import com.equinor.cargotrackerreference.domain.Region;
-import com.equinor.cargotrackerreference.domain.Terminal;
-import com.equinor.cargotrackerreference.domain.TradingArea;
+import com.equinor.cargotracker.common.domain.Company;
+import com.equinor.cargotracker.common.domain.Country;
+import com.equinor.cargotracker.common.domain.Grade;
+import com.equinor.cargotracker.common.domain.Region;
+import com.equinor.cargotracker.common.domain.Terminal;
+import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotrackerreference.service.CompanyService;
 import com.equinor.cargotrackerreference.service.CountryService;
 import com.equinor.cargotrackerreference.service.GradeService;
