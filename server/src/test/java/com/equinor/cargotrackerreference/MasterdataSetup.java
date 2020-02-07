@@ -27,11 +27,11 @@ import com.equinor.cargotrackerreference.controller.resources.CountryIdNamePrope
 import com.equinor.cargotrackerreference.controller.resources.CountryResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
+import com.equinor.cargotrackerreference.controller.resources.IdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.RegionIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.TerminalIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResource;
 import com.equinor.cargotrackerreference.controller.resources.TradingAreaIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
 
 public abstract class MasterdataSetup {
 	@Autowired

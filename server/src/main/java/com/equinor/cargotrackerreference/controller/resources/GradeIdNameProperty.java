@@ -19,23 +19,22 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Immutable;
 
 import com.equinor.cargotracker.common.domain.Analysis;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
 import com.google.common.collect.Iterables;
 
-@Entity
-@Table(name="GRADE")
-@Immutable
+//@Entity
+//@Table(name="GRADE")
+//@Immutable
 public class GradeIdNameProperty extends IdNameProperty {
-	@Transient
+//	@Transient
 	public BigDecimal api;
-	@Transient
+//	@Transient
 	public BigDecimal sulphur;
 	
 	public boolean verified;
 	
-	@OneToMany(targetEntity=Analysis.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "grade_id")
-	@OrderBy("fromDate DESC")
+//	@OneToMany(targetEntity=Analysis.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "grade_id")
+//	@OrderBy("fromDate DESC")
 	private List<Analysis> analyses = new ArrayList<>();
 
 	public GradeIdNameProperty(UUID id, String name) {

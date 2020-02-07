@@ -14,7 +14,7 @@ import com.microsoft.applicationinsights.web.internal.WebRequestTrackingFilter;
 @SpringBootApplication
 @Configuration
 @EnableScheduling
-@EntityScan(basePackages = {"com.equinor.cargotracker.common.domain", "com.equinor.cargotrackerreference.controller.resources"}) //TODO Remove @Entity from resources
+@EntityScan(basePackages = {"com.equinor.cargotracker.common.domain", "com.equinor.cargotrackerreference.domain", "com.equinor.cargotrackerreference.controller.resources"}) //TODO Remove @Entity from resources
 public class Application {
 
 

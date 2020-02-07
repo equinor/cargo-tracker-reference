@@ -28,7 +28,7 @@ import com.equinor.cargotrackerreference.MasterdataSetup;
 import com.equinor.cargotrackerreference.builder.CompanyResourceBuilder;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
+import com.equinor.cargotrackerreference.controller.resources.IdNameProperty;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)

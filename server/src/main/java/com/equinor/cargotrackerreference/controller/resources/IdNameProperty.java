@@ -1,4 +1,4 @@
-package com.equinor.cargotrackerreference.controller.resources.analyticscargoresource;
+package com.equinor.cargotrackerreference.controller.resources;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,14 +12,6 @@ import com.equinor.cargotracker.common.domain.Grade;
 import com.equinor.cargotracker.common.domain.Region;
 import com.equinor.cargotracker.common.domain.Terminal;
 import com.equinor.cargotracker.common.domain.TradingArea;
-import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
-import com.equinor.cargotrackerreference.controller.resources.CountryIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.GradeResource;
-import com.equinor.cargotrackerreference.controller.resources.RegionIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.TerminalIdNameProperty;
-import com.equinor.cargotrackerreference.controller.resources.TradingAreaIdNameProperty;
 
 @MappedSuperclass
 public abstract class IdNameProperty {

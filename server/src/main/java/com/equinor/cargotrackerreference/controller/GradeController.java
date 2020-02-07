@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.equinor.cargotracker.common.domain.FileUpload;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.exceptions.InternalServerError;
 import com.equinor.cargotrackerreference.controller.exceptions.ResourceAlreadyExists;
@@ -30,7 +29,8 @@ import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceConverter;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceExcel;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceIterator;
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
+import com.equinor.cargotrackerreference.controller.resources.IdNameProperty;
+import com.equinor.cargotrackerreference.domain.FileUpload;
 import com.equinor.cargotrackerreference.service.FileUploadService;
 import com.equinor.cargotrackerreference.service.GradeService;
 

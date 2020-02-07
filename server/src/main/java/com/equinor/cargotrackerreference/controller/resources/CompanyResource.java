@@ -13,8 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Immutable;
 
-import com.equinor.cargotrackerreference.controller.resources.analyticscargoresource.IdNameProperty;
-
 @Entity
 @Table(name="COMPANY")
 @Immutable
