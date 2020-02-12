@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.Refinery;
+import com.equinor.cargotrackerreference.service.JmsService;
 import com.equinor.cargotrackerreference.service.RefineryService;
 
 @RestController
@@ -22,6 +23,9 @@ public class RefineryController {
 
 	@Autowired
 	private RefineryService refineryService;
+	
+	@Autowired
+	private JmsService jmsService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -40,19 +44,24 @@ public class RefineryController {
 	@RequestMapping(value = "/refinery", method = RequestMethod.POST)
 	public Refinery createRefinery(@RequestBody Refinery refinery) {
 		logger.debug("Creating refinery {} ", refinery);
-		return refineryService.createRefiney(refinery);
+		Refinery newRefinery = refineryService.createRefiney(refinery);
+		jmsService.sendJmsMessage(newRefinery, "refinery", "create");
+		return newRefinery;
 	}
 
 	@RequestMapping(value = "/refinery/{id}", method = RequestMethod.PUT)
 	public Refinery updateRefinery(@PathVariable(value = "id") UUID id, @RequestBody Refinery refinery) {
 		logger.debug("Updating refinery {} ", refinery);
-		return refineryService.updateRefinery(id, refinery);
+		Refinery updatedRefinery = refineryService.updateRefinery(id, refinery);
+		jmsService.sendJmsMessage(updatedRefinery, "refinery", "update");
+		return updatedRefinery;
 	}
 
 	@RequestMapping(value = "/refinery/{id}", method = RequestMethod.DELETE)
 	public void cancelRefinery(@PathVariable(value = "id") UUID id) {
-		logger.debug("Cancelling refinery with id {} ", id);
+		logger.debug("Cancelling refinery with id {} ", id);		
 		refineryService.cancelRefinery(id);
+		jmsService.sendJmsMessage(id, "refinery", "cancel");
 	}
 
 	@RequestMapping(value = "/region/{id}/refinery", method = RequestMethod.GET)

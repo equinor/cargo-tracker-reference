@@ -18,6 +18,7 @@ import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceIterator;
 import com.equinor.cargotrackerreference.service.GradeService;
+import com.equinor.cargotrackerreference.service.JmsService;
 import com.equinor.cargotrackerreference.service.TradingAreaService;
 
 @RestController
@@ -30,6 +31,9 @@ public class TradingAreaController {
 	
 	@Autowired
 	private GradeService gradeService;
+	
+	@Autowired
+	private JmsService jmsService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -57,8 +61,8 @@ public class TradingAreaController {
 			// TODO: Quickfix, improve.
 			TradingArea newTradingArea = new TradingArea();
 			newTradingArea.setActive(tradingArea.isActive());
-			newTradingArea.setName(tradingArea.getName());
-			
+			newTradingArea.setName(tradingArea.getName());			
+			jmsService.sendJmsMessage(newTradingArea, "tradingarea", "create");
 			return tradingAreaService.createTradingArea(newTradingArea);
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to create trading area. Already exists a trading area with name " + tradingArea.getName();
@@ -70,7 +74,9 @@ public class TradingAreaController {
 	@RequestMapping(value = "/tradingarea/{id}", method = RequestMethod.PUT)
 	public TradingArea updateTradingArea(@PathVariable(value = "id") UUID id, @RequestBody TradingArea tradingArea) {
 		logger.debug("Updating trading area ", tradingArea);
-		return tradingAreaService.updateTradingArea(id, tradingArea);
+		TradingArea updatedTradingArea = tradingAreaService.updateTradingArea(id, tradingArea);
+		jmsService.sendJmsMessage(updatedTradingArea, "tradingarea", "update");
+		return updatedTradingArea;
 	}
 
 	@RequestMapping(value = "/tradingarea/{id}", method = RequestMethod.DELETE)
@@ -78,11 +84,11 @@ public class TradingAreaController {
 		logger.debug("Deleting trading area with id ", id);
 		try {
 			tradingAreaService.deleteTradingArea(id);
+			jmsService.sendJmsMessage(id, "tradingarea", "delete");
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to delete trading area with id " + id + ". Trading area is in use.";
 			logger.error(errormessage);
 			throw new InvalidOperationException(errormessage);
 		}
 	}
-
 }
