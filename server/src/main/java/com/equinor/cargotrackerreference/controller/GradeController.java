@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.equinor.cargotracker.common.domain.Grade;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
 import com.equinor.cargotrackerreference.controller.exceptions.InternalServerError;
 import com.equinor.cargotrackerreference.controller.exceptions.ResourceAlreadyExists;
@@ -70,9 +72,9 @@ public class GradeController {
 			return null;
 		}
 		try {
-			GradeResource newGrade = GradeResourceConverter.createResourceFromGrade(gradeService.createGrade(GradeResourceConverter.createGradeFromResource(grade)));
+			Grade newGrade = gradeService.createGrade(GradeResourceConverter.createGradeFromResource(grade));			
 			jmsService.sendJmsMessage(newGrade, "grade", "create");
-			return newGrade;
+			return GradeResourceConverter.createResourceFromGrade(newGrade);
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to create grade. Already exists a grade with name " + grade.name;
 			logger.error(errormessage);
@@ -88,18 +90,17 @@ public class GradeController {
 
 	@RequestMapping(value = "/grade/{id}", method = RequestMethod.PATCH)
 	public GradeResource patchRegionId(@PathVariable(value = "id") UUID id, @RequestBody GradeResource grade) {
-		GradeResource patchedGrade = GradeResourceConverter.createResourceFromGrade(gradeService.patchRegionId(id, grade.tradingAreaId));
+		Grade patchedGrade = gradeService.patchRegionId(id, grade.tradingAreaId);		
 		jmsService.sendJmsMessage(patchedGrade, "grade", "patch");
-		return patchedGrade;
+		return GradeResourceConverter.createResourceFromGrade(patchedGrade);
 	}
 
 	@RequestMapping(value = "/grade/{id}", method = RequestMethod.PUT)
 	public GradeResource updateGrade(@PathVariable(value = "id") UUID id, @RequestBody GradeResource gradeResource) {
 		logger.debug("Updating grade to {}", gradeResource);
-		GradeResource updatedGrade = GradeResourceConverter.createResourceFromGrade(
-				gradeService.updateGrade(GradeResourceConverter.createGradeFromResource(gradeResource, gradeService.getGrade(id).orElseThrow())));
+		Grade updatedGrade = gradeService.updateGrade(GradeResourceConverter.createGradeFromResource(gradeResource, gradeService.getGrade(id).orElseThrow()));
 		jmsService.sendJmsMessage(updatedGrade, "grade", "update");
-		return updatedGrade;
+		return GradeResourceConverter.createResourceFromGrade(updatedGrade);
 	}
 
 	@RequestMapping(value = "/grade/{oldId}/replace", method = RequestMethod.PUT)
@@ -111,7 +112,8 @@ public class GradeController {
 			throw new InvalidOperationException(errormessage);
 		}
 		gradeService.replaceGrade(oldId, IdNameProperty.createGradeReference(grade));
-		jmsService.sendJmsMessage(grade, "grade", "update");
+		Optional<Grade> updatedGrade = gradeService.getGrade(grade.id); 
+		jmsService.sendJmsMessage(updatedGrade, "grade", "update");
 		return grade;
 	}
 
@@ -125,6 +127,8 @@ public class GradeController {
 	public void cancelGrade(@PathVariable(value = "id") UUID id) {
 		logger.debug("Cancelling grade with id: {}", id);
 		gradeService.cancelGrade(id);
+		Optional<Grade> cancelledGrade = gradeService.getGrade(id);
+		jmsService.sendJmsMessage(cancelledGrade, "grade", "cancel");		
 	}
 
 	@RequestMapping(value = "/grade/upload", method = RequestMethod.POST)

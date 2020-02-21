@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equinor.cargotracker.common.domain.Country;
 import com.equinor.cargotrackerreference.controller.resources.CountryResource;
 import com.equinor.cargotrackerreference.controller.resources.CountryResourceConverter;
 import com.equinor.cargotrackerreference.controller.resources.CountryResourceIterator;
@@ -46,9 +47,9 @@ public class CountryController {
 	@RequestMapping(value = "/country/{id}", method = RequestMethod.PATCH)
 	public CountryResource patchRegionId(@PathVariable(value = "id") UUID countryId, @RequestBody CountryResource country) {
 		logger.debug("Setting region id for country with id: {}. New region id: ", countryId, country != null ? country.regionId : null);
-		CountryResource patchedCountry = CountryResourceConverter.createResourceFromCountry(countryService.patchRegionIdForCountry(countryId, country));
+		Country patchedCountry = countryService.patchRegionIdForCountry(countryId, country);
 		jmsService.sendJmsMessage(patchedCountry, "country", "patch");
-		return patchedCountry;
+		return CountryResourceConverter.createResourceFromCountry(patchedCountry);
 	}
 
 	@RequestMapping(value = "/region/{id}/country", method = RequestMethod.GET)
@@ -59,9 +60,9 @@ public class CountryController {
 
 	public CountryResource createCountry(@RequestBody CountryResource country) {
 		logger.debug("Creating country {}", country);
-		CountryResource newCountry = CountryResourceConverter.createResourceFromCountry(countryService.createCountry(country));
+		Country newCountry = countryService.createCountry(country);
 		jmsService.sendJmsMessage(newCountry, "country", "create");
-		return newCountry;
+		return CountryResourceConverter.createResourceFromCountry(newCountry);
 	}
 
 }

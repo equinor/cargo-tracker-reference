@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -83,8 +84,9 @@ public class TradingAreaController {
 	public void deleteTradingArea(@PathVariable(value = "id") UUID id) {
 		logger.debug("Deleting trading area with id ", id);
 		try {
+			Optional<TradingArea> tradingAreToBeDeleted = tradingAreaService.getTradingArea(id);
 			tradingAreaService.deleteTradingArea(id);
-			jmsService.sendJmsMessage(id, "tradingarea", "delete");
+			jmsService.sendJmsMessage(tradingAreToBeDeleted, "tradingarea", "delete");
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to delete trading area with id " + id + ". Trading area is in use.";
 			logger.error(errormessage);

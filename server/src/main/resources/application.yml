@@ -37,26 +37,24 @@ security:
     resource:
       jwk.key-set-uri: https://login.microsoftonline.com/common/discovery/keys
       id: ${AAD_APPLICATION_ID}
+
+
+#connectionfactory:
+#    myFactoryLookup: amqps://cargotrackerservicebusdev.servicebus.windows.net
+
+#topic:
+#    myTopicLookup: cargotrackers
+
       
 servicebus:
-    connection_uri: amqps://cargotrackerservicebusdev.servicebus.windows.net/
+    connection_uri: amqps://cargotrackerservicebusdev.servicebus.windows.net?amqp.saslMechanisms=PLAIN
     key_name: ctReference
-    key: d2O7ar5srlCwoDbp1y5PLGwbPGS6utEVt+38THbeJ9I= 
-    client_id: cargotrackerreference        
-      
----      
-        
-spring:
-  profiles: servicebus_sport       
-sport:
-  servicebus:
-    connection_uri: ${SB_SPORT_CONNECTION_URI}
-    key_name: ${SB_SPORT_SAS_KEY_NAME}
-    key: ${SB_SPORT_SAS_KEY} 
-    client_id: CargoTrackingReference
-    cargo_topic: cargoinfo
-    cargo_subscription: CTCargoSub 
-   
+    key: ${SB_CT_SAS_KEY}
+    topic: cargotrackers
+    subscription: ctCargoTracker
+    client_id: cargotrackerreference
+             
+     
 ---
 
 spring:

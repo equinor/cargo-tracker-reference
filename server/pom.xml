@@ -187,6 +187,13 @@
 			<artifactId>qpid-jms-client</artifactId>
 			<version>0.48.0</version>
 		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>org.apache.qpid</groupId>
+			<artifactId>qpid-amqp-1-0-client-jms</artifactId>
+			<version>0.32</version>
+		</dependency>
+		-->
 		
 		
 		<!-- Test dependencies -->				
