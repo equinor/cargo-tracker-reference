@@ -157,7 +157,8 @@ public class GradeController {
 				fileUploadService.createFile(fileUpload);
 			}
 		}
-		jmsService.sendJmsMessage(null, "grade", "update");
+		// TODO HEH: Quickfix. Does not handle null message
+		jmsService.sendJmsMessage("Does not handle null, so we add a String", "grade", "update");
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
