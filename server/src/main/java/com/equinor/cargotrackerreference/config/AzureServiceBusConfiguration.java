@@ -5,11 +5,6 @@ import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-<<<<<<< HEAD
-=======
-import org.springframework.jms.connection.CachingConnectionFactory;
-import org.springframework.jms.core.JmsTemplate;
->>>>>>> 78fa12c9ded4fa5574be189edee311d40d82ca4c
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
@@ -30,10 +25,6 @@ import com.equinor.cargotracker.common.domain.TradingArea;
  *
  */
 @Configuration
-<<<<<<< HEAD
-=======
-//@Profile("servicebus")
->>>>>>> 78fa12c9ded4fa5574be189edee311d40d82ca4c
 public class AzureServiceBusConfiguration {
 		
 	public static String TYPEID = "type_id";
