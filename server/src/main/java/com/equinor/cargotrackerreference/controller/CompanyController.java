@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -57,11 +58,10 @@ public class CompanyController {
 	@RequestMapping(value = "/company", method = RequestMethod.POST)
 	public CompanyResource createCompany(@RequestBody CompanyResource companyResource) {
 		logger.debug("Creating company: {}", companyResource);
-		try {
-			Company company = CompanyResourceConverter.createCompanyFromResource(companyResource);
-			CompanyResource newCompany = CompanyResourceConverter.createCompanyResourceFromCompany(companyService.createCompany(company));
+		try {			
+			Company newCompany = companyService.createCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));
 			jmsService.sendJmsMessage(newCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "create");
-			return newCompany;
+			return CompanyResourceConverter.createCompanyResourceFromCompany(newCompany);
 		} catch (DataIntegrityViolationException ex) {	
 			String errormessage = "Unable to create company " + companyResource.name + ". Company already exists";
 			logger.error(errormessage);
@@ -83,17 +83,17 @@ public class CompanyController {
 			logger.error("Unable to update company {}. Error: {}", companyResource, errormessage);
 			throw new InvalidOperationException(errormessage);
 		}
-		Company company = CompanyResourceConverter.createCompanyFromResource(companyResource);
-		CompanyResource updatedCompany = CompanyResourceConverter.createCompanyResourceFromCompany(companyService.updateCompany(company));
+		Company updatedCompany = companyService.updateCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));	
 		jmsService.sendJmsMessage(updatedCompany, "company", "update");
-		return updatedCompany;
+		return CompanyResourceConverter.createCompanyResourceFromCompany(updatedCompany);
 	}
 
 	@RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
 	public void cancelCompany(@PathVariable(value = "id") UUID id) {
 		logger.debug("Cancelling company with id: {}", id);
 		companyService.cancelCompany(id);
-		jmsService.sendJmsMessage(id, "company", "delete");
+		Optional<Company> cancelledCompany = companyService.getCompany(id);
+		jmsService.sendJmsMessage(cancelledCompany, "company", "delete");
 	}
 	
 	@RequestMapping(value = "/company/{oldId}/replace", method = RequestMethod.PUT)

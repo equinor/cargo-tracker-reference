@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -61,7 +62,8 @@ public class RefineryController {
 	public void cancelRefinery(@PathVariable(value = "id") UUID id) {
 		logger.debug("Cancelling refinery with id {} ", id);		
 		refineryService.cancelRefinery(id);
-		jmsService.sendJmsMessage(id, "refinery", "cancel");
+		Optional<Refinery> cancelledRefinery = refineryService.getRefinery(id); 
+		jmsService.sendJmsMessage(cancelledRefinery, "refinery", "cancel");
 	}
 
 	@RequestMapping(value = "/region/{id}/refinery", method = RequestMethod.GET)

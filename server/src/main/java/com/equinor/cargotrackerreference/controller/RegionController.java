@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -69,8 +70,9 @@ public class RegionController {
 	public void deleteRegion(@PathVariable(value = "id") UUID id) {
 		logger.debug("Deleting region with id {}", id);
 		try {
+			Optional<Region> regionToBeDeleted = regionService.getRegion(id);
 			regionService.deleteRegion(id);
-			jmsService.sendJmsMessage(id, "region", "delete");
+			jmsService.sendJmsMessage(regionToBeDeleted, "region", "delete");
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to delete region with id "+ id + ". Region is in use.";
 			logger.error(errormessage);
