@@ -49,7 +49,7 @@ security:
 servicebus:
     connection_uri: amqps://cargotrackerservicebusdev.servicebus.windows.net?amqp.saslMechanisms=PLAIN
     key_name: ctReference
-    key: ${SB_CT_SAS_KEY}
+    key: ${SB_CT_SAS_KEY:"dummy"}
     topic: cargotrackers
     subscription: ctCargoTracker
     client_id: cargotrackerreference
