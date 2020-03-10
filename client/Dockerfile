@@ -30,4 +30,6 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /client/dist/reference /usr/share/nginx/html/reference
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+# CMD ["nginx", "-g", "daemon off;"]

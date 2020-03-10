@@ -18,7 +18,7 @@ import { ViewEffects } from './store/effects/view.effects';
 import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
-import { MsalInterceptor, MsalModule } from '@azure/msal-angular';
+import { MsalInterceptor, MsalModule, BroadcastService, MsalService } from '@azure/msal-angular';
 import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 import { RouterEffects } from './store/effects/router.effects';
 
@@ -46,21 +46,19 @@ import { RouterEffects } from './store/effects/router.effects';
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
-    MsalModule.forRoot({
-      clientID: '18f46b40-3cb3-4bd4-b530-ab95114adb99',
-      authority: 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
-      redirectUri: 'http://localhost:4200/callback',
-      consentScopes: [ 'https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation' ]
-    }),
+    MsalModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
   ],
   providers: [
+    MsalService,
+    BroadcastService,
+    MsalInterceptor,
+    { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
     StaticService,
     { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'settings', text: 'CT Reference' } },
-    { provide: BASE_URL, useValue: '/api/ct' },
-    { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
+    { provide: BASE_URL, useValue: '/ctref' },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
   ],
   bootstrap: [ AppComponent ]

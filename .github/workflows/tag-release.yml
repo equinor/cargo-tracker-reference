@@ -1,0 +1,86 @@
+on:
+  push:
+    tags:
+      - 'v*'
+  
+name: Create versioned Release
+  
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+          clean: false
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get commit since last tag
+        id: changelog
+        env:
+          REF: ${{ steps.get_version.outputs.VERSION }}
+        run: |
+          git fetch --tags
+          description="$(git log $(git describe --tags --abbrev=0 $REF^)..$REF --oneline)"
+          description="${description//'%'/'%25'}"
+          description="${description//$'\n'/'%0A'}"
+          description="${description//$'\r'/'%0D'}" 
+          echo "::set-output name=body::$description"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ${{ steps.changelog.outputs.body }}
+          draft: false
+          prerelease: false
+
+  publishclient:
+    name: Publish client docker images for tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get the version
+        id: get_version
+        run: |
+          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      
+      - name: Publish client
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: referenceclient
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+          registry: ctregistrydev.azurecr.io
+          tags: "${{steps.get_version.outputs.VERSION}},release"
+          workdir: client
+
+  publishserver:
+      name: Publish server docker images for tag
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v2
+
+        - name: Get the version
+          id: get_version
+          run: |
+            echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+        - name: Publish
+          uses: elgohr/Publish-Docker-Github-Action@master
+          with:
+            name: cargotrackerreference
+            username: ${{ secrets.ACR_USERNAME }}
+            password: ${{ secrets.ACR_PASSWORD }}
+            registry: ctregistrydev.azurecr.io
+            tags: "${{steps.get_version.outputs.VERSION}},release"
+            dockerfile: Dockerfile

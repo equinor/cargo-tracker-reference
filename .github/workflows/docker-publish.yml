@@ -1,0 +1,51 @@
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - '**'
+
+name: Docker Image CD
+
+jobs:
+  publish-client:
+      name: Publish client docker image for branch
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: Get branch name
+        id: get_branch
+        run: echo ::set-output name=BRANCH::${GITHUB_REF/refs\/heads\//}
+      
+      - name: Publish client
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: referenceclient
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+          registry: ctregistrydev.azurecr.io
+          tags: "${{steps.get_branch.outputs.BRANCH}}"
+          workdir: client
+
+  publish-backend:
+      name: Publish backend docker image for branch
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: Get branch name
+        id: get_branch
+        run: echo ::set-output name=BRANCH::${GITHUB_REF/refs\/heads\//}
+      
+      - name: Publish backend
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: cargotrackerreference
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+          registry: ctregistrydev.azurecr.io
+          tags: "${{steps.get_branch.outputs.BRANCH}}"
+          workdir: server
