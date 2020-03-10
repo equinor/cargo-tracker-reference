@@ -77,6 +77,9 @@ jobs:
 
         - name: Publish
           uses: elgohr/Publish-Docker-Github-Action@master
+          env:
+            PKG_USERNAME: ${{ secrets.PKG_USERNAME }}
+            PKG_PASSWORD: ${{ secrets.PKG_PASSWORD }}
           with:
             name: cargotrackerreference
             username: ${{ secrets.ACR_USERNAME }}
@@ -84,3 +87,4 @@ jobs:
             registry: ctregistrydev.azurecr.io
             tags: "${{steps.get_version.outputs.VERSION}},release"
             dockerfile: Dockerfile
+            buildargs: PKG_USERNAME,PKG_PASSWORD
