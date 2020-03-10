@@ -5,9 +5,10 @@ COPY pom.xml /usr/src/app
 WORKDIR /usr/src/app
 
 # Remove this before using cloud builds.. Freaking proxy.
-ARG MAVEN_CLI_OPTS="-DproxySet=true -Dhttp.proxyHost=www-proxy.statoil.no -Dhttp.proxyPort=80 -Dhttps.proxyHost=www-proxy.statoil.no -Dhttps.proxyPort=80"
+# ARG MAVEN_CLI_OPTS="-DproxySet=true -Dhttp.proxyHost=www-proxy.statoil.no -Dhttp.proxyPort=80 -Dhttps.proxyHost=www-proxy.statoil.no -Dhttps.proxyPort=80"
 
-RUN mvn $MAVEN_CLI_OPTS clean compile package
+# RUN mvn $MAVEN_CLI_OPTS clean compile package
+RUN mvn clean compile package
 #RUN cd /usr/src/app && \
 #    mvn package
 
