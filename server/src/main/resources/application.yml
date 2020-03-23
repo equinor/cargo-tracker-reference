@@ -16,7 +16,7 @@ azure:
     application-insights:
         instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:”dummy”}
 server:
-    port: 8080
+    port: 8090
     tomcat:
         max-http-header-size: 50000
 hibernate:
@@ -47,7 +47,7 @@ security:
 
       
 servicebus:
-    connection_uri: amqps://cargotrackerservicebusdev.servicebus.windows.net?amqp.saslMechanisms=PLAIN
+    connection_uri: ${SB_CT_SAS_URI:"dummy"}
     key_name: ctReference
     key: ${SB_CT_SAS_KEY:"dummy"}
     topic: cargotrackers
