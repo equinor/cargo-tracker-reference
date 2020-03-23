@@ -16,7 +16,7 @@ azure:
     application-insights:
         instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:”dummy”}
 server:
-    port: 8090
+    port: 8080
     tomcat:
         max-http-header-size: 50000
 hibernate:
