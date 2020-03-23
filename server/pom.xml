@@ -88,7 +88,7 @@
 		<dependency>
   			<groupId>com.equinor</groupId>
   			<artifactId>cargo-tracker-common</artifactId>
-  			<version>0.0.2</version>
+  			<version>0.0.3</version>
 		</dependency>
 		
 		<!-- Authentication and Authorization -->
@@ -122,7 +122,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-						
+								
 		<!-- Spring security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -176,6 +176,24 @@
 		    <artifactId>poi-ooxml</artifactId>
 		    <version>4.0.0</version>
 		</dependency> 
+		
+		<!-- JMS connection -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.apache.qpid</groupId>
+			<artifactId>qpid-jms-client</artifactId>
+			<version>0.48.0</version>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>org.apache.qpid</groupId>
+			<artifactId>qpid-amqp-1-0-client-jms</artifactId>
+			<version>0.32</version>
+		</dependency>
+		-->
 		
 		
 		<!-- Test dependencies -->				

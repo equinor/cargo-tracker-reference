@@ -38,7 +38,7 @@ public class GradeService {
 	
 	
 	public Iterable<Grade> getAllGrades() {
-		return gradeRepository.findAll();
+		return gradeRepository.findAllByOrderByName();
 	}
 
 	public Iterable<Grade> getGradesForTradingArea(UUID id) {

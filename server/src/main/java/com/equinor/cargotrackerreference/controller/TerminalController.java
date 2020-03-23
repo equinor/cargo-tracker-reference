@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equinor.cargotracker.common.domain.Terminal;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResource;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResourceConverter;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResourceIterator;
+import com.equinor.cargotrackerreference.service.JmsService;
 import com.equinor.cargotrackerreference.service.TerminalService;
 
 @RestController
@@ -24,6 +27,9 @@ public class TerminalController {
 
 	@Autowired
 	private TerminalService terminalService;
+	
+	@Autowired
+	private JmsService jmsService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -42,17 +48,23 @@ public class TerminalController {
 	@RequestMapping(value = "/terminal", method = RequestMethod.POST)
 	public TerminalResource createTerminal(@RequestBody TerminalResource terminal) {
 		logger.debug("Creating terminal {}", terminal);
-		return TerminalResourceConverter.createResourceFromTerminal(terminalService.createTerminal(TerminalResourceConverter.createTerminalFromResource(terminal)));
+		Terminal newTerminal = terminalService.createTerminal(TerminalResourceConverter.createTerminalFromResource(terminal));		
+		jmsService.sendJmsMessage(newTerminal, "terminal", "create");
+		return TerminalResourceConverter.createResourceFromTerminal(newTerminal);
 	}
 
 	@RequestMapping(value = "/terminal/{id}", method = RequestMethod.PUT)
 	public TerminalResource updateTerminal(@PathVariable(value = "id") UUID id, @RequestBody TerminalResource terminal) {
 		logger.debug("Updating terminal {}", terminal);
-		return TerminalResourceConverter.createResourceFromTerminal(terminalService.updateTerminal(id, TerminalResourceConverter.createTerminalFromResource(terminal)));
+		Terminal updatedTerminal = terminalService.updateTerminal(id, TerminalResourceConverter.createTerminalFromResource(terminal));
+		jmsService.sendJmsMessage(updatedTerminal, "terminal", "update");
+		return TerminalResourceConverter.createResourceFromTerminal(updatedTerminal);
 	}
 
 	@RequestMapping(value = "/terminal/{id}", method = RequestMethod.DELETE)
 	public void cancelTerminal(@PathVariable(value = "id") UUID id) {
 		terminalService.cancelTerminal(id);
+		Optional<Terminal> cancelledTerminal = terminalService.getTerminal(id);
+		jmsService.sendJmsMessage(cancelledTerminal, "terminal", "cancel");
 	}
 }
