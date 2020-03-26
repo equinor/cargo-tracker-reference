@@ -6,11 +6,13 @@ import { Country, Terminal } from './shared/models/location';
 import { Region } from './shared/models/region';
 import { Company } from './shared/models/company';
 import { catchError } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { of, throwError, Observable } from 'rxjs';
+import { ClientAuthError } from 'msal';
 
-const staticErrorHandler = catchError((err: HttpErrorResponse) => {
-  if (err.status === 401 || err.status === 403) {
-    return of([])
+
+const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | ClientAuthError) => {
+  if (err instanceof ClientAuthError) {
+    return of([]) as Observable<any[]>;
   }
   return throwError(err)
 })
@@ -27,26 +29,26 @@ export class StaticService {
 
   grades() {
     return this.http.get<Grade[]>(`${this.baseUrl}/grade`)
-    .pipe(staticErrorHandler)
+    .pipe(staticErrorHandler<Grade>())
   }
 
   countries() {
     return this.http.get<Country[]>(`${this.baseUrl}/country`)
-    .pipe(staticErrorHandler)
+    .pipe(staticErrorHandler<Country>())
   }
 
   regions() {
     return this.http.get<Region[]>(`${this.baseUrl}/region`)
-    .pipe(staticErrorHandler)
+    .pipe(staticErrorHandler<Region>())
   }
 
   terminals() {
     return this.http.get<Terminal[]>(`${this.baseUrl}/terminal`)
-    .pipe(staticErrorHandler)
+    .pipe(staticErrorHandler<Terminal>())
   }
 
   companies() {
     return this.http.get<Company[]>(`${this.baseUrl}/company`)
-    .pipe(staticErrorHandler)
+    .pipe(staticErrorHandler<Company>())
   }
 }
