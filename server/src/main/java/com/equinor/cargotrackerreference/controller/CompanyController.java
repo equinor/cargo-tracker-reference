@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.Company;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
+import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
 import com.equinor.cargotrackerreference.controller.exceptions.InternalServerError;
 import com.equinor.cargotrackerreference.controller.exceptions.ResourceAlreadyExists;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
@@ -22,6 +24,7 @@ import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResourceConverter;
 import com.equinor.cargotrackerreference.repository.CompanyResourceRepository;
 import com.equinor.cargotrackerreference.service.CompanyService;
+import com.equinor.cargotrackerreference.service.JmsService;
 
 @RestController
 @RequestMapping(value = "/ctref/config")
@@ -33,6 +36,9 @@ public class CompanyController {
 	
 	@Autowired
 	private CompanyResourceRepository companyResourceRepository;
+	
+	@Autowired
+	private JmsService jmsService;
 		
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -52,9 +58,10 @@ public class CompanyController {
 	@RequestMapping(value = "/company", method = RequestMethod.POST)
 	public CompanyResource createCompany(@RequestBody CompanyResource companyResource) {
 		logger.debug("Creating company: {}", companyResource);
-		try {
-			Company company = CompanyResourceConverter.createCompanyFromResource(companyResource);
-			return CompanyResourceConverter.createCompanyResourceFromCompany(companyService.createCompany(company));
+		try {			
+			Company newCompany = companyService.createCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));
+			jmsService.sendJmsMessage(newCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "create");
+			return CompanyResourceConverter.createCompanyResourceFromCompany(newCompany);
 		} catch (DataIntegrityViolationException ex) {	
 			String errormessage = "Unable to create company " + companyResource.name + ". Company already exists";
 			logger.error(errormessage);
@@ -76,14 +83,17 @@ public class CompanyController {
 			logger.error("Unable to update company {}. Error: {}", companyResource, errormessage);
 			throw new InvalidOperationException(errormessage);
 		}
-		Company company = CompanyResourceConverter.createCompanyFromResource(companyResource);
-		return CompanyResourceConverter.createCompanyResourceFromCompany(companyService.updateCompany(company));
+		Company updatedCompany = companyService.updateCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));	
+		jmsService.sendJmsMessage(updatedCompany, "company", "update");
+		return CompanyResourceConverter.createCompanyResourceFromCompany(updatedCompany);
 	}
 
 	@RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
 	public void cancelCompany(@PathVariable(value = "id") UUID id) {
 		logger.debug("Cancelling company with id: {}", id);
 		companyService.cancelCompany(id);
+		Optional<Company> cancelledCompany = companyService.getCompany(id);
+		jmsService.sendJmsMessage(cancelledCompany, "company", "delete");
 	}
 	
 	@RequestMapping(value = "/company/{oldId}/replace", method = RequestMethod.PUT)

@@ -2,18 +2,8 @@ package com.equinor.cargotrackerreference.controller.resources;
 
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Immutable;
-
-@Entity
-@Table(name="TRADING_AREA")
-@Immutable
 public class TradingAreaIdNameProperty {
 	
-	@Id
 	public String id;
 	public String name;
 

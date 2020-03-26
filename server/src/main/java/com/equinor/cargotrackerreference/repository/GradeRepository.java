@@ -22,4 +22,5 @@ public interface GradeRepository extends CrudRepository<Grade, String> {
 	@Query(value = "UPDATE CTREF.grade SET trading_area_id = NULL where trading_area_id =?1", nativeQuery = true)
 	public void updateGradesWithDeletedTradingAreaToNull(String id);
 
+	public Iterable<Grade> findAllByOrderByName();
 }

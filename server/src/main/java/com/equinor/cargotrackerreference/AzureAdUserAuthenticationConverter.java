@@ -35,8 +35,8 @@ public class AzureAdUserAuthenticationConverter extends DefaultUserAuthenticatio
 	}
 	
 	public Authentication extractAuthentication(Map<String, ?> map) {
-		if (map.containsKey("upn")) {				
-			String upn = map.get("upn").toString();
+		if (map.containsKey("upn") || map.containsKey("preferred_username")) {				
+			String upn = map.containsKey("upn") ? map.get("upn").toString() :  map.get("preferred_username").toString();
 			Object principal = upn.substring(0, upn.indexOf("@"));
 			Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
 			if (userDetailsService != null) {
