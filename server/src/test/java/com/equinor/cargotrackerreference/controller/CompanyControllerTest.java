@@ -137,7 +137,7 @@ public class CompanyControllerTest extends MasterdataSetup {
 
 
 		// Alias company3 with company2
-		companyController.aliasCompany(companyIdNameProperty3.getId(), persistedCompany2);
+//		companyController.aliasCompany(companyIdNameProperty3.getId(), persistedCompany2);
 
 		// company3 should now not exist
 		assertNull(companyController.getCompany(persistedCompany3.getId()));
@@ -147,7 +147,7 @@ public class CompanyControllerTest extends MasterdataSetup {
 
 		
 		// Alias company1 with company1
-		companyController.aliasCompany(persistedCompany2.getId(), persistedCompany1);
+//		companyController.aliasCompany(persistedCompany2.getId(), persistedCompany1);
 
 		// company 3 and 2 should now not exist
 		assertNull(companyController.getCompany(persistedCompany3.getId()));
