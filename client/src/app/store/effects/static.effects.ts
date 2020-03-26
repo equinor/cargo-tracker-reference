@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, switchMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import * as StaticActions from '../actions/static.actions';
+import * as ViewActions from '../actions/view.actions';
 import { StaticService } from '../../static.service';
+import { errorHandler } from './error-operator';
 
 
 @Injectable()
@@ -14,7 +16,8 @@ export class StaticEffects {
     ofType(StaticActions.loadGrades),
     switchMap(() => this.service.grades()
       .pipe(
-        map(grades => StaticActions.loadGradesSuccess({ grades }))
+        map(grades => StaticActions.loadGradesSuccess({ grades })),
+        errorHandler
       )
     )
   ));
@@ -23,7 +26,8 @@ export class StaticEffects {
     ofType(StaticActions.loadCountries),
     switchMap(() => this.service.countries()
       .pipe(
-        map(countries => StaticActions.loadCountriesSuccess({ countries }))
+        map(countries => StaticActions.loadCountriesSuccess({ countries })),
+        errorHandler
       )
     )
   ));
@@ -32,7 +36,8 @@ export class StaticEffects {
     ofType(StaticActions.loadRegions),
     switchMap(() => this.service.regions()
       .pipe(
-        map(regions => StaticActions.loadRegionsSuccess({ regions }))
+        map(regions => StaticActions.loadRegionsSuccess({ regions })),
+        errorHandler
       )
     )
   ));
@@ -41,7 +46,8 @@ export class StaticEffects {
     ofType(StaticActions.loadTerminals),
     switchMap(() => this.service.terminals()
       .pipe(
-        map(terminals => StaticActions.loadTerminalsSuccess({ terminals }))
+        map(terminals => StaticActions.loadTerminalsSuccess({ terminals })),
+        errorHandler
       ))
   ));
 
@@ -49,7 +55,8 @@ export class StaticEffects {
     ofType(StaticActions.loadCompanies),
     switchMap(() => this.service.companies()
       .pipe(
-        map(companies => StaticActions.loadCompaniesSuccess({ companies }))
+        map(companies => StaticActions.loadCompaniesSuccess({ companies })),
+        errorHandler
       ))
   ));
 

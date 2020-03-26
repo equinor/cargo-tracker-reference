@@ -21,6 +21,7 @@ import { BASE_URL } from './tokens';
 import { MsalInterceptor, MsalModule, BroadcastService, MsalService, MSAL_CONFIG_ANGULAR } from '@azure/msal-angular';
 import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 import { RouterEffects } from './store/effects/router.effects';
+import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { RouterEffects } from './store/effects/router.effects';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    ErrorHandlerModule,
   ],
   providers: [
     MsalService,
