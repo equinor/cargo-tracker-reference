@@ -4,9 +4,8 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { Company } from '../shared/models/company';
 import { selectCompanies, selectCompanyFilter, selectCompanyLoading } from './store/company.selectors';
 import { CompanyFilter } from './company-filter';
-import { cancelCompany, filterCompany, mergeCompanies, saveCompany, verifyCompany } from './store/company.actions';
+import { cancelCompany, filterCompany, saveCompany, verifyCompany } from './store/company.actions';
 import { MatDialog } from '@angular/material';
-import { MergeCompanyComponent } from './merge-company/merge-company.component';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -48,15 +47,6 @@ export class CompaniesComponent implements OnInit {
 
   verify(company: Company) {
     this.store.dispatch(verifyCompany({ company }));
-  }
-
-  async merge(from: Company) {
-    const companies = await this.companies$.pipe(take(1)).toPromise();
-    const ref = this.dialog.open(MergeCompanyComponent, {
-      data: { company: from, companies }
-    });
-    const into = await ref.afterClosed().toPromise();
-    this.store.dispatch(mergeCompanies({ from, into }));
   }
 
   add() {

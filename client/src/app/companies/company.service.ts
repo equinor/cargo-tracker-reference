@@ -32,10 +32,6 @@ export class CompanyService {
       );
   }
 
-  merge(from: Company, into: Company) {
-    return this.http.put(`${this.baseUrl}/${from.id}/replace`, into);
-  }
-
   cancel(company: Company) {
     return this.http.delete(`${this.baseUrl}/${company.id}`);
   }

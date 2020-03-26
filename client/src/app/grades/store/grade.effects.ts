@@ -48,16 +48,6 @@ export class GradeEffects {
     )
   ));
 
-  merge$ = createEffect(() => this.actions$.pipe(
-    ofType(GradeActions.merge),
-    switchMap((action) => this.service.merge(action.payload.from, action.payload.into)
-      .pipe(
-        map(res => GradeActions.saveGradeSuccess()),
-        errorHandler
-        )
-    )
-  ));
-
   cancel$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.cancelGrade),
     switchMap(action => this.service.cancel(action.grade)

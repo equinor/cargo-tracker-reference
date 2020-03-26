@@ -25,8 +25,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { CompanyEffects } from './store/company.effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromCompany from './store/company.reducer';
-import { MergeCompanyComponent } from './merge-company/merge-company.component';
-import { FilterCompaniesPipe } from './merge-company/filter-companies.pipe';
 import { CompanyService } from './company.service';
 
 
@@ -35,8 +33,6 @@ import { CompanyService } from './company.service';
     CompaniesComponent,
     CompanyFilterComponent,
     CompanyListComponent,
-    MergeCompanyComponent,
-    FilterCompaniesPipe
   ],
   imports: [
     CommonModule,
@@ -63,7 +59,6 @@ import { CompanyService } from './company.service';
     CompanyService
   ],
   entryComponents: [
-    MergeCompanyComponent
   ]
 })
 export class CompaniesModule {
