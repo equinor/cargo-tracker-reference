@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { concatMap } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 
 import * as ViewActions from '../actions/view.actions';
+import { ErrorHandlerService } from '@ngx-stoui/error-handler';
 
 
 @Injectable()
@@ -20,7 +21,14 @@ export class ViewEffects {
     );
   });
 
+  errorHandler$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ViewActions.error),
+      map(act => this.errorHandler.handler(act.error))
+    )
+  }, {dispatch: false})
 
-  constructor(private actions$: Actions) {}
+
+  constructor(private actions$: Actions, private errorHandler: ErrorHandlerService) {}
 
 }

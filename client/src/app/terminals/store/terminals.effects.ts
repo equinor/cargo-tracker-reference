@@ -8,6 +8,8 @@ import { loading, saveTerminalSuccess } from './terminals.actions';
 import { TerminalsService } from '../terminals.service';
 import { loadTerminals, loadTerminalsSuccess } from '../../store/actions/static.actions';
 import { navigate } from 'src/app/store/actions/router.actions';
+import { errorHandler } from 'src/app/store/effects/error-operator';
+import { error } from 'src/app/store/actions/view.actions';
 
 
 @Injectable()
@@ -16,7 +18,8 @@ export class TerminalsEffects {
   save$ = createEffect(() => this.actions$.pipe(
     ofType(TerminalsActions.saveTerminal),
     switchMap(({ terminal }) => this.service.save(terminal).pipe(
-      map(() => saveTerminalSuccess())
+      map(() => saveTerminalSuccess()),
+      errorHandler
     ))
   ));
 
@@ -31,7 +34,7 @@ export class TerminalsEffects {
   ));
 
   loadingDone$ = createEffect(() => this.actions$.pipe(
-    ofType(TerminalsActions.saveTerminalSuccess, loadTerminalsSuccess),
+    ofType(TerminalsActions.saveTerminalSuccess, loadTerminalsSuccess, error),
     map(() => loading({ loading: false }))
   ));
 
