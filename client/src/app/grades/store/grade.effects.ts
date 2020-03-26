@@ -8,6 +8,8 @@ import { saveGradeSuccess } from './grade.actions';
 import { GradeService } from '../grade.service';
 import { loadGrades, loadGradesSuccess } from '../../store/actions/static.actions';
 import { navigate } from '../../store/actions/router.actions';
+import { errorHandler } from 'src/app/store/effects/error-operator';
+import { error } from 'src/app/store/actions/view.actions';
 
 
 @Injectable()
@@ -16,7 +18,8 @@ export class GradeEffects {
   upload$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.uploadGrades),
     switchMap(action => this.service.upload(action.file).pipe(
-      map(() => saveGradeSuccess())
+      map(() => saveGradeSuccess()),
+      errorHandler
     ))
   ));
 
@@ -29,7 +32,8 @@ export class GradeEffects {
     ofType(GradeActions.saveGrade),
     switchMap(action => this.service.save(action.grade)
       .pipe(
-        map(res => GradeActions.saveGradeSuccess())
+        map(res => GradeActions.saveGradeSuccess()),
+        errorHandler
       ))
     )
   );
@@ -38,7 +42,8 @@ export class GradeEffects {
     ofType(GradeActions.verifyGrade),
     switchMap(action => this.service.verify(action.grade)
       .pipe(
-        map(res => GradeActions.saveGradeSuccess())
+        map(res => GradeActions.saveGradeSuccess()),
+        errorHandler
       )
     )
   ));
@@ -46,7 +51,10 @@ export class GradeEffects {
   merge$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.merge),
     switchMap((action) => this.service.merge(action.payload.from, action.payload.into)
-      .pipe(map(res => GradeActions.saveGradeSuccess()))
+      .pipe(
+        map(res => GradeActions.saveGradeSuccess()),
+        errorHandler
+        )
     )
   ));
 
@@ -54,7 +62,8 @@ export class GradeEffects {
     ofType(GradeActions.cancelGrade),
     switchMap(action => this.service.cancel(action.grade)
       .pipe(
-        map(res => GradeActions.saveGradeSuccess())
+        map(res => GradeActions.saveGradeSuccess()),
+        errorHandler
       ))
   ));
 
@@ -64,7 +73,7 @@ export class GradeEffects {
   ));
 
   loadingDone$ = createEffect(() => this.actions$.pipe(
-    ofType(GradeActions.saveGradeSuccess, loadGradesSuccess),
+    ofType(GradeActions.saveGradeSuccess, loadGradesSuccess, error),
     map(() => GradeActions.loading({ loading: false }))
   ));
 

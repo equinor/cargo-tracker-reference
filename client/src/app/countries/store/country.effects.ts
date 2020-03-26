@@ -6,6 +6,7 @@ import * as CountryActions from './country.actions';
 import { CountryService } from '../country.service';
 import { navigate } from '../../store/actions/router.actions';
 import { loadCountries } from '../../store/actions/static.actions';
+import { errorHandler } from 'src/app/store/effects/error-operator';
 
 
 @Injectable()
@@ -15,7 +16,8 @@ export class CountryEffects {
     ofType(CountryActions.saveCountry),
     switchMap(action => this.service.save(action.country)
       .pipe(
-        map(() => CountryActions.saveCountrySuccess())
+        map(() => CountryActions.saveCountrySuccess()),
+        errorHandler
       )
     )
   ));

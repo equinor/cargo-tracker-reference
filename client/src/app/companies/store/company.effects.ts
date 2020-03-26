@@ -7,6 +7,8 @@ import * as CompanyActions from './company.actions';
 import { navigate } from '../../store/actions/router.actions';
 import { CompanyService } from '../company.service';
 import { loadCompanies, loadCompaniesSuccess } from '../../store/actions/static.actions';
+import { errorHandler } from 'src/app/store/effects/error-operator';
+import { error } from 'src/app/store/actions/view.actions';
 
 
 @Injectable()
@@ -20,28 +22,32 @@ export class CompanyEffects {
   save$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.saveCompany),
     switchMap(({ company }) => this.service.save(company).pipe(
-      map(() => CompanyActions.saveCompanySuccess())
+      map(() => CompanyActions.saveCompanySuccess()),
+      errorHandler
     ))
   ));
 
   verify$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.verifyCompany),
     switchMap(({ company }) => this.service.verify(company).pipe(
-      map(() => CompanyActions.saveCompanySuccess())
+      map(() => CompanyActions.saveCompanySuccess()),
+      errorHandler
     ))
   ));
 
   merge$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.mergeCompanies),
     switchMap(({ from, into }) => this.service.merge(from, into).pipe(
-      map(() => CompanyActions.saveCompanySuccess())
+      map(() => CompanyActions.saveCompanySuccess()),
+      errorHandler
     ))
   ));
 
   cancel$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.cancelCompany),
     switchMap(({ company }) => this.service.cancel(company).pipe(
-      map(() => CompanyActions.saveCompanySuccess())
+      map(() => CompanyActions.saveCompanySuccess()),
+      errorHandler
     ))
   ));
 
@@ -62,7 +68,7 @@ export class CompanyEffects {
   ));
 
   loadingDone$ = createEffect(() => this.actions$.pipe(
-    ofType(CompanyActions.saveCompanySuccess, loadCompaniesSuccess),
+    ofType(CompanyActions.saveCompanySuccess, loadCompaniesSuccess, error),
     map(() => CompanyActions.companyLoading({ loading: false }))
   ));
 

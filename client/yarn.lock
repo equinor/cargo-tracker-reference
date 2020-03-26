@@ -840,6 +840,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ngx-stoui/error-handler@^7.1.0-BETA.2":
+  version "7.1.0-BETA.2"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/error-handler/-/error-handler-7.1.0-BETA.2.tgz#c407c58b2822d85638998595983ce2228594e6a1"
+  integrity sha512-8/sAd/UAoORWTUOCCGDiSGRNEqiaWPRfTfZn5Wt9rvn+Nnyf4fiy7S0CIcBI3msZjYaLWHnGsT0gS29rgEPxdA==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngx-stoui/form@^7.0.4":
   version "7.0.4"
   resolved "https://registry.npmjs.org/@ngx-stoui/form/-/form-7.0.4.tgz#6196fab2275f61b885c64fe6e51d977bdd10ebd8"

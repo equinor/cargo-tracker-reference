@@ -30,6 +30,7 @@
     "@ngx-stoui/common": "^7.1.1",
     "@ngx-stoui/core": "^7.0.1",
     "@ngx-stoui/datatable": "^7.0.1",
+    "@ngx-stoui/error-handler": "^7.1.0-BETA.2",
     "@ngx-stoui/form": "^7.0.4",
     "@types/adal-angular": "^1.0.1",
     "adal-angular": "^1.0.17",
