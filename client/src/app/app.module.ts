@@ -18,7 +18,7 @@ import { ViewEffects } from './store/effects/view.effects';
 import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
-import { MsalInterceptor, MsalModule, BroadcastService, MsalService } from '@azure/msal-angular';
+import { MsalInterceptor, MsalModule, BroadcastService, MsalService, MSAL_CONFIG_ANGULAR } from '@azure/msal-angular';
 import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 import { RouterEffects } from './store/effects/router.effects';
 
@@ -59,7 +59,8 @@ import { RouterEffects } from './store/effects/router.effects';
     StaticService,
     { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'settings', text: 'CT Reference' } },
     { provide: BASE_URL, useValue: '/ctref' },
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+    { provide: MSAL_CONFIG_ANGULAR, useValue: {}},
   ],
   bootstrap: [ AppComponent ]
 })

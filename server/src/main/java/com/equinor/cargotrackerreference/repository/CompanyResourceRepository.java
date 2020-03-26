@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 import com.equinor.cargotrackerreference.controller.resources.CompanyResource;
 
 public interface CompanyResourceRepository extends Repository<CompanyResource, String>, CompanyResourceRepositoryCustom {
-	
+	// TODO HEH: Remove and use only one company repository
 	@Query("SELECT DISTINCT c FROM CompanyResource c LEFT JOIN FETCH c.aliases a order by c.name")
 	public Iterable<CompanyResource> findAll();
 	

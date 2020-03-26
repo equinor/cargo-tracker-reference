@@ -1,5 +1,6 @@
 package com.equinor.cargotrackerreference.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.Region;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
+import com.equinor.cargotrackerreference.service.JmsService;
 import com.equinor.cargotrackerreference.service.RegionService;
 
 @RestController
@@ -24,6 +26,9 @@ public class RegionController {
 
 	@Autowired
 	private RegionService regionService;
+	
+	@Autowired
+	private JmsService jmsService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -43,7 +48,9 @@ public class RegionController {
 	public Region createRegion(@RequestBody Region region) {
 		logger.debug("Creating region {}", region);
 		try {
-			return regionService.createRegion(region);
+			Region newRegion = regionService.createRegion(region);
+			jmsService.sendJmsMessage(newRegion, "region", "create");
+			return newRegion;
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to create region. Already exists a region with name " + region.getName();
 			logger.error(errormessage);
@@ -54,14 +61,18 @@ public class RegionController {
 	@RequestMapping(value = "/region/{id}", method = RequestMethod.PUT)
 	public Region updateRegion(@PathVariable(value = "id") UUID id, @RequestBody Region region) {
 		logger.debug("Updating region {}", region);
-		return regionService.updateRegion(id, region);
+		Region updatedRegion = regionService.updateRegion(id, region);
+		jmsService.sendJmsMessage(updatedRegion, "region", "update");
+		return updatedRegion;
 	}
 
 	@RequestMapping(value = "/region/{id}", method = RequestMethod.DELETE)
 	public void deleteRegion(@PathVariable(value = "id") UUID id) {
 		logger.debug("Deleting region with id {}", id);
 		try {
+			Optional<Region> regionToBeDeleted = regionService.getRegion(id);
 			regionService.deleteRegion(id);
+			jmsService.sendJmsMessage(regionToBeDeleted, "region", "delete");
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to delete region with id "+ id + ". Region is in use.";
 			logger.error(errormessage);

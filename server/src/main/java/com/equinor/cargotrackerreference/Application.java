@@ -7,14 +7,14 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.microsoft.applicationinsights.web.internal.WebRequestTrackingFilter;
 
 @SpringBootApplication
 @Configuration
-@EnableScheduling
-@EntityScan(basePackages = {"com.equinor.cargotracker.common.domain", "com.equinor.cargotrackerreference.domain", "com.equinor.cargotrackerreference.controller.resources"}) //TODO Remove @Entity from resources
+@EntityScan(basePackages = {"com.equinor.cargotracker.common.domain", 
+		"com.equinor.cargotrackerreference.domain", 
+		"com.equinor.cargotrackerreference.controller.resources"})
 public class Application {
 
 
