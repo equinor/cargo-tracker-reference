@@ -31,7 +31,6 @@ import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceConverter;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceExcel;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceIterator;
-import com.equinor.cargotrackerreference.controller.resources.IdNameProperty;
 import com.equinor.cargotrackerreference.domain.FileUpload;
 import com.equinor.cargotrackerreference.service.FileUploadService;
 import com.equinor.cargotrackerreference.service.GradeService;
@@ -103,19 +102,19 @@ public class GradeController {
 		return GradeResourceConverter.createResourceFromGrade(updatedGrade);
 	}
 
-	@RequestMapping(value = "/grade/{oldId}/replace", method = RequestMethod.PUT)
-	public GradeResource replaceGrade(@PathVariable(value = "oldId") UUID oldId, @RequestBody GradeResource grade) {
-		logger.debug("Replacing grade with id {} to {}", oldId, grade);
-		if (oldId == null || grade.id == null) {
-			String errormessage = "Unable to replace grade. Need id for both from- and to-grade.";
-			logger.error(errormessage);
-			throw new InvalidOperationException(errormessage);
-		}
-		gradeService.replaceGrade(oldId, IdNameProperty.createGradeReference(grade));
-		Optional<Grade> updatedGrade = gradeService.getGrade(grade.id); 
-		jmsService.sendJmsMessage(updatedGrade, "grade", "update");
-		return grade;
-	}
+//	@RequestMapping(value = "/grade/{oldId}/replace", method = RequestMethod.PUT)
+//	public GradeResource replaceGrade(@PathVariable(value = "oldId") UUID oldId, @RequestBody GradeResource grade) {
+//		logger.debug("Replacing grade with id {} to {}", oldId, grade);
+//		if (oldId == null || grade.id == null) {
+//			String errormessage = "Unable to replace grade. Need id for both from- and to-grade.";
+//			logger.error(errormessage);
+//			throw new InvalidOperationException(errormessage);
+//		}
+//		gradeService.replaceGrade(oldId, IdNameProperty.createGradeReference(grade));
+//		Optional<Grade> updatedGrade = gradeService.getGrade(grade.id); 
+//		jmsService.sendJmsMessage(updatedGrade, "grade", "update");
+//		return grade;
+//	}
 
 	@RequestMapping(value = "/grade/{id}/verify", method = RequestMethod.PATCH)
 	public GradeResource verifyGrade(@PathVariable(value = "id") UUID id, @RequestBody GradeResource grade) {
