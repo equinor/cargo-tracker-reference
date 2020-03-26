@@ -27,8 +27,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { GradeEffects } from './store/grade.effects';
 import { GradeListComponent } from './grade-list/grade-list.component';
 import { CountryNameFromIdPipe } from './grade-list/country-name-from-id.pipe';
-import { MergeGradeComponent } from './merge-grade/merge-grade.component';
-import { FilterGradePipe } from './merge-grade/filter-grade.pipe';
 
 
 @NgModule({
@@ -37,11 +35,6 @@ import { FilterGradePipe } from './merge-grade/filter-grade.pipe';
     GradeFilterComponent,
     GradeListComponent,
     CountryNameFromIdPipe,
-    MergeGradeComponent,
-    FilterGradePipe,
-  ],
-  entryComponents: [
-    MergeGradeComponent
   ],
   imports: [
     CommonModule,

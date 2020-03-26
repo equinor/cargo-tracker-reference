@@ -35,8 +35,3 @@ export const uploadGrades = createAction(
   '[Grade] Upload',
   props<{ file: File }>()
 );
-
-export const merge = createAction(
-  '[Grade] Merge',
-  props<{ payload: { from: Grade, into: Grade } }>()
-);

@@ -17,11 +17,6 @@ export const verifyCompany = createAction(
   props<{ company: Company }>()
 );
 
-export const mergeCompanies = createAction(
-  '[Company] Merge',
-  props<{ from: Company, into: Company }>()
-);
-
 export const cancelCompany = createAction(
   '[Company] Cancel',
   props<{ company: Company }>()

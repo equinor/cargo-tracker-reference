@@ -26,10 +26,6 @@ export class GradeService {
   }
 
 
-  public merge(from: Grade, into: Grade) {
-    return this.http.put<Grade>(`${this.baseUrl}/${from.id}/replace`, into);
-  }
-
   public save(grade: Grade) {
     if ( grade.id ) {
       return this.update(grade);

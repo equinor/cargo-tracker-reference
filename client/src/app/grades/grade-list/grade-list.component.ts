@@ -19,8 +19,6 @@ export class GradeListComponent implements AfterViewInit {
   @Output()
   save = new EventEmitter<Grade>();
   @Output()
-  merge = new EventEmitter<Grade>();
-  @Output()
   verify = new EventEmitter<Grade>();
   @Output()
   cancelGrade = new EventEmitter<Grade>();

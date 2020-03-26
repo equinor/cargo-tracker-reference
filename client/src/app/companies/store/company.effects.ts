@@ -35,14 +35,6 @@ export class CompanyEffects {
     ))
   ));
 
-  merge$ = createEffect(() => this.actions$.pipe(
-    ofType(CompanyActions.mergeCompanies),
-    switchMap(({ from, into }) => this.service.merge(from, into).pipe(
-      map(() => CompanyActions.saveCompanySuccess()),
-      errorHandler
-    ))
-  ));
-
   cancel$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.cancelCompany),
     switchMap(({ company }) => this.service.cancel(company).pipe(
@@ -60,7 +52,6 @@ export class CompanyEffects {
     ofType(
       CompanyActions.saveCompany,
       CompanyActions.cancelCompany,
-      CompanyActions.mergeCompanies,
       CompanyActions.verifyCompany,
       loadCompanies
     ),

@@ -17,8 +17,6 @@ export class CompanyListComponent extends TableChips<Company> implements AfterVi
   @Output()
   verify = new EventEmitter<Company>();
   @Output()
-  merge = new EventEmitter<Company>();
-  @Output()
   cancel = new EventEmitter<Company>();
   public columns: Column[];
 

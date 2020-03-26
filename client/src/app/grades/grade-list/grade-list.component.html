@@ -30,14 +30,10 @@
 
 <ng-template #actionsTmpl
              let-row="row">
-  <ng-container *ngIf="row.source === 'Cargo Tracking'">
+  <ng-container *ngIf="row.source === 'Cargo Tracking' && !row.cancelled">
     <button mat-icon-button
             (click)="cancelGrade.emit(row)">
       <mat-icon>delete</mat-icon>
-    </button>
-    <button (click)="merge.emit(row)"
-            mat-icon-button>
-      <mat-icon>shuffle</mat-icon>
     </button>
   </ng-container>
 </ng-template>
