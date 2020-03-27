@@ -95,30 +95,6 @@ public class CompanyController {
 		jmsService.sendJmsMessage(cancelledCompany, "company", "delete");
 	}
 	
-//	@RequestMapping(value = "/company/{oldId}/replace", method = RequestMethod.PUT)
-//	public CompanyResource replaceCompany(@PathVariable(value = "oldId") UUID oldId,  @RequestBody CompanyResource company) {
-//		logger.debug("Replacing company. Company being replaced has id: {} Replaced by: {}", oldId, company);
-//		CompanyIdNameProperty toCompany = new CompanyIdNameProperty(company.getId(), company.name, company.shortName);
-//		//TODO Check effect
-//		//analyticsCargoService.replaceCompanyOnCargoes(oldId, toCompany);
-//		companyService.cancelCompany(oldId);
-//		
-//		return company;
-//	}
-	
-//	@RequestMapping(value = "/company/{oldId}/alias", method = RequestMethod.PUT)
-//	public CompanyResource aliasCompany(@PathVariable(value = "oldId") UUID oldId, @RequestBody CompanyResource toCompanyResource) {
-//		logger.debug("Setting company as alias, id: {} Should be an alias of: {}", oldId, toCompanyResource);
-//		
-//		//TODO Check effect
-//		//analyticsCargoService.replaceCompanyOnCargoes(oldId, new CompanyIdNameProperty(toCompanyResource.getId(), toCompanyResource.name, toCompanyResource.shortName));
-//		
-//		Company persistedCompany = companyService.addAliasToCompany(oldId, CompanyResourceConverter.createCompanyFromResource(toCompanyResource));
-//		
-//		companyService.cancelCompany(oldId);
-//		return CompanyResourceConverter.createCompanyResourceFromCompany(persistedCompany);
-//	}
-	
 	@RequestMapping(value = "/company/{id}/verify", method = RequestMethod.PATCH)
 	public CompanyResource verifyCompany(@PathVariable(value = "id") UUID id, @RequestBody CompanyResource companyResource) {
 		logger.debug("Verifying company {}", companyResource);
