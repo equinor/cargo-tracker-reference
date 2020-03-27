@@ -23,7 +23,7 @@ import com.equinor.cargotrackerreference.service.TradingAreaService;
 import com.microsoft.applicationinsights.core.dependencies.google.common.collect.Iterables;
 
 @RestController
-@RequestMapping(value = "/ctref/backend")
+@RequestMapping(value = "/backend")
 @CrossOrigin(origins = "*")
 public class BackendController {
 
