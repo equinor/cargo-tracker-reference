@@ -1101,37 +1101,32 @@
     rxjs "6.5.4"
     webpack-sources "1.4.3"
 
-"@ngx-stoui/common@^7.1.1":
-  version "7.1.1"
-  resolved "https://registry.npmjs.org/@ngx-stoui/common/-/common-7.1.1.tgz#b1b1475a71042289e59bdd0e51cd7c8ead4a6ec6"
-  dependencies:
-    tslib "^1.9.0"
+"@ngx-stoui/common@^9.0.0-BETA.0":
+  version "9.0.0-BETA.0"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/common/-/common-9.0.0-BETA.0.tgz#fc37dc394bb8b1660eff9f0fde8910b86da376e4"
+  integrity sha512-1pDVpQ4caGkH4gn0ICXzI27M22kn7EHc7fFUVEGAwdl4UTZNhFydadddGPNBEpryqlmy9sHH54TkYvj9rP8XSA==
 
-"@ngx-stoui/core@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/@ngx-stoui/core/-/core-7.0.1.tgz#44eb84004af1c6f086d28e3751c6dcd6cd64dbca"
+"@ngx-stoui/core@^9.0.0-BETA.1":
+  version "9.0.0-BETA.1"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/core/-/core-9.0.0-BETA.1.tgz#b03d232f7717b32d2c4374984ee550a6976b0359"
+  integrity sha512-Z8pOeC01IZ9jo99I7Ks0QyKWENvunKmCv6H8seHhMlNiCgvTCkTS7Y09O/DSFjgMtWseTmC1pzvKp3phe7Ughg==
   dependencies:
     date-fns "^1.29.0"
-    tslib "^1.9.0"
 
-"@ngx-stoui/datatable@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/@ngx-stoui/datatable/-/datatable-7.0.1.tgz#df6dd36010d1689e3f7c811476a92ae92d4350ec"
-  dependencies:
-    tslib "^1.9.0"
+"@ngx-stoui/datatable@^9.0.0-BETA.1":
+  version "9.0.0-BETA.1"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/datatable/-/datatable-9.0.0-BETA.1.tgz#f64591a92ed6a3c5de5afa98d74ee8f84448cae5"
+  integrity sha512-0n124Y6JnrOUMnrM2bptru30xQQU/C051bqirOfTA9neqgJS8LUQq++t3KwxsaWZTk6vzbMZci92g0clXv0cyg==
 
-"@ngx-stoui/error-handler@^7.1.0-BETA.2":
-  version "7.1.0-BETA.2"
-  resolved "https://registry.yarnpkg.com/@ngx-stoui/error-handler/-/error-handler-7.1.0-BETA.2.tgz#c407c58b2822d85638998595983ce2228594e6a1"
-  integrity sha512-8/sAd/UAoORWTUOCCGDiSGRNEqiaWPRfTfZn5Wt9rvn+Nnyf4fiy7S0CIcBI3msZjYaLWHnGsT0gS29rgEPxdA==
-  dependencies:
-    tslib "^1.9.0"
+"@ngx-stoui/error-handler@^9.0.0-BETA.0":
+  version "9.0.0-BETA.0"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/error-handler/-/error-handler-9.0.0-BETA.0.tgz#784987401b81643d5e817f5a9bc64d48ec502da1"
+  integrity sha512-zOfe8DtOIlhoUzAge7KoWaL8O4Xomuxyy+aZorxWuM017gy6Q2DlAFLe8aE80XEHhP1QhWhBxG01EYGmxwq38g==
 
-"@ngx-stoui/form@^7.0.4":
-  version "7.0.4"
-  resolved "https://registry.npmjs.org/@ngx-stoui/form/-/form-7.0.4.tgz#6196fab2275f61b885c64fe6e51d977bdd10ebd8"
-  dependencies:
-    tslib "^1.9.0"
+"@ngx-stoui/form@^9.0.0-BETA.0":
+  version "9.0.0-BETA.0"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/form/-/form-9.0.0-BETA.0.tgz#5e96c43bd74a571c44dcc769b5fc7d48012a0fa2"
+  integrity sha512-59nu84UIuRem5xFpFi1DUNj6XPOL/qRs/fXDgIAEucxRyJ4RNYplvffa3vwMQdfBcdDWLH3P2Y25H30s8saf+A==
 
 "@npmcli/ci-detect@^1.0.0":
   version "1.2.0"
