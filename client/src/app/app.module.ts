@@ -13,7 +13,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StaticEffects } from './store/effects/static.effects';
-import { NavigationActionTiming, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { NavigationActionTiming, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 import { ViewEffects } from './store/effects/view.effects';
 import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -47,7 +47,7 @@ import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([ StaticEffects, ViewEffects, RouterEffects ]),
-    StoreRouterConnectingModule.forRoot({
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer,
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     MsalModule,
