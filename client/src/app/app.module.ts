@@ -19,7 +19,10 @@ import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { MsalInterceptor, MsalModule, BroadcastService, MsalService, MSAL_CONFIG_ANGULAR } from '@azure/msal-angular';
-import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterEffects } from './store/effects/router.effects';
 import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
 

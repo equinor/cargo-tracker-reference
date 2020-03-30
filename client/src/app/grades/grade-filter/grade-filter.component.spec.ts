@@ -3,7 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GradeFilterComponent } from './grade-filter.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { StoSlideToggleModule } from '@ngx-stoui/form';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 

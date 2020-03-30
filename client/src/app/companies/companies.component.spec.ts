@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CompaniesComponent } from './companies.component';
 import { MemoizedSelector, Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Company } from '../shared/models/company';
 import * as companiesState from './store/company.reducer';
 import * as fromCompanies from './store/company.selectors';

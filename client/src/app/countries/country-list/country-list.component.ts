@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, Vie
 import { Country } from '../../shared/models/location';
 import { Region } from '../../shared/models/region';
 import { Column } from '@ngx-stoui/datatable';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'ctref-country-list',
