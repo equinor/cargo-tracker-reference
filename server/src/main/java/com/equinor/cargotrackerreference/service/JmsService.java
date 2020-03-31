@@ -6,15 +6,12 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.stereotype.Service;
 
+import com.equinor.cargotracker.common.utils.Constants;
 import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
+import com.microsoft.applicationinsights.TelemetryClient;
 
 @Service
 public class JmsService {
@@ -46,7 +45,10 @@ public class JmsService {
 
 	@Autowired
 	private Environment env;
-   	
+
+	@Autowired
+	private TelemetryClient telemetry;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 	public void sendJmsMessage(Object message, String typeid, String operation) {
@@ -56,7 +58,8 @@ public class JmsService {
 		if (Arrays.asList(env.getActiveProfiles()).contains("h2")) {
 			return;
 		}
-
+		telemetry.trackEvent(
+				Constants.CARGO_TRACKER_REFERENCE_SHORT + " sending message to " + Constants.CRUDE_CARGO_TRACKER_SHORT);
 		try {
 
 			// Adding properties needed for the qpid library
@@ -69,7 +72,6 @@ public class JmsService {
 
 			ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("myFactoryLookup");
 			Connection connection = connectionFactory.createConnection(keyName, key);
-			connection.setExceptionListener(new ServiceBusExceptionListener());
 			connection.start();
 
 			Topic serviceBusTopic = (Topic) context.lookup("myTopicLookup");
@@ -93,19 +95,10 @@ public class JmsService {
 
 			sendSession.close();
 			connection.close();
-		} catch (JMSException e) {
-			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			telemetry.trackEvent(Constants.CARGO_TRACKER_REFERENCE_SHORT + " failed sending message to "
+					+ Constants.CRUDE_CARGO_TRACKER_SHORT);
+			logger.error("Failed sending message to " + Constants.CRUDE_CARGO_TRACKER, e);
 		}
 	}
-	
-	private static class ServiceBusExceptionListener implements ExceptionListener {
-		private final Logger logger = LoggerFactory.getLogger(this.getClass());		
-		@Override
-		public void onException(JMSException exception) {
-			logger.debug("[CLIENT] Connection ExceptionListener fired, exiting.");
-			exception.printStackTrace(System.out);			
-		}
-	}	
 }
