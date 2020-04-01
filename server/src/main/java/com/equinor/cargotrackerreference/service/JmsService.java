@@ -58,8 +58,7 @@ public class JmsService {
 		if (Arrays.asList(env.getActiveProfiles()).contains("h2")) {
 			return;
 		}
-		telemetry.trackEvent(
-				Constants.CARGO_TRACKER_REFERENCE_SHORT + " sending message to " + Constants.CRUDE_CARGO_TRACKER_SHORT);
+
 		try {
 
 			// Adding properties needed for the qpid library
@@ -96,9 +95,9 @@ public class JmsService {
 			sendSession.close();
 			connection.close();
 		} catch (Exception e) {
-			telemetry.trackEvent(Constants.CARGO_TRACKER_REFERENCE_SHORT + " failed sending message to "
-					+ Constants.CRUDE_CARGO_TRACKER_SHORT);
+			telemetry.trackEvent(Constants.CARGO_TRACKER_REFERENCE_SHORT + " - " + Constants.FAILED + " sending message.");
 			logger.error("Failed sending message to " + Constants.CRUDE_CARGO_TRACKER, e);
 		}
+		telemetry.trackEvent(Constants.CARGO_TRACKER_REFERENCE_SHORT + " - " + Constants.SUCCESS + " sending message.");
 	}
 }
