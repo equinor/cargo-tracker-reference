@@ -54,5 +54,5 @@ export const loadEnvironmentSuccess = createAction(
 );
 
 export const loadEnvironment = createAction(
-  '[Static] Load environment info success'
+  '[Static] Load environment info'
 );
