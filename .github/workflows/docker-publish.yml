@@ -52,3 +52,23 @@ jobs:
           tags: "${{steps.get_branch.outputs.BRANCH}}"
           workdir: server
           buildargs: PKG_USERNAME,PKG_PASSWORD
+
+  deploy-radix:
+    name: Deploy radix for environment
+    needs: [publish-client, publish-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get branch name
+        id: get_branch
+        run: echo ::set-output name=BRANCH::${GITHUB_REF/refs\/heads\//}
+      - name: Deploy API on Radix
+        uses: equinor/radix-github-actions@master
+        env:
+          APP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.RADIX_DEPLOY_SECRET }}
+        with:
+          args: >
+            create job
+            deploy
+            -a cargo-tracker
+            -e ${{ steps.get_branch.outputs.BRANCH }}
+            -f
