@@ -1,0 +1,85 @@
+{
+  "name": "Cargo Tracker",
+  "groups": [
+    {
+      "name": "Crude Cargo Tracker",
+      "icon": "directions_boat",
+      "items": [
+        {
+          "icon": "view_list",
+          "name": "Capture",
+          "command": {
+            "type": "externalLink",
+            "arguments": [
+              "/crude/capture"
+            ]
+          },
+          "svgIcon": false,
+          "subItems": []
+        },
+        {
+          "icon": "local_printshop",
+          "name": "Wetlist",
+          "command": {
+            "type": "externalLink",
+            "arguments": [
+              "/crude/wetlist"
+            ]
+          },
+          "svgIcon": false,
+          "subItems": []
+        }
+      ],
+      "hasDivider": false,
+      "svgIcon": false
+    },
+    {
+      "hasDivider": true,
+      "svgIcon": false,
+      "icon": null,
+      "items": [
+        {
+          "name": "Grades",
+          "subItems": [],
+          "icon": "settings",
+          "svgIcon": false,
+          "command": {
+            "type": "internalLink",
+            "arguments": ["grades"]
+          }
+        },
+        {
+          "name": "Companies",
+          "subItems": [],
+          "icon": "settings",
+          "svgIcon": false,
+          "command": {
+            "type": "internalLink",
+            "arguments": ["companies"]
+          }
+        },
+        {
+          "name": "Countries",
+          "subItems": [],
+          "svgIcon": false,
+          "icon": "settings",
+          "command": {
+            "type": "internalLink",
+            "arguments": ["countries"]
+          }
+        },
+        {
+          "name": "Terminals",
+          "subItems": [],
+          "svgIcon": false,
+          "icon": "settings",
+          "command": {
+            "type": "internalLink",
+            "arguments": ["terminals"]
+          }
+        }
+      ]
+    }
+  ],
+  "id": "cct"
+}

@@ -8,10 +8,11 @@ import { Observable } from 'rxjs';
 import { Breadcrumb } from '@ngx-stoui/common';
 import { selectRouteData, selectRouteTitle } from './store/selectors/router.selectors';
 import { Account } from 'msal';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
-  // { routerLink: [ '/', 'regions' ], label: 'Regions', sort: 1 },
   { routerLink: [ '/', 'countries' ], label: 'Countries', sort: 2 },
   { routerLink: [ '/', 'terminals' ], label: 'Terminals', sort: 3 },
   { routerLink: [ '/', 'companies' ], label: 'Companies', sort: 4 },
@@ -26,11 +27,14 @@ const modules = [
 export class AppComponent implements OnInit {
   public user: Account;
   public breadCrumbs$: Observable<Breadcrumb[]>;
-  home = {
-    command: () => this.router.navigate([ '/' ])
-  };
 
-  constructor(private store: Store<any>, private msal: MsalService, private router: Router) {
+  constructor(
+    private store: Store<any>,
+    private msal: MsalService,
+    private router: Router,
+    private sanitizer: DomSanitizer,
+    private iconRegistry: MatIconRegistry
+  ) {
   }
 
   ngOnInit() {
@@ -44,6 +48,7 @@ export class AppComponent implements OnInit {
     this.user = this.msal.getAccount();
     this.breadCrumbs$ = this.store
       .pipe(select(selectRouteTitle));
+    this.iconRegistry.addSvgIcon('tops', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tops.svg'));
   }
 
   private handleAuthCallback() {
@@ -76,6 +81,11 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.msal.logout();
+  }
+
+  navigate(commands: string[]) {
+    this.router.navigate(commands)
+      .catch(console.error);
   }
 }
 

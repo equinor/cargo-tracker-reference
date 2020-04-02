@@ -1,20 +1,5 @@
-<sto-app-header [breadCrumbs]="breadCrumbs$ | async"
-                [homeBreadCrumbConfig]="home">
-  <button mat-icon-button
-          [matMenuTriggerFor]="menu"
-          *ngIf="user">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <button mat-stroked-button
-          color="primary"
-          *ngIf="!user">
-    Sign in
-  </button>
-</sto-app-header>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item class="dense">{{ user?.name }}</button>
-  <button mat-menu-item class="dense" (click)="logout()">Sign out</button>
-</mat-menu>
+<ctref-navigation [breadCrumbs]="breadCrumbs$ | async" (logout)="logout()" (navigate)="navigate($event)"></ctref-navigation>
+
 
 <div class="wrapper">
   <router-outlet *ngIf="user"></router-outlet>
@@ -40,3 +25,4 @@
     </mat-card>
   </div>
 </div>
+

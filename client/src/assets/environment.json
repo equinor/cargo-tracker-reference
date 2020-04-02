@@ -1,0 +1,5 @@
+{
+  "topsUrl": "https://topsst.equinor.com",
+  "development": true,
+  "environment": "LOCAL"
+}
