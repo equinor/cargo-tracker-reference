@@ -1,0 +1,5 @@
+{
+  "topsUrl": "${TOPSURL}",
+  "development": false,
+  "environment": "${RADIX_ENVIRONMENT}"
+}
