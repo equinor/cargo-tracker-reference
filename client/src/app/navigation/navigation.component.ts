@@ -54,6 +54,9 @@ export class NavigationComponent implements OnChanges {
   }
 
   openMenu() {
+    if (!this.user) {
+      return;
+    }
     this.isOpen = true;
   }
 
