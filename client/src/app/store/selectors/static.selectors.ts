@@ -10,3 +10,4 @@ export const selectCountries = createSelector(selectStaticState, state => state.
 export const selectRegions = createSelector(selectStaticState, state => state.regions);
 export const selectTerminals = createSelector(selectStaticState, state => state.terminals);
 export const selectCompanies = createSelector(selectStaticState, state => state.companies);
+export const selectEnvironment = createSelector(selectStaticState, state => state.environment);

@@ -1,5 +1,8 @@
-<ctref-navigation [user]="user" [breadCrumbs]="breadCrumbs$ | async" (logout)="logout()" (navigate)="navigate($event)"></ctref-navigation>
-
+<ctref-navigation [environment]="environment$ | async"
+                  [user]="user"
+                  [breadCrumbs]="breadCrumbs$ | async"
+                  (logout)="logout()"
+                  (navigate)="navigate($event)"></ctref-navigation>
 
 <div class="wrapper">
   <router-outlet *ngIf="user"></router-outlet>

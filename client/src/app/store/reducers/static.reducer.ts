@@ -13,6 +13,7 @@ export interface State {
   grades: Grade[];
   terminals: Terminal[];
   companies: Company[];
+  environment: any;
 }
 
 export const initialState: State = {
@@ -20,7 +21,8 @@ export const initialState: State = {
   countries: null,
   grades: [],
   terminals: null,
-  companies: null
+  companies: null,
+  environment: {}
 };
 
 const staticReducer = createReducer(
@@ -30,6 +32,7 @@ const staticReducer = createReducer(
   on(StaticActions.loadRegionsSuccess, (state, { regions }) => ( { ...state, regions } )),
   on(StaticActions.loadTerminalsSuccess, (state, { terminals }) => ( { ...state, terminals } )),
   on(StaticActions.loadCompaniesSuccess, (state, { companies }) => ( { ...state, companies } )),
+  on(StaticActions.loadEnvironmentSuccess, (state, { environment }) => ( { ...state, environment } ))
 );
 
 export function reducer(state: State | undefined, action: Action) {

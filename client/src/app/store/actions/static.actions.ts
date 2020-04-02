@@ -47,3 +47,12 @@ export const loadCompaniesSuccess = createAction(
   '[Static] Load companies success',
   props<{ companies: Company[] }>()
 );
+
+export const loadEnvironmentSuccess = createAction(
+  '[Static] Load environment info success',
+  props<{ environment: any }>()
+);
+
+export const loadEnvironment = createAction(
+  '[Static] Load environment info success'
+);
