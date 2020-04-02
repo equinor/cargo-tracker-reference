@@ -2,14 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { loadViews } from './store/actions/view.actions';
 import { MsalService } from '@azure/msal-angular';
-import { loadCompanies, loadCountries, loadGrades, loadRegions, loadTerminals } from './store/actions/static.actions';
+import {
+  loadCompanies,
+  loadCountries,
+  loadEnvironment,
+  loadGrades,
+  loadRegions,
+  loadTerminals
+} from './store/actions/static.actions';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from '@ngx-stoui/common';
-import { selectRouteData, selectRouteTitle } from './store/selectors/router.selectors';
+import { selectRouteTitle } from './store/selectors/router.selectors';
 import { Account } from 'msal';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { selectEnvironment } from './store/selectors/static.selectors';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -27,6 +35,7 @@ const modules = [
 export class AppComponent implements OnInit {
   public user: Account;
   public breadCrumbs$: Observable<Breadcrumb[]>;
+  public environment$: Observable<any>;
 
   constructor(
     private store: Store<any>,
@@ -45,9 +54,11 @@ export class AppComponent implements OnInit {
     this.store.dispatch(loadTerminals());
     this.store.dispatch(loadRegions());
     this.store.dispatch(loadCompanies());
+    this.store.dispatch(loadEnvironment());
     this.user = this.msal.getAccount();
     this.breadCrumbs$ = this.store
       .pipe(select(selectRouteTitle));
+    this.environment$ = this.store.pipe(select(selectEnvironment));
     this.iconRegistry.addSvgIcon('tops', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tops.svg'));
   }
 

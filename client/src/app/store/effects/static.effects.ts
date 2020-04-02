@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import * as StaticActions from '../actions/static.actions';
-import * as ViewActions from '../actions/view.actions';
 import { StaticService } from '../../static.service';
 import { errorHandler } from './error-operator';
 
 
 @Injectable()
 export class StaticEffects {
+
+  loadEnvironment$ = createEffect(() => this.actions$.pipe(
+    ofType(StaticActions.loadEnvironment),
+    switchMap(() => this.service.environment()
+      .pipe(
+        map(environment => StaticActions.loadEnvironmentSuccess({ environment })),
+        errorHandler
+      )
+    )
+  ));
 
   loadGrades$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadGrades),
