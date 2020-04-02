@@ -840,6 +840,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ngx-stoui/drawer@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/drawer/-/drawer-7.0.0.tgz#5ec3e41217938292ce012c596deefca206394df1"
+  integrity sha512-fdky00UCNIoNw/m1/i6XZOhu0bBjw0oBbyJdp2T/u9jLGz6s4yjbCvjck93TFjzFhJH+VzRtkWWYgyZulRek7Q==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngx-stoui/error-handler@^7.1.0-BETA.2":
   version "7.1.0-BETA.2"
   resolved "https://registry.yarnpkg.com/@ngx-stoui/error-handler/-/error-handler-7.1.0-BETA.2.tgz#c407c58b2822d85638998595983ce2228594e6a1"

@@ -22,6 +22,8 @@ import { MsalInterceptor, MsalModule, BroadcastService, MsalService, MSAL_CONFIG
 import { MAT_LABEL_GLOBAL_OPTIONS, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
 import { RouterEffects } from './store/effects/router.effects';
 import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
+import { NavigationModule } from './navigation/navigation.module';
+import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NavigationModule,
     StoAppHeaderModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -43,7 +46,7 @@ import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([ StaticEffects, ViewEffects, RouterEffects ]),
+    EffectsModule.forRoot([StaticEffects, ViewEffects, RouterEffects]),
     StoreRouterConnectingModule.forRoot({
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
@@ -59,12 +62,13 @@ import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
     MsalInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
     StaticService,
-    { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'settings', text: 'CT Reference' } },
+    { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'apps', text: 'Reference data' } },
     { provide: BASE_URL, useValue: '/ctref' },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
-    { provide: MSAL_CONFIG_ANGULAR, useValue: {}},
+    { provide: MSAL_CONFIG_ANGULAR, useValue: {} },
+    { provide: USE_HASH_ROUTING, useValue: false },
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
