@@ -41,7 +41,7 @@ jobs:
           draft: false
           prerelease: false
 
-  publishclient:
+  publish-client:
     name: Publish client docker images for tag
     runs-on: ubuntu-latest
 
@@ -63,7 +63,7 @@ jobs:
           tags: "${{steps.get_version.outputs.VERSION}},release"
           workdir: client
 
-  publishserver:
+  publish-server:
       name: Publish server docker images for tag
       runs-on: ubuntu-latest
 
@@ -88,3 +88,20 @@ jobs:
             tags: "${{steps.get_version.outputs.VERSION}},release"
             dockerfile: Dockerfile
             buildargs: PKG_USERNAME,PKG_PASSWORD
+
+  deploy-radix:
+    name: Deploy radix for environment
+    needs: [release, publish-client, publish-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy API on Radix
+        uses: equinor/radix-github-actions@master
+        env:
+          APP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.RADIX_DEPLOY_SECRET }}
+        with:
+          args: >
+            create job
+            deploy
+            -a cargo-tracker
+            -e production
+            -f
