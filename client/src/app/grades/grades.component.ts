@@ -9,7 +9,7 @@ import { map, startWith, take } from 'rxjs/operators';
 import { cancelGrade, filterGrade, saveGrade, uploadGrades, verifyGrade } from './store/grade.actions';
 import { GradeFilter } from './models';
 import { format, startOfMonth } from 'date-fns';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

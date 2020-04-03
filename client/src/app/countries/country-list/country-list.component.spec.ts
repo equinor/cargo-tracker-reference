@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CountryListComponent } from './country-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LatLngPipe } from '../../shared/lat-lng.pipe';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
 import { Country } from '../../shared/models/location';
 
 describe('CountryListComponent', () => {

@@ -9,15 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { GradeFilterComponent } from './grade-filter/grade-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import {
-  MatAutocompleteModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatSelectModule
-} from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { StoDirectivesModule } from '@ngx-stoui/core';
 import { StoFormModule, StoSlideToggleModule } from '@ngx-stoui/form';
 import { GradeService } from './grade.service';

@@ -7,7 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { GradesComponent } from './grades.component';
 import { State } from './store/grade.reducer';
 import * as fromGrade from './store/grade.selectors';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import * as fromStatic from '../store/selectors/static.selectors';
 import * as staticState from '../store/reducers/static.reducer';
 import { Grade } from '../shared/models/grade';
