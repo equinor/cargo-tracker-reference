@@ -5,7 +5,7 @@ import { Company } from '../shared/models/company';
 import { selectCompanies, selectCompanyFilter, selectCompanyLoading } from './store/company.selectors';
 import { CompanyFilter } from './company-filter';
 import { cancelCompany, filterCompany, saveCompany, verifyCompany } from './store/company.actions';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { map, take } from 'rxjs/operators';
 
 @Component({

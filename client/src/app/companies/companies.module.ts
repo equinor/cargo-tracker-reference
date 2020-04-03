@@ -6,16 +6,14 @@ import { CompaniesComponent } from './companies.component';
 import { CompanyFilterComponent } from './company-filter/company-filter.component';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { StoFilterPanelModule } from '@ngx-stoui/common';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatSelectModule
-} from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoFormModule, StoSlideToggleModule } from '@ngx-stoui/form';
 import { StoDirectivesModule } from '@ngx-stoui/core';

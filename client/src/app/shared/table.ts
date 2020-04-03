@@ -1,7 +1,7 @@
 import { ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { VersionedEntity } from './models/versioned-entity';
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, Directive } from '@angular/core';
 import { Column } from '@ngx-stoui/datatable';
 import { Company } from './models/company';
 
@@ -19,6 +19,7 @@ abstract class TableBase<T extends VersionedEntity> {
   trackFn = (index, company: Company) => company.id;
 }
 
+@Directive()
 export abstract class TableChips<T extends Alias> extends TableBase<T> implements Minimal<T> {
   @Output()
   save = new EventEmitter();
