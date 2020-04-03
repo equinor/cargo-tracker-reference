@@ -30,6 +30,7 @@
     "@ngx-stoui/common": "^9.0.0-BETA.0",
     "@ngx-stoui/core": "^9.0.0-BETA.1",
     "@ngx-stoui/datatable": "^9.0.0-BETA.1",
+    "@ngx-stoui/drawer": "^9.0.0-BETA.0",
     "@ngx-stoui/error-handler": "^9.0.0-BETA.0",
     "@ngx-stoui/form": "^9.0.0-BETA.0",
     "@types/adal-angular": "^1.0.1",
