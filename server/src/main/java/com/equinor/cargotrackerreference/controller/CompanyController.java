@@ -59,7 +59,7 @@ public class CompanyController {
 		logger.debug("Creating company: {}", companyResource);
 		try {			
 			Company newCompany = companyService.createCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));
-			jmsService.sendJmsMessage(newCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "create");
+			jmsService.sendJmsTopicMessage(newCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "create");
 			return CompanyResourceConverter.createCompanyResourceFromCompany(newCompany);
 		} catch (DataIntegrityViolationException ex) {	
 			String errormessage = "Unable to create company " + companyResource.name + ". Company already exists";
@@ -83,7 +83,7 @@ public class CompanyController {
 			throw new InvalidOperationException(errormessage);
 		}
 		Company updatedCompany = companyService.updateCompany(CompanyResourceConverter.createCompanyFromResource(companyResource));	
-		jmsService.sendJmsMessage(updatedCompany, "company", "update");
+		jmsService.sendJmsTopicMessage(updatedCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "update");
 		return CompanyResourceConverter.createCompanyResourceFromCompany(updatedCompany);
 	}
 
@@ -92,7 +92,7 @@ public class CompanyController {
 		logger.debug("Cancelling company with id: {}", id);
 		companyService.cancelCompany(id);
 		Optional<Company> cancelledCompany = companyService.getCompany(id);
-		jmsService.sendJmsMessage(cancelledCompany, "company", "delete");
+		jmsService.sendJmsTopicMessage(cancelledCompany, AzureServiceBusConfiguration.COMPANY_TYPE, "delete");
 	}
 	
 	@RequestMapping(value = "/company/{id}/verify", method = RequestMethod.PATCH)

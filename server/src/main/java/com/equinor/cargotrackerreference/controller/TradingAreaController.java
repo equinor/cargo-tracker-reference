@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.TradingArea;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
+import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
 import com.equinor.cargotrackerreference.controller.resources.GradeResourceIterator;
 import com.equinor.cargotrackerreference.service.GradeService;
@@ -63,7 +64,7 @@ public class TradingAreaController {
 			TradingArea newTradingArea = new TradingArea();
 			newTradingArea.setActive(tradingArea.isActive());
 			newTradingArea.setName(tradingArea.getName());			
-			jmsService.sendJmsMessage(newTradingArea, "tradingarea", "create");
+			jmsService.sendJmsTopicMessage(newTradingArea, AzureServiceBusConfiguration.TRADING_AREA_TYPE, "create");
 			return tradingAreaService.createTradingArea(newTradingArea);
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to create trading area. Already exists a trading area with name " + tradingArea.getName();
@@ -76,7 +77,7 @@ public class TradingAreaController {
 	public TradingArea updateTradingArea(@PathVariable(value = "id") UUID id, @RequestBody TradingArea tradingArea) {
 		logger.debug("Updating trading area ", tradingArea);
 		TradingArea updatedTradingArea = tradingAreaService.updateTradingArea(id, tradingArea);
-		jmsService.sendJmsMessage(updatedTradingArea, "tradingarea", "update");
+		jmsService.sendJmsTopicMessage(updatedTradingArea, AzureServiceBusConfiguration.TRADING_AREA_TYPE, "update");
 		return updatedTradingArea;
 	}
 
@@ -86,7 +87,7 @@ public class TradingAreaController {
 		try {
 			Optional<TradingArea> tradingAreToBeDeleted = tradingAreaService.getTradingArea(id);
 			tradingAreaService.deleteTradingArea(id);
-			jmsService.sendJmsMessage(tradingAreToBeDeleted, "tradingarea", "delete");
+			jmsService.sendJmsTopicMessage(tradingAreToBeDeleted, AzureServiceBusConfiguration.TRADING_AREA_TYPE, "delete");
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to delete trading area with id " + id + ". Trading area is in use.";
 			logger.error(errormessage);

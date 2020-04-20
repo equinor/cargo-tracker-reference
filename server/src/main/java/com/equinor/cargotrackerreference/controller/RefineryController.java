@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.Refinery;
+import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
 import com.equinor.cargotrackerreference.service.JmsService;
 import com.equinor.cargotrackerreference.service.RefineryService;
 
@@ -46,7 +47,7 @@ public class RefineryController {
 	public Refinery createRefinery(@RequestBody Refinery refinery) {
 		logger.debug("Creating refinery {} ", refinery);
 		Refinery newRefinery = refineryService.createRefiney(refinery);
-		jmsService.sendJmsMessage(newRefinery, "refinery", "create");
+		jmsService.sendJmsTopicMessage(newRefinery, AzureServiceBusConfiguration.REFINERY_TYPE, "create");
 		return newRefinery;
 	}
 
@@ -54,7 +55,7 @@ public class RefineryController {
 	public Refinery updateRefinery(@PathVariable(value = "id") UUID id, @RequestBody Refinery refinery) {
 		logger.debug("Updating refinery {} ", refinery);
 		Refinery updatedRefinery = refineryService.updateRefinery(id, refinery);
-		jmsService.sendJmsMessage(updatedRefinery, "refinery", "update");
+		jmsService.sendJmsTopicMessage(updatedRefinery, AzureServiceBusConfiguration.REFINERY_TYPE, "update");
 		return updatedRefinery;
 	}
 
@@ -63,7 +64,7 @@ public class RefineryController {
 		logger.debug("Cancelling refinery with id {} ", id);		
 		refineryService.cancelRefinery(id);
 		Optional<Refinery> cancelledRefinery = refineryService.getRefinery(id); 
-		jmsService.sendJmsMessage(cancelledRefinery, "refinery", "cancel");
+		jmsService.sendJmsTopicMessage(cancelledRefinery, AzureServiceBusConfiguration.REFINERY_TYPE, "cancel");
 	}
 
 	@RequestMapping(value = "/region/{id}/refinery", method = RequestMethod.GET)

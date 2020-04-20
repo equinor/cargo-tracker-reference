@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.equinor.cargotracker.common.domain.Grade;
 import com.equinor.cargotracker.common.exceptions.InvalidOperationException;
+import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
 import com.equinor.cargotrackerreference.controller.exceptions.InternalServerError;
 import com.equinor.cargotrackerreference.controller.exceptions.ResourceAlreadyExists;
 import com.equinor.cargotrackerreference.controller.resources.GradeResource;
@@ -72,7 +73,7 @@ public class GradeController {
 		}
 		try {
 			Grade newGrade = gradeService.createGrade(GradeResourceConverter.createGradeFromResource(grade));			
-			jmsService.sendJmsMessage(newGrade, "grade", "create");
+			jmsService.sendJmsTopicMessage(newGrade, AzureServiceBusConfiguration.GRADE_TYPE, "create");
 			return GradeResourceConverter.createResourceFromGrade(newGrade);
 		} catch (DataIntegrityViolationException e) {
 			String errormessage = "Unable to create grade. Already exists a grade with name " + grade.name;
@@ -90,7 +91,7 @@ public class GradeController {
 	@RequestMapping(value = "/grade/{id}", method = RequestMethod.PATCH)
 	public GradeResource patchRegionId(@PathVariable(value = "id") UUID id, @RequestBody GradeResource grade) {
 		Grade patchedGrade = gradeService.patchRegionId(id, grade.tradingAreaId);		
-		jmsService.sendJmsMessage(patchedGrade, "grade", "patch");
+		jmsService.sendJmsTopicMessage(patchedGrade, AzureServiceBusConfiguration.GRADE_TYPE, "patch");
 		return GradeResourceConverter.createResourceFromGrade(patchedGrade);
 	}
 
@@ -98,7 +99,7 @@ public class GradeController {
 	public GradeResource updateGrade(@PathVariable(value = "id") UUID id, @RequestBody GradeResource gradeResource) {
 		logger.debug("Updating grade to {}", gradeResource);
 		Grade updatedGrade = gradeService.updateGrade(GradeResourceConverter.createGradeFromResource(gradeResource, gradeService.getGrade(id).orElseThrow()));
-		jmsService.sendJmsMessage(updatedGrade, "grade", "update");
+		jmsService.sendJmsTopicMessage(updatedGrade, AzureServiceBusConfiguration.GRADE_TYPE, "update");
 		return GradeResourceConverter.createResourceFromGrade(updatedGrade);
 	}
 
@@ -113,7 +114,7 @@ public class GradeController {
 		logger.debug("Cancelling grade with id: {}", id);
 		gradeService.cancelGrade(id);
 		Optional<Grade> cancelledGrade = gradeService.getGrade(id);
-		jmsService.sendJmsMessage(cancelledGrade, "grade", "cancel");		
+		jmsService.sendJmsTopicMessage(cancelledGrade, AzureServiceBusConfiguration.GRADE_TYPE, "cancel");		
 	}
 
 	@RequestMapping(value = "/grade/upload", method = RequestMethod.POST)
@@ -143,7 +144,7 @@ public class GradeController {
 			}
 		}
 		// TODO HEH: Quickfix. Does not handle null message
-		jmsService.sendJmsMessage("Does not handle null, so we add a String", "grade", "update");
+		jmsService.sendJmsTopicMessage("Does not handle null, so we add a String", "grade", "update");
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

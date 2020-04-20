@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equinor.cargotracker.common.domain.Terminal;
+import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResource;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResourceConverter;
 import com.equinor.cargotrackerreference.controller.resources.TerminalResourceIterator;
@@ -49,7 +50,7 @@ public class TerminalController {
 	public TerminalResource createTerminal(@RequestBody TerminalResource terminal) {
 		logger.debug("Creating terminal {}", terminal);
 		Terminal newTerminal = terminalService.createTerminal(TerminalResourceConverter.createTerminalFromResource(terminal));		
-		jmsService.sendJmsMessage(newTerminal, "terminal", "create");
+		jmsService.sendJmsTopicMessage(newTerminal, AzureServiceBusConfiguration.TERMINAL_TYPE, "create");
 		return TerminalResourceConverter.createResourceFromTerminal(newTerminal);
 	}
 
@@ -57,7 +58,7 @@ public class TerminalController {
 	public TerminalResource updateTerminal(@PathVariable(value = "id") UUID id, @RequestBody TerminalResource terminal) {
 		logger.debug("Updating terminal {}", terminal);
 		Terminal updatedTerminal = terminalService.updateTerminal(id, TerminalResourceConverter.createTerminalFromResource(terminal));
-		jmsService.sendJmsMessage(updatedTerminal, "terminal", "update");
+		jmsService.sendJmsTopicMessage(updatedTerminal, AzureServiceBusConfiguration.TERMINAL_TYPE, "update");
 		return TerminalResourceConverter.createResourceFromTerminal(updatedTerminal);
 	}
 
@@ -65,6 +66,6 @@ public class TerminalController {
 	public void cancelTerminal(@PathVariable(value = "id") UUID id) {
 		terminalService.cancelTerminal(id);
 		Optional<Terminal> cancelledTerminal = terminalService.getTerminal(id);
-		jmsService.sendJmsMessage(cancelledTerminal, "terminal", "cancel");
+		jmsService.sendJmsTopicMessage(cancelledTerminal, AzureServiceBusConfiguration.TERMINAL_TYPE, "cancel");
 	}
 }
