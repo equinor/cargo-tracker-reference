@@ -47,13 +47,21 @@ security:
 
       
 servicebus:
-    connection_uri: ${SB_CT_SAS_URI:"dummy"}
+    connection_uri: ${SB_CT_SAS_URI}
     key_name: ctReference
-    key: ${SB_CT_SAS_KEY:"dummy"}
+    topic_key: ${SB_TOPIC_CT_SAS_KEY}
+    queue_key: ${SB_QUEUE_CT_SAS_KEY}
     topic: cargotrackers
+    queue: kpler
     subscription: ctCargoTracker
     client_id: cargotrackerreference
-             
+
+kpler:
+    datasource:
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        url: ${DB_APP_KPLER_JDBC_STRING}
+        username: ${DB_APP_KPLER_USER}
+        password: ${DB_APP_KPLER_PASSWORD}
      
 ---
 
@@ -63,7 +71,7 @@ spring:
       url: ${DB_APP_JDBC_STRING}
       username: ${DB_APP_REF_USER}
       password: ${DB_APP_REF_PASSWORD}
-      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver      
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
          
 ---
 

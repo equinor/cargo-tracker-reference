@@ -8,6 +8,7 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
+import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.Topic;
 import javax.naming.Context;
@@ -34,11 +35,17 @@ public class JmsService {
 	@Value("${servicebus.key_name}")
 	private String keyName;
 	
-	@Value("${servicebus.key}")
-	private String key;
+	@Value("${servicebus.topic_key}")
+	private String topicKey;
+	
+	@Value("${servicebus.queue_key}")
+	private String queueKey;
 		
 	@Value("${servicebus.topic}")	
 	private String topic;
+	
+	@Value("${servicebus.queue}")	
+	private String queue;
 	
 	@Resource(name = "jacksonJmsMessageConverter")
 	private MappingJackson2MessageConverter jacksonJmsMessageConverter;
@@ -51,12 +58,28 @@ public class JmsService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
-	public void sendJmsMessage(Object message, String typeid, String operation) {
+	public void sendJmsTopicMessage(Object message, String typeid, String operation) {
+		sendJmsMessage(message, typeid, operation, false);
+	}
+	
+	public void sendJmsQueueMessage(Object message, String typeid, String operation) {
+		sendJmsMessage(message, typeid, operation, true);
+	}
+	
+	public void sendJmsMessage(Object message, String typeid, String operation, boolean toQueue) {
 		/*
 		 * Disabling for Unittests
 		 */
 		if (Arrays.asList(env.getActiveProfiles()).contains("h2")) {
 			return;
+		}
+		
+		String key = null;
+		if(toQueue) {
+			key = queueKey;
+		}
+		else {
+			key = topicKey;
 		}
 
 		try {
@@ -65,7 +88,9 @@ public class JmsService {
 			Properties props = new Properties();
 			props.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.qpid.jms.jndi.JmsInitialContextFactory");
 			props.put("connectionfactory.myFactoryLookup", connectionUri);
+			props.put("queue.myQueueLookup", queue);
 			props.put("topic.myTopicLookup", topic);
+			
 
 			Context context = new InitialContext(props);
 
@@ -74,17 +99,35 @@ public class JmsService {
 			connection.start();
 
 			Topic serviceBusTopic = (Topic) context.lookup("myTopicLookup");
+			Queue serviceBusQueue = (Queue) context.lookup("myQueueLookup");
 
 			// Create sender-side Session and MessageProducer
 			Session sendSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			MessageProducer messageProducer = sendSession.createProducer(serviceBusTopic);
+			MessageProducer messageProducer = null;
+			if(toQueue) {
+				messageProducer = sendSession.createProducer(serviceBusQueue);
+			}
+			else {
+				messageProducer = sendSession.createProducer(serviceBusTopic);
+			}
 
 			Message jmsTextMessage = jacksonJmsMessageConverter.toMessage(message, sendSession);
 
+			// Set an extra property telling what type and type of operation for the object
+			jmsTextMessage.setStringProperty(AzureServiceBusConfiguration.TYPEID, typeid);
+			
 			// Set an extra property telling what type of operation for the object
 			jmsTextMessage.setStringProperty("operation", operation);
 
-			logger.debug("Sending message to:\ntopic: {}\ntype: {}\noperation: {}\npayload: {}",
+			
+			
+			String busType = "queue";
+			if(!toQueue) {
+				busType = "topic";
+			}
+			
+			logger.debug("Sending message to:\n{}: {}\ntype: {}\noperation: {}\npayload: {}",
+					busType,
 					messageProducer.getDestination(),
 					jmsTextMessage.getStringProperty(AzureServiceBusConfiguration.TYPEID), operation,
 					jmsTextMessage.getBody(String.class));
