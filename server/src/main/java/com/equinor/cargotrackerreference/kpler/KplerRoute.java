@@ -19,18 +19,26 @@ public class KplerRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {    	
-        from("timer:foo?fixedRate=true&period=60000")
+        //from("timer:foo?fixedRate=true&period=60000")
+    	from("direct:temp")    	
         .routeId("Kpler")        
         .setBody(simple("select * from selfservice.raw_kpler_lpg_trades2"))        
-		.to("jdbc:kplerDataSource")
+		//.to("jdbc:kplerDataSource")
 		.log(LoggingLevel.INFO, getClass().getPackage().getName(), "Found ${header.CamelJdbcRowCount} rows.")
-		.split(body())			
+		.split(body())
 			.streaming()
 			.log(LoggingLevel.INFO, getClass().getPackage().getName(), "Converting to json ${body}")
 			.marshal(tradeJsonDataFormat)
+			//.to("file:c:/temp/cargotracker");
+			
 			.log(LoggingLevel.INFO, getClass().getPackage().getName(), "After marshal: ${body}")
 			.unmarshal(tradeJsonDataFormat)
 			.process(kplerProcessor)
 			.stop();
+    	
+    	from("file:c:/temp/cargotracker/drop")    	
+    	.unmarshal(tradeJsonDataFormat)
+		.process(kplerProcessor);
+    	
     }
 }

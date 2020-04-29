@@ -23,6 +23,7 @@ public class KplerConfig {
 	@Value("${kpler.datasource.password}")
 	private String passWord;
 		
+	/*
 	@Bean(name = "kplerDataSource", destroyMethod = "")
 	public DataSource kplerDataSource() {
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
@@ -31,12 +32,12 @@ public class KplerConfig {
 		dataSourceBuilder.username(userName);
 		dataSourceBuilder.password(passWord);
 		return dataSourceBuilder.build();
-	}
+	}*/
 	
 	@Bean(name="tradeJsonDataFormat")
 	public JacksonDataFormat tradeJsonDataFormat() {
 		JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();		
-		jacksonDataFormat.setUnmarshalType(Trade.class);
+		jacksonDataFormat.setUnmarshalType(StrippedTrade.class);
 		jacksonDataFormat.setAllowUnmarshallType(true);
 		//jacksonDataFormat.useList();
 		return jacksonDataFormat;		

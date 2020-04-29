@@ -1,35 +1,60 @@
+
 package com.equinor.cargotrackerreference.kpler;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "vessel", "cargotons", "grade", "product", "group", "family", "dateorigin", "origin",
-		"etasourceorigin", "reloadstspartialorigin", "datedestination", "destination", "etasourcedestination",
-		"reloadstspartialdestination", "forecasteddestination", "forecastedeta", "forecastedconfidence", "exportprice",
-		"numberoftradesexport", "importprice", "numberoftradesimport", "tradestatus", "sellerorigin",
-		"buyerdestination", "intermediaries", "countryorigin", "subcontinentorigin", "continentorigin", "etaorigin",
-		"startorigin", "endorigin", "countrydestination", "subcontinentdestination", "continentdestination",
-		"etadestination", "startdestination", "enddestination", "capacityvesselm3", "vesseltype", "cargotypevessel",
-		"idvessel", "link1delivery", "link1type", "link1sellername", "link1sellercountry", "link1buyername",
-		"link1buyercountry", "link2delivery", "link2type", "link2sellername", "link2sellercountry", "link2buyername",
-		"link2buyercountry", "link3delivery", "link3type", "link3sellername", "link3sellercountry", "link3buyername",
-		"link3buyercountry", "link4delivery", "link4type", "link4sellername", "link4sellercountry", "link4buyername",
-		"link4buyercountry", "link5delivery", "link5type", "link5sellername", "link5sellercountry", "link5buyername",
-		"link5buyercountry", "idtrade", "zoneorigin", "zoneoriginid", "zonedestination", "zonedestinationid",
-		"installationorigin", "installationoriginid", "installationdestination", "installationdestinationid", "mileage",
+@JsonPropertyOrder({ "forecasteddestination", "vesseltype", "vessel", "cargotons", "product", "tradestatus",
+		"etadestination", "installationorigin", "installationdestination", "countrydestination", "sellerorigin",
+		"buyerdestination" })
+@JsonIgnoreProperties({ "grade", "group", "family", "dateorigin", "origin", "etasourceorigin", "reloadstspartialorigin",
+		"datedestination", "destination", "etasourcedestination", "reloadstspartialdestination", "forecastedeta",
+		"forecastedconfidence", "exportprice", "numberoftradesexport", "importprice", "numberoftradesimport",
+		"intermediaries", "countryorigin", "subcontinentorigin", "continentorigin", "etaorigin", "startorigin",
+		"endorigin", "subcontinentdestination", "continentdestination", "startdestination", "enddestination",
+		"capacityvesselm3", "cargotypevessel", "idvessel", "link1delivery", "link1type", "link1sellername",
+		"link1sellercountry", "link1buyername", "link1buyercountry", "link2delivery", "link2type", "link2sellername",
+		"link2sellercountry", "link2buyername", "link2buyercountry", "link3delivery", "link3type", "link3sellername",
+		"link3sellercountry", "link3buyername", "link3buyercountry", "link4delivery", "link4type", "link4sellername",
+		"link4sellercountry", "link4buyername", "link4buyercountry", "link5delivery", "link5type", "link5sellername",
+		"link5sellercountry", "link5buyername", "link5buyercountry", "idtrade", "zoneorigin", "zoneoriginid",
+		"zonedestination", "zonedestinationid", "installationoriginid", "installationdestinationid", "mileage",
 		"tonmiles", "forecastedorigin", "forecastedorigineta", "forecastedoriginconfidence", "idvoyage", "charterer" })
-public class Trade {
+public class StrippedTrade {
 
+	@JsonProperty("forecasteddestination")
+	private String forecasteddestination;
+	@JsonProperty("vesseltype")
+	private String vesseltype;
 	@JsonProperty("vessel")
 	private String vessel;
 	@JsonProperty("cargotons")
-	private Integer cargotons;
-	@JsonProperty("grade")
-	private String grade;
+	private BigDecimal cargotons;
 	@JsonProperty("product")
 	private String product;
+	@JsonProperty("tradestatus")
+	private String tradestatus;
+	@JsonProperty("etadestination")
+	private LocalDate etadestination;
+	@JsonProperty("installationorigin")
+	private String installationorigin;
+	@JsonProperty("installationdestination")
+	private String installationdestination;
+	@JsonProperty("countrydestination")
+	private String countrydestination;
+	@JsonProperty("sellerorigin")
+	private String sellerorigin;
+	@JsonProperty("buyerdestination")
+	private String buyerdestination;
+
+	/*@JsonProperty("grade")
+	private String grade;
 	@JsonProperty("group")
 	private String group;
 	@JsonProperty("family")
@@ -50,12 +75,10 @@ public class Trade {
 	private String etasourcedestination;
 	@JsonProperty("reloadstspartialdestination")
 	private String reloadstspartialdestination;
-	@JsonProperty("forecasteddestination")
-	private String forecasteddestination;
 	@JsonProperty("forecastedeta")
 	private Integer forecastedeta;
 	@JsonProperty("forecastedconfidence")
-	private Float forecastedconfidence;
+	private Double forecastedconfidence;
 	@JsonProperty("exportprice")
 	private String exportprice;
 	@JsonProperty("numberoftradesexport")
@@ -64,14 +87,8 @@ public class Trade {
 	private String importprice;
 	@JsonProperty("numberoftradesimport")
 	private String numberoftradesimport;
-	@JsonProperty("tradestatus")
-	private String tradestatus;
-	@JsonProperty("sellerorigin")
-	private String sellerorigin;
-	@JsonProperty("buyerdestination")
-	private String buyerdestination;
 	@JsonProperty("intermediaries")
-	private Integer intermediaries;
+	private Object intermediaries;
 	@JsonProperty("countryorigin")
 	private String countryorigin;
 	@JsonProperty("subcontinentorigin")
@@ -84,22 +101,16 @@ public class Trade {
 	private Object startorigin;
 	@JsonProperty("endorigin")
 	private Object endorigin;
-	@JsonProperty("countrydestination")
-	private String countrydestination;
 	@JsonProperty("subcontinentdestination")
 	private String subcontinentdestination;
 	@JsonProperty("continentdestination")
 	private String continentdestination;
-	@JsonProperty("etadestination")
-	private Object etadestination;
 	@JsonProperty("startdestination")
 	private Object startdestination;
 	@JsonProperty("enddestination")
 	private Object enddestination;
 	@JsonProperty("capacityvesselm3")
 	private Integer capacityvesselm3;
-	@JsonProperty("vesseltype")
-	private String vesseltype;
 	@JsonProperty("cargotypevessel")
 	private String cargotypevessel;
 	@JsonProperty("idvessel")
@@ -174,12 +185,8 @@ public class Trade {
 	private String zonedestination;
 	@JsonProperty("zonedestinationid")
 	private Object zonedestinationid;
-	@JsonProperty("installationorigin")
-	private String installationorigin;
 	@JsonProperty("installationoriginid")
 	private Object installationoriginid;
-	@JsonProperty("installationdestination")
-	private String installationdestination;
 	@JsonProperty("installationdestinationid")
 	private Object installationdestinationid;
 	@JsonProperty("mileage")
@@ -191,11 +198,31 @@ public class Trade {
 	@JsonProperty("forecastedorigineta")
 	private Integer forecastedorigineta;
 	@JsonProperty("forecastedoriginconfidence")
-	private Float forecastedoriginconfidence;
+	private Double forecastedoriginconfidence;
 	@JsonProperty("idvoyage")
 	private Integer idvoyage;
 	@JsonProperty("charterer")
-	private String charterer;
+	private String charterer;*/
+
+	@JsonProperty("forecasteddestination")
+	public String getForecasteddestination() {
+		return forecasteddestination;
+	}
+
+	@JsonProperty("forecasteddestination")
+	public void setForecasteddestination(String forecasteddestination) {
+		this.forecasteddestination = forecasteddestination;
+	}
+
+	@JsonProperty("vesseltype")
+	public String getVesseltype() {
+		return vesseltype;
+	}
+
+	@JsonProperty("vesseltype")
+	public void setVesseltype(String vesseltype) {
+		this.vesseltype = vesseltype;
+	}
 
 	@JsonProperty("vessel")
 	public String getVessel() {
@@ -208,23 +235,13 @@ public class Trade {
 	}
 
 	@JsonProperty("cargotons")
-	public Integer getCargotons() {
+	public BigDecimal getCargotons() {
 		return cargotons;
 	}
 
 	@JsonProperty("cargotons")
-	public void setCargotons(Integer cargotons) {
+	public void setCargotons(BigDecimal cargotons) {
 		this.cargotons = cargotons;
-	}
-
-	@JsonProperty("grade")
-	public String getGrade() {
-		return grade;
-	}
-
-	@JsonProperty("grade")
-	public void setGrade(String grade) {
-		this.grade = grade;
 	}
 
 	@JsonProperty("product")
@@ -235,6 +252,87 @@ public class Trade {
 	@JsonProperty("product")
 	public void setProduct(String product) {
 		this.product = product;
+	}
+
+	@JsonProperty("tradestatus")
+	public String getTradestatus() {
+		return tradestatus;
+	}
+
+	@JsonProperty("tradestatus")
+	public void setTradestatus(String tradestatus) {
+		this.tradestatus = tradestatus;
+	}
+
+	@JsonProperty("etadestination")
+	public LocalDate getEtadestination() {
+		return etadestination;
+	}
+
+	@JsonProperty("etadestination")
+	public void setEtadestination(LocalDate etadestination) {
+		this.etadestination = etadestination;
+	}
+
+	@JsonProperty("installationorigin")
+	public String getInstallationorigin() {
+		return installationorigin;
+	}
+
+	@JsonProperty("installationorigin")
+	public void setInstallationorigin(String installationorigin) {
+		this.installationorigin = installationorigin;
+	}
+
+	@JsonProperty("installationdestination")
+	public String getInstallationdestination() {
+		return installationdestination;
+	}
+
+	@JsonProperty("installationdestination")
+	public void setInstallationdestination(String installationdestination) {
+		this.installationdestination = installationdestination;
+	}
+
+	@JsonProperty("countrydestination")
+	public String getCountrydestination() {
+		return countrydestination;
+	}
+
+	@JsonProperty("countrydestination")
+	public void setCountrydestination(String countrydestination) {
+		this.countrydestination = countrydestination;
+	}
+
+	@JsonProperty("sellerorigin")
+	public String getSellerorigin() {
+		return sellerorigin;
+	}
+
+	@JsonProperty("sellerorigin")
+	public void setSellerorigin(String sellerorigin) {
+		this.sellerorigin = sellerorigin;
+	}
+
+	@JsonProperty("buyerdestination")
+	public String getBuyerdestination() {
+		return buyerdestination;
+	}
+
+	@JsonProperty("buyerdestination")
+	public void setBuyerdestination(String buyerdestination) {
+		this.buyerdestination = buyerdestination;
+	}
+
+	/*
+	@JsonProperty("grade")
+	public String getGrade() {
+		return grade;
+	}
+
+	@JsonProperty("grade")
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 
 	@JsonProperty("group")
@@ -337,16 +435,6 @@ public class Trade {
 		this.reloadstspartialdestination = reloadstspartialdestination;
 	}
 
-	@JsonProperty("forecasteddestination")
-	public String getForecasteddestination() {
-		return forecasteddestination;
-	}
-
-	@JsonProperty("forecasteddestination")
-	public void setForecasteddestination(String forecasteddestination) {
-		this.forecasteddestination = forecasteddestination;
-	}
-
 	@JsonProperty("forecastedeta")
 	public Integer getForecastedeta() {
 		return forecastedeta;
@@ -358,12 +446,12 @@ public class Trade {
 	}
 
 	@JsonProperty("forecastedconfidence")
-	public Float getForecastedconfidence() {
+	public Double getForecastedconfidence() {
 		return forecastedconfidence;
 	}
 
 	@JsonProperty("forecastedconfidence")
-	public void setForecastedconfidence(Float forecastedconfidence) {
+	public void setForecastedconfidence(Double forecastedconfidence) {
 		this.forecastedconfidence = forecastedconfidence;
 	}
 
@@ -407,43 +495,13 @@ public class Trade {
 		this.numberoftradesimport = numberoftradesimport;
 	}
 
-	@JsonProperty("tradestatus")
-	public String getTradestatus() {
-		return tradestatus;
-	}
-
-	@JsonProperty("tradestatus")
-	public void setTradestatus(String tradestatus) {
-		this.tradestatus = tradestatus;
-	}
-
-	@JsonProperty("sellerorigin")
-	public String getSellerorigin() {
-		return sellerorigin;
-	}
-
-	@JsonProperty("sellerorigin")
-	public void setSellerorigin(String sellerorigin) {
-		this.sellerorigin = sellerorigin;
-	}
-
-	@JsonProperty("buyerdestination")
-	public String getBuyerdestination() {
-		return buyerdestination;
-	}
-
-	@JsonProperty("buyerdestination")
-	public void setBuyerdestination(String buyerdestination) {
-		this.buyerdestination = buyerdestination;
-	}
-
 	@JsonProperty("intermediaries")
-	public Integer getIntermediaries() {
+	public Object getIntermediaries() {
 		return intermediaries;
 	}
 
 	@JsonProperty("intermediaries")
-	public void setIntermediaries(Integer intermediaries) {
+	public void setIntermediaries(Object intermediaries) {
 		this.intermediaries = intermediaries;
 	}
 
@@ -507,16 +565,6 @@ public class Trade {
 		this.endorigin = endorigin;
 	}
 
-	@JsonProperty("countrydestination")
-	public String getCountrydestination() {
-		return countrydestination;
-	}
-
-	@JsonProperty("countrydestination")
-	public void setCountrydestination(String countrydestination) {
-		this.countrydestination = countrydestination;
-	}
-
 	@JsonProperty("subcontinentdestination")
 	public String getSubcontinentdestination() {
 		return subcontinentdestination;
@@ -535,16 +583,6 @@ public class Trade {
 	@JsonProperty("continentdestination")
 	public void setContinentdestination(String continentdestination) {
 		this.continentdestination = continentdestination;
-	}
-
-	@JsonProperty("etadestination")
-	public Object getEtadestination() {
-		return etadestination;
-	}
-
-	@JsonProperty("etadestination")
-	public void setEtadestination(Object etadestination) {
-		this.etadestination = etadestination;
 	}
 
 	@JsonProperty("startdestination")
@@ -575,16 +613,6 @@ public class Trade {
 	@JsonProperty("capacityvesselm3")
 	public void setCapacityvesselm3(Integer capacityvesselm3) {
 		this.capacityvesselm3 = capacityvesselm3;
-	}
-
-	@JsonProperty("vesseltype")
-	public String getVesseltype() {
-		return vesseltype;
-	}
-
-	@JsonProperty("vesseltype")
-	public void setVesseltype(String vesseltype) {
-		this.vesseltype = vesseltype;
 	}
 
 	@JsonProperty("cargotypevessel")
@@ -957,16 +985,6 @@ public class Trade {
 		this.zonedestinationid = zonedestinationid;
 	}
 
-	@JsonProperty("installationorigin")
-	public String getInstallationorigin() {
-		return installationorigin;
-	}
-
-	@JsonProperty("installationorigin")
-	public void setInstallationorigin(String installationorigin) {
-		this.installationorigin = installationorigin;
-	}
-
 	@JsonProperty("installationoriginid")
 	public Object getInstallationoriginid() {
 		return installationoriginid;
@@ -975,16 +993,6 @@ public class Trade {
 	@JsonProperty("installationoriginid")
 	public void setInstallationoriginid(Object installationoriginid) {
 		this.installationoriginid = installationoriginid;
-	}
-
-	@JsonProperty("installationdestination")
-	public String getInstallationdestination() {
-		return installationdestination;
-	}
-
-	@JsonProperty("installationdestination")
-	public void setInstallationdestination(String installationdestination) {
-		this.installationdestination = installationdestination;
 	}
 
 	@JsonProperty("installationdestinationid")
@@ -1038,12 +1046,12 @@ public class Trade {
 	}
 
 	@JsonProperty("forecastedoriginconfidence")
-	public Float getForecastedoriginconfidence() {
+	public Double getForecastedoriginconfidence() {
 		return forecastedoriginconfidence;
 	}
 
 	@JsonProperty("forecastedoriginconfidence")
-	public void setForecastedoriginconfidence(Float forecastedoriginconfidence) {
+	public void setForecastedoriginconfidence(Double forecastedoriginconfidence) {
 		this.forecastedoriginconfidence = forecastedoriginconfidence;
 	}
 
@@ -1065,6 +1073,6 @@ public class Trade {
 	@JsonProperty("charterer")
 	public void setCharterer(String charterer) {
 		this.charterer = charterer;
-	}
+	}*/
 
 }

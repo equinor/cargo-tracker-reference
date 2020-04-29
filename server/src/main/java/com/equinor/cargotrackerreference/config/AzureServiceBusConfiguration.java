@@ -16,7 +16,7 @@ import com.equinor.cargotracker.common.domain.Refinery;
 import com.equinor.cargotracker.common.domain.Region;
 import com.equinor.cargotracker.common.domain.Terminal;
 import com.equinor.cargotracker.common.domain.TradingArea;
-import com.equinor.cargotrackerreference.kpler.Trade;
+import com.equinor.cargotrackerreference.kpler.StrippedTrade;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class AzureServiceBusConfiguration {
 	public static final String TRADING_AREA_TYPE = "trading_area";
 	
 	//Kpler message types
-	public static final String TRADE_TYPE = "trade";
+	public static final String CARGO_TYPE = "cargo";
 	
 	
 	//A map containing the different json classes to send and receive the payloads of the jms messages
@@ -56,7 +56,7 @@ public class AzureServiceBusConfiguration {
 		typeIdMappings.put(TRADING_AREA_TYPE, TradingArea.class);
 		
 		//Kpler message types
-		typeIdMappings.put(TRADE_TYPE, Trade.class);
+		typeIdMappings.put(CARGO_TYPE, StrippedTrade.class);
 	}
 			
 	@Bean(name="jacksonJmsMessageConverter")
