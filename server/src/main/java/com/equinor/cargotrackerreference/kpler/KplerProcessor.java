@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
+import com.equinor.cargotrackerreference.controller.exceptions.CargoTrackingControllerAdvice;
 import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CountryIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
@@ -30,7 +31,7 @@ public class KplerProcessor implements Processor {
 		
 		StrippedTrade trade =  (StrippedTrade) exchange.getIn().getBody();
 					
-		TitleTransferResource seller = new TitleTransferResource();
+		/*TitleTransferResource seller = new TitleTransferResource();
 		CompanyIdNameProperty sellerCompany = new CompanyIdNameProperty();
 		sellerCompany.name = trade.getSellerorigin();
 		sellerCompany.id = UUID.randomUUID().toString();	
@@ -43,12 +44,17 @@ public class KplerProcessor implements Processor {
 		buyerCompany.id = UUID.randomUUID().toString();		
 		buyer.company = buyerCompany;
 		buyer.updatedBy = "Kpler";
+		
+		
 				
 		List<TitleTransferResource> titleTransfers = new ArrayList<TitleTransferResource>();
 		titleTransfers.add(seller);
-		titleTransfers.add(buyer);
+		titleTransfers.add(buyer);*/
 		
 		AnalyticsCargoResource cargo = new AnalyticsCargoResource();
+		
+		//cargo.titleTransfers = titleTransfers;
+		
 		RegionIdNameProperty destinationRegion = new RegionIdNameProperty();
 		destinationRegion.id = UUID.randomUUID().toString();
 		destinationRegion.name = trade.getForecasteddestination();
@@ -61,8 +67,11 @@ public class KplerProcessor implements Processor {
 		grade.name = trade.getProduct();
 		cargo.grade = grade;
 		cargo.tradeStatus = trade.getTradestatus();
+		
+		
+		
 		cargo.dateDestination = trade.getEtadestination();
-		cargo.titleTransfers = titleTransfers;
+		
 		TerminalIdNameProperty destinationInstallation = new TerminalIdNameProperty();
 		destinationInstallation.id = UUID.randomUUID().toString();
 		destinationInstallation.name = trade.getInstallationdestination();
@@ -84,6 +93,9 @@ public class KplerProcessor implements Processor {
 		tradingArea.id = UUID.randomUUID().toString();
 		tradingArea.name = "n/a";
 		cargo.tradingArea = tradingArea;
+		
+		cargo.buyers = trade.getBuyerdestination();
+		cargo.sellers = trade.getSellerorigin();
 		
 		
 		

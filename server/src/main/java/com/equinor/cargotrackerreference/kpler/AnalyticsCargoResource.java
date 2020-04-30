@@ -89,6 +89,9 @@ public class AnalyticsCargoResource {
 	@ApiModelProperty(value = "Trade status")
 	public String tradeStatus;
 
+	public String buyers;
+	public String sellers;
+
 	@ApiModelProperty(value = "Quantity in tons")
 	public BigDecimal volume;
 

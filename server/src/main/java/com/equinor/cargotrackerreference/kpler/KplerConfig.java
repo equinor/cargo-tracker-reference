@@ -8,6 +8,9 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @Configuration
 public class KplerConfig {
 
@@ -39,6 +42,7 @@ public class KplerConfig {
 		JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();		
 		jacksonDataFormat.setUnmarshalType(StrippedTrade.class);
 		jacksonDataFormat.setAllowUnmarshallType(true);
+		jacksonDataFormat.addModule(new JavaTimeModule()); //For parsing number to LocalDate
 		//jacksonDataFormat.useList();
 		return jacksonDataFormat;		
 	}
