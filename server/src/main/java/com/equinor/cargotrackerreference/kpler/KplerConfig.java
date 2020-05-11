@@ -8,9 +8,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 @Configuration
 public class KplerConfig {
 
@@ -26,7 +23,7 @@ public class KplerConfig {
 	@Value("${kpler.datasource.password}")
 	private String passWord;
 		
-	/*
+	
 	@Bean(name = "kplerDataSource", destroyMethod = "")
 	public DataSource kplerDataSource() {
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
@@ -35,15 +32,13 @@ public class KplerConfig {
 		dataSourceBuilder.username(userName);
 		dataSourceBuilder.password(passWord);
 		return dataSourceBuilder.build();
-	}*/
+	}
 	
 	@Bean(name="tradeJsonDataFormat")
 	public JacksonDataFormat tradeJsonDataFormat() {
 		JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();		
-		jacksonDataFormat.setUnmarshalType(StrippedTrade.class);
+		jacksonDataFormat.setUnmarshalType(Trade.class);
 		jacksonDataFormat.setAllowUnmarshallType(true);
-		jacksonDataFormat.addModule(new JavaTimeModule()); //For parsing number to LocalDate
-		//jacksonDataFormat.useList();
 		return jacksonDataFormat;		
 	}
 

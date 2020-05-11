@@ -16,7 +16,10 @@ import com.equinor.cargotracker.common.domain.Refinery;
 import com.equinor.cargotracker.common.domain.Region;
 import com.equinor.cargotracker.common.domain.Terminal;
 import com.equinor.cargotracker.common.domain.TradingArea;
-import com.equinor.cargotrackerreference.kpler.StrippedTrade;
+import com.equinor.cargotrackerreference.kpler.AnalyticsCargoResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * 
@@ -56,7 +59,15 @@ public class AzureServiceBusConfiguration {
 		typeIdMappings.put(TRADING_AREA_TYPE, TradingArea.class);
 		
 		//Kpler message types
-		typeIdMappings.put(CARGO_TYPE, StrippedTrade.class);
+		typeIdMappings.put(CARGO_TYPE, AnalyticsCargoResource.class);
+	}
+	
+	@Bean
+	public ObjectMapper mapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		return mapper;
 	}
 			
 	@Bean(name="jacksonJmsMessageConverter")
@@ -65,6 +76,7 @@ public class AzureServiceBusConfiguration {
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName(TYPEID);
         converter.setTypeIdMappings(typeIdMappings);
+        converter.setObjectMapper(mapper());
         return converter;
     }	
 }

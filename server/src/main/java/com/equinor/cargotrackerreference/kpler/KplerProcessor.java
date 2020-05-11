@@ -1,8 +1,8 @@
 package com.equinor.cargotrackerreference.kpler;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.UUID;
 
 import org.apache.camel.Exchange;
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.equinor.cargotrackerreference.config.AzureServiceBusConfiguration;
-import com.equinor.cargotrackerreference.controller.exceptions.CargoTrackingControllerAdvice;
-import com.equinor.cargotrackerreference.controller.resources.CompanyIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.CountryIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.GradeIdNameProperty;
 import com.equinor.cargotrackerreference.controller.resources.RegionIdNameProperty;
@@ -29,7 +27,7 @@ public class KplerProcessor implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		
-		StrippedTrade trade =  (StrippedTrade) exchange.getIn().getBody();
+		Trade trade =  (Trade) exchange.getIn().getBody();
 					
 		/*TitleTransferResource seller = new TitleTransferResource();
 		CompanyIdNameProperty sellerCompany = new CompanyIdNameProperty();
@@ -57,36 +55,53 @@ public class KplerProcessor implements Processor {
 		
 		RegionIdNameProperty destinationRegion = new RegionIdNameProperty();
 		destinationRegion.id = UUID.randomUUID().toString();
-		destinationRegion.name = trade.getForecasteddestination();
+		destinationRegion.name = trade.getForecastedDestination();
+		
+		Long dateorigin = (Long) trade.getDateOrigin();
+		
+		if(dateorigin != null) {
+			LocalDate date =
+				    Instant.ofEpochMilli(dateorigin).atZone(ZoneId.systemDefault()).toLocalDate();
+			
+			cargo.dateOrigin = date;	
+		}
+						
 		cargo.destinationRegion = destinationRegion;
-		cargo.vesselType = trade.getVesseltype();
+		cargo.vesselType = trade.getVesselType();
 		cargo.vesselName = trade.getVessel();
-		cargo.volume = trade.getCargotons();
+		cargo.volume = trade.getCargoTons();
 		GradeIdNameProperty grade = new GradeIdNameProperty();
 		grade.id = UUID.randomUUID().toString();
 		grade.name = trade.getProduct();
 		cargo.grade = grade;
-		cargo.tradeStatus = trade.getTradestatus();
+		cargo.tradeStatus = trade.getTradeStatus();
 		
 		
+		Long eta = (Long) trade.getEtaDestination();
 		
-		cargo.dateDestination = trade.getEtadestination();
+		if(eta != null) {
+			LocalDate date =
+				    Instant.ofEpochMilli(eta).atZone(ZoneId.systemDefault()).toLocalDate();
+			
+			cargo.dateDestination = date;	
+		}
+		
 		
 		TerminalIdNameProperty destinationInstallation = new TerminalIdNameProperty();
 		destinationInstallation.id = UUID.randomUUID().toString();
-		destinationInstallation.name = trade.getInstallationdestination();
+		destinationInstallation.name = trade.getInstallationDestination();
 		cargo.destinationPort = destinationInstallation;
 		TerminalIdNameProperty sourceInstallation = new TerminalIdNameProperty();
-		sourceInstallation.name = trade.getInstallationorigin();
+		sourceInstallation.name = trade.getInstallationOrigin();
 		sourceInstallation.id = UUID.randomUUID().toString();
 		cargo.originPort = sourceInstallation;
 		CountryIdNameProperty destinationCountry = new CountryIdNameProperty();
 		destinationCountry.id = UUID.randomUUID().toString();
-		destinationCountry.name = trade.getCountrydestination();
+		destinationCountry.name = trade.getCountryDestination();
 		cargo.destinationCountry =  destinationCountry;
 		CountryIdNameProperty sourceCountry = new CountryIdNameProperty();
 		sourceCountry.id = UUID.randomUUID().toString();
-		sourceCountry.name = trade.getCountrydestination();
+		sourceCountry.name = trade.getCountryDestination();
 		cargo.sourceCountry = sourceCountry;
 		
 		TradingAreaIdNameProperty tradingArea = new TradingAreaIdNameProperty();
@@ -94,8 +109,8 @@ public class KplerProcessor implements Processor {
 		tradingArea.name = "n/a";
 		cargo.tradingArea = tradingArea;
 		
-		cargo.buyers = trade.getBuyerdestination();
-		cargo.sellers = trade.getSellerorigin();
+		cargo.buyers = trade.getBuyerDestination();
+		cargo.sellers = trade.getSellerOrigin();
 		
 		
 		
