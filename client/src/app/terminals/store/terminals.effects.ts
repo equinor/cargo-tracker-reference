@@ -10,6 +10,9 @@ import { loadTerminals, loadTerminalsSuccess } from '../../store/actions/static.
 import { navigate } from 'src/app/store/actions/router.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
+import { deleteCache } from 'src/app/store/effects/storage-operator';
+import { NgForageCache } from 'ngforage';
+import { ngfRootOptions } from 'src/ngforage';
 
 
 @Injectable()
@@ -25,6 +28,7 @@ export class TerminalsEffects {
 
   saved$ = createEffect(() => this.actions$.pipe(
     ofType(TerminalsActions.saveTerminalSuccess),
+    deleteCache('terminals', this.cache),
     map(() => loadTerminals())
   ));
 
@@ -43,7 +47,11 @@ export class TerminalsEffects {
     map(({ filters }) => navigate({ extras: { queryParams: filters }, commands: [] }))
   ));
 
-  constructor(private actions$: Actions, private service: TerminalsService) {
+  constructor(
+    private actions$: Actions, 
+    private service: TerminalsService,
+    private cache: NgForageCache) {      
+      cache.configure(ngfRootOptions);
   }
 
 }

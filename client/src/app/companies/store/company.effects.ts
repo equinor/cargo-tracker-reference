@@ -9,6 +9,9 @@ import { CompanyService } from '../company.service';
 import { loadCompanies, loadCompaniesSuccess } from '../../store/actions/static.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
+import { deleteCache } from 'src/app/store/effects/storage-operator';
+import { NgForageCache } from 'ngforage';
+import { ngfRootOptions } from 'src/ngforage';
 
 
 @Injectable()
@@ -45,6 +48,7 @@ export class CompanyEffects {
 
   saved$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.saveCompanySuccess),
+    deleteCache('companies', this.cache),
     map(() => loadCompanies())
   ));
 
@@ -63,7 +67,11 @@ export class CompanyEffects {
     map(() => CompanyActions.companyLoading({ loading: false }))
   ));
 
-  constructor(private actions$: Actions, private service: CompanyService) {
+  constructor(
+    private actions$: Actions, 
+    private service: CompanyService,
+    private cache: NgForageCache) {      
+      cache.configure(ngfRootOptions);
   }
 
 }

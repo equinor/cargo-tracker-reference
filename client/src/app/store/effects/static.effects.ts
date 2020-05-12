@@ -5,6 +5,9 @@ import { map, switchMap } from 'rxjs/operators';
 import * as StaticActions from '../actions/static.actions';
 import { StaticService } from '../../static.service';
 import { errorHandler } from './error-operator';
+import { storeInDb, checkDb } from './storage-operator';
+import { NgForageCache } from 'ngforage';
+import { ngfRootOptions } from 'src/ngforage';
 
 
 @Injectable()
@@ -22,8 +25,8 @@ export class StaticEffects {
 
   loadGrades$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadGrades),
-    switchMap(() => this.service.grades()
-      .pipe(
+    switchMap(() => checkDb('grades', this.cache, this.service.grades().pipe(storeInDb('grades', this.cache)))      
+      .pipe(                
         map(grades => StaticActions.loadGradesSuccess({ grades })),
         errorHandler
       )
@@ -32,7 +35,7 @@ export class StaticEffects {
 
   loadCountries$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadCountries),
-    switchMap(() => this.service.countries()
+    switchMap(() => checkDb('countries', this.cache, this.service.countries().pipe(storeInDb('countries', this.cache)))      
       .pipe(
         map(countries => StaticActions.loadCountriesSuccess({ countries })),
         errorHandler
@@ -42,7 +45,7 @@ export class StaticEffects {
 
   loadRegions$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadRegions),
-    switchMap(() => this.service.regions()
+    switchMap(() => checkDb('regions', this.cache, this.service.regions().pipe(storeInDb('regions', this.cache)))      
       .pipe(
         map(regions => StaticActions.loadRegionsSuccess({ regions })),
         errorHandler
@@ -52,7 +55,7 @@ export class StaticEffects {
 
   loadTerminals$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadTerminals),
-    switchMap(() => this.service.terminals()
+    switchMap(() => checkDb('terminals', this.cache, this.service.terminals().pipe(storeInDb('terminals', this.cache)))      
       .pipe(
         map(terminals => StaticActions.loadTerminalsSuccess({ terminals })),
         errorHandler
@@ -61,14 +64,18 @@ export class StaticEffects {
 
   loadCompanies$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadCompanies),
-    switchMap(() => this.service.companies()
+    switchMap(() => checkDb('companies', this.cache, this.service.companies().pipe(storeInDb('companies', this.cache)))      
       .pipe(
         map(companies => StaticActions.loadCompaniesSuccess({ companies })),
         errorHandler
       ))
   ));
 
-  constructor(private actions$: Actions, private service: StaticService) {
+  constructor(
+    private actions$: Actions,
+    private service: StaticService,    
+    private cache: NgForageCache) {      
+      cache.configure(ngfRootOptions);
   }
 
 }

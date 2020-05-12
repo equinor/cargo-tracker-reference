@@ -10,6 +10,9 @@ import { loadGrades, loadGradesSuccess } from '../../store/actions/static.action
 import { navigate } from '../../store/actions/router.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
+import { NgForageCache } from 'ngforage';
+import { ngfRootOptions } from 'src/ngforage';
+import { deleteCache } from 'src/app/store/effects/storage-operator';
 
 
 @Injectable()
@@ -69,11 +72,16 @@ export class GradeEffects {
 
   loadGrades$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.saveGradeSuccess),
+    deleteCache('grades', this.cache),
     map(() => loadGrades())
   ));
 
 
-  constructor(private actions$: Actions, private service: GradeService) {
-  }
+  constructor(
+    private actions$: Actions, 
+    private service: GradeService, 
+    private cache: NgForageCache) {      
+    cache.configure(ngfRootOptions);
+}
 
 }
