@@ -5,9 +5,9 @@ import { map, switchMap } from 'rxjs/operators';
 import * as StaticActions from '../actions/static.actions';
 import { StaticService } from '../../static.service';
 import { errorHandler } from './error-operator';
-import { storeInDb, checkDb } from './storage-operator';
+import { storeInDb, checkDb } from 'src/ngforage/storage-operator';
 import { NgForageCache } from 'ngforage';
-import { ngfRootOptions } from 'src/ngforage';
+import { ngfRootOptions } from 'src/ngforage/ngforage';
 
 
 @Injectable()

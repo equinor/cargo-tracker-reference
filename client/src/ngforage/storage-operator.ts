@@ -17,7 +17,6 @@ export const checkDb = <T =any>(key: string, ngf: NgForageCache, apiCall: Observ
     }));     
 };
 
-export const deleteCache = <T = any>(key: string ,ngf: NgForageCache) => map<T,T> ((value: T) => {
-  ngf.removeCached(key);
-  return value;
+export const deleteCache = (key: string ,ngf: NgForageCache) => (() => {
+  ngf.removeCached(key);  
 });

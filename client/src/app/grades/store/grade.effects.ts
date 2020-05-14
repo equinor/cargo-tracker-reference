@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import * as GradeActions from './grade.actions';
 import { saveGradeSuccess } from './grade.actions';
@@ -11,8 +11,8 @@ import { navigate } from '../../store/actions/router.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
 import { NgForageCache } from 'ngforage';
-import { ngfRootOptions } from 'src/ngforage';
-import { deleteCache } from 'src/app/store/effects/storage-operator';
+import { ngfRootOptions } from 'src/ngforage/ngforage';
+import { deleteCache } from 'src/ngforage/storage-operator';
 
 
 @Injectable()
@@ -72,7 +72,7 @@ export class GradeEffects {
 
   loadGrades$ = createEffect(() => this.actions$.pipe(
     ofType(GradeActions.saveGradeSuccess),
-    deleteCache('grades', this.cache),
+    tap(deleteCache('grades', this.cache)),
     map(() => loadGrades())
   ));
 

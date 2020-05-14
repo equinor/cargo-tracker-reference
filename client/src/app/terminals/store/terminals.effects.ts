@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import * as TerminalsActions from './terminals.actions';
 import { loading, saveTerminalSuccess } from './terminals.actions';
@@ -10,9 +10,9 @@ import { loadTerminals, loadTerminalsSuccess } from '../../store/actions/static.
 import { navigate } from 'src/app/store/actions/router.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
-import { deleteCache } from 'src/app/store/effects/storage-operator';
+import { deleteCache } from 'src/ngforage/storage-operator';
 import { NgForageCache } from 'ngforage';
-import { ngfRootOptions } from 'src/ngforage';
+import { ngfRootOptions } from 'src/ngforage/ngforage';
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class TerminalsEffects {
 
   saved$ = createEffect(() => this.actions$.pipe(
     ofType(TerminalsActions.saveTerminalSuccess),
-    deleteCache('terminals', this.cache),
+    tap(deleteCache('terminals', this.cache)),
     map(() => loadTerminals())
   ));
 

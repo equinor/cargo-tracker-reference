@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import * as CompanyActions from './company.actions';
 import { navigate } from '../../store/actions/router.actions';
@@ -9,9 +9,9 @@ import { CompanyService } from '../company.service';
 import { loadCompanies, loadCompaniesSuccess } from '../../store/actions/static.actions';
 import { errorHandler } from 'src/app/store/effects/error-operator';
 import { error } from 'src/app/store/actions/view.actions';
-import { deleteCache } from 'src/app/store/effects/storage-operator';
+import { deleteCache } from 'src/ngforage/storage-operator';
 import { NgForageCache } from 'ngforage';
-import { ngfRootOptions } from 'src/ngforage';
+import { ngfRootOptions } from 'src/ngforage/ngforage';
 
 
 @Injectable()
@@ -48,7 +48,7 @@ export class CompanyEffects {
 
   saved$ = createEffect(() => this.actions$.pipe(
     ofType(CompanyActions.saveCompanySuccess),
-    deleteCache('companies', this.cache),
+    tap(deleteCache('companies', this.cache)),
     map(() => loadCompanies())
   ));
 
