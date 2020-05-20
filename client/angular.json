@@ -42,6 +42,10 @@
                 {
                   "replace": "src/msal.ts",
                   "with": "src/msal.env.ts"
+                },
+                {
+                  "replace": "src/appinsights.ts",
+                  "with": "src/appinsights.env.ts"
                 }
               ],
               "optimization": true,

@@ -6,6 +6,7 @@ import { EMPTY } from 'rxjs';
 
 import * as ViewActions from '../actions/view.actions';
 import { ErrorHandlerService } from '@ngx-stoui/error-handler';
+import { AppInsightsService } from 'src/app/app-insights/app-insights.service';
 
 
 @Injectable()
@@ -28,7 +29,15 @@ export class ViewEffects {
     )
   }, {dispatch: false})
 
+  logErrorToInsight$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ViewActions.error),
+      map(act => act.error),
+      map(error => this.appInsightsService.logTrace(error.message, error))
+    )
+  }, {dispatch: false})
 
-  constructor(private actions$: Actions, private errorHandler: ErrorHandlerService) {}
+
+  constructor(private actions$: Actions, private errorHandler: ErrorHandlerService, private appInsightsService: AppInsightsService) {}
 
 }
