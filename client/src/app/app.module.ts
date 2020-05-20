@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +27,8 @@ import { RouterEffects } from './store/effects/router.effects';
 import { ErrorHandlerModule } from '@ngx-stoui/error-handler';
 import { NavigationModule } from './navigation/navigation.module';
 import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
+import { AppInsightsService } from './app-insights/app-insights.service';
+import { ErrorHandlerService } from './error-handler.service';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
     ErrorHandlerModule,
   ],
   providers: [
+    AppInsightsService,
     MsalService,
     BroadcastService,
     MsalInterceptor,
@@ -70,6 +73,7 @@ import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: MSAL_CONFIG_ANGULAR, useValue: {} },
     { provide: USE_HASH_ROUTING, useValue: false },
+    { provide: ErrorHandler, useClass: ErrorHandlerService }
   ],
   bootstrap: [AppComponent]
 })
