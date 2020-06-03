@@ -9,7 +9,8 @@ export class ErrorHandlerService extends ErrorHandler{
     super();
 }
 
-handleError(error: Error) {
-    this.appInsightService.logException(error, SeverityLevel.Error); // Manually log exception
-}
+  handleError(error: Error) {
+      this.appInsightService.logException(error, SeverityLevel.Error); // Manually log exception
+      super.handleError(error);
+  }
 }
