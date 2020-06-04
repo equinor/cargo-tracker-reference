@@ -11,7 +11,7 @@ export class ErrorHandlerService extends ErrorHandler{
 
   handleError(error: Error) {
     const ignoreErrors = [ 'Error retrieving icon :tops!', 'ResizeObserver loop limit exceeded'];
-    if ( ignoreErrors.filter(errorText => error.message.startsWith(errorText)).length === 0) {
+    if ( !ignoreErrors.find(errorText => error.message.startsWith(errorText))) {
       this.appInsightService.logException(error, SeverityLevel.Error); // Manually log exception
     }
     super.handleError(error);
