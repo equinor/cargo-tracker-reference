@@ -24,7 +24,7 @@ jobs:
           name: referenceclient
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-          registry: ctregistrydev.azurecr.io
+          registry: ctregistryprod.azurecr.io
           tags: "${{steps.get_branch.outputs.BRANCH}}"
           workdir: client
 
@@ -48,7 +48,7 @@ jobs:
           name: cargotrackerreference
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-          registry: ctregistrydev.azurecr.io
+          registry: ctregistryprod.azurecr.io
           tags: "${{steps.get_branch.outputs.BRANCH}}"
           workdir: server
           buildargs: PKG_USERNAME,PKG_PASSWORD
