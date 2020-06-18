@@ -12,7 +12,7 @@ import { ClientAuthError } from 'msal';
 
 const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | ClientAuthError) => {
   if ( err instanceof ClientAuthError ) {
-    return of([]) as Observable<any[]>;
+    return of(null) as Observable<any[]>;
   }
   return throwError(err);
 });

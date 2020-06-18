@@ -11,7 +11,9 @@
     <mat-form-field stoFormField
                     stoGridColumn>
       <mat-label>Country</mat-label>
-      <mat-select formControlName="countryId">
+      <mat-select formControlName="countryId"
+                  placeholder="All">
+        <mat-option [value]="null">All</mat-option>
         <mat-option *ngFor="let c of countries"
                     [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
