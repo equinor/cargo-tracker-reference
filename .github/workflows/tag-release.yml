@@ -23,7 +23,7 @@ jobs:
           REF: ${{ steps.get_version.outputs.VERSION }}
         run: |
           git fetch --tags
-          description="$(git log $(git describe --tags --abbrev=0 $REF^)..$REF --oneline)"
+          description="$(git log --no-merges $(git describe --tags --abbrev=0 $REF^)..$REF --oneline)"
           description="${description//'%'/'%25'}"
           description="${description//$'\n'/'%0A'}"
           description="${description//$'\r'/'%0D'}" 
