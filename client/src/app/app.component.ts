@@ -82,11 +82,10 @@ export class AppComponent implements OnInit {
   }
 
   async login() {
-    const scopes = [ 'https://StatoilSRM.onmicrosoft.com/40f7d557-702f-4f94-ab32-a476fb5927a0/user_impersonation' ];
     try {
-      await this.msal.acquireTokenSilent({scopes});
+      await this.msal.acquireTokenSilent({});
     } catch {
-      await this.msal.loginRedirect({scopes});
+      await this.msal.loginRedirect({});
     }
   }
 
