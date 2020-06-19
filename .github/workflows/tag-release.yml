@@ -61,6 +61,7 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
           registry: ctregistryprod.azurecr.io
           tags: "${{steps.get_version.outputs.VERSION}},release"
+          workdir: client
 
   publish-backend:
       name: Publish server docker images for tag
