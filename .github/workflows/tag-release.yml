@@ -62,7 +62,7 @@ jobs:
           registry: ctregistryprod.azurecr.io
           tags: "${{steps.get_version.outputs.VERSION}},release"
 
-  publish-server:
+  publish-backend:
       name: Publish server docker images for tag
       runs-on: ubuntu-latest
 
@@ -74,7 +74,7 @@ jobs:
           run: |
             echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
-        - name: Publish
+        - name: Publish backend
           uses: elgohr/Publish-Docker-Github-Action@master
           env:
             PKG_USERNAME: ${{ secrets.PKG_USERNAME }}
