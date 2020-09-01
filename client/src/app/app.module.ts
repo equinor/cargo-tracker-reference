@@ -29,6 +29,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
 import { AppInsightsService } from './app-insights/app-insights.service';
 import { ErrorHandlerService } from './error-handler.service';
+import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,16 @@ import { ErrorHandlerService } from './error-handler.service';
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: MSAL_CONFIG_ANGULAR, useValue: {} },
     { provide: USE_HASH_ROUTING, useValue: false },
-    { provide: ErrorHandler, useClass: ErrorHandlerService }
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    {
+      provide: NgForageCache,
+      useFactory: (ngForageConfig: NgForageConfig) =>
+        // @ts-ignore
+        new NgForageCache({}, new InstanceFactory(ngForageConfig)),
+      deps: [
+        NgForageConfig,
+      ]
+    },
   ],
   bootstrap: [AppComponent]
 })

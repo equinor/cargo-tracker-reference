@@ -14,19 +14,18 @@ export class ViewEffects {
 
 
   loadViews$ = createEffect(() => {
-    return this.actions$.pipe( 
-
+    return this.actions$.pipe(
       ofType(ViewActions.loadViews),
       /** An EMPTY observable only emits completion. Replace with your own observable API request */
       concatMap(() => EMPTY)
     );
-  });
+  }, {dispatch: false});
 
   errorHandler$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ViewActions.error),
       map(act => this.errorHandler.handler(act.error))
-    )
+    );
   }, {dispatch: false})
 
   logErrorToInsight$ = createEffect(() => {
@@ -34,7 +33,7 @@ export class ViewEffects {
       ofType(ViewActions.error),
       map(act => act.error),
       map(error => this.appInsightsService.logTrace(error.message, error))
-    )
+    );
   }, {dispatch: false})
 
 

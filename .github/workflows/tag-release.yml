@@ -23,7 +23,7 @@ jobs:
           REF: ${{ steps.get_version.outputs.VERSION }}
         run: |
           git fetch --tags
-          description="$(git log $(git describe --tags --abbrev=0 $REF^)..$REF --oneline)"
+          description="$(git log --no-merges $(git describe --tags --abbrev=0 $REF^)..$REF --oneline)"
           description="${description//'%'/'%25'}"
           description="${description//$'\n'/'%0A'}"
           description="${description//$'\r'/'%0D'}" 
@@ -63,7 +63,7 @@ jobs:
           tags: "${{steps.get_version.outputs.VERSION}},release"
           workdir: client
 
-  publish-server:
+  publish-backend:
       name: Publish server docker images for tag
       runs-on: ubuntu-latest
 
@@ -75,7 +75,7 @@ jobs:
           run: |
             echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
-        - name: Publish
+        - name: Publish backend
           uses: elgohr/Publish-Docker-Github-Action@master
           env:
             PKG_USERNAME: ${{ secrets.PKG_USERNAME }}
@@ -86,6 +86,7 @@ jobs:
             password: ${{ secrets.ACR_PASSWORD }}
             registry: ctregistryprod.azurecr.io
             tags: "${{steps.get_version.outputs.VERSION}},release"
+            workdir: server
             dockerfile: Dockerfile
             buildargs: PKG_USERNAME,PKG_PASSWORD
 
