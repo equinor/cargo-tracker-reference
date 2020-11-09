@@ -1,0 +1,1 @@
+INSERT INTO [CT].[trading_area]([id],[short_name],[name],[active],[version],[updated_by],[updated_date_time]) VALUES ('6d0adb99-fbd5-4448-9c36-d9325895907d','LA','LatAm',1, 0, 'SYSTEM', '2020-11-09T00:00:00');
