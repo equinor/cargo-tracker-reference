@@ -14,11 +14,7 @@
   <span *ngIf="row.cancelled; else edit"
         [title]="value">{{value}}</span>
   <ng-template #edit>
-    <mat-form-field stoFormField>
-      <input (keyup)="onValueChange($event.target.value, row, $event)"
-             [value]="editing[row.id]?.name || value"
-             matInput>
-    </mat-form-field>
+    <span class="company-name">{{value}}</span>
   </ng-template>
 </ng-template>
 
@@ -32,13 +28,14 @@
       <div class="chip-container">
         <mat-chip (removed)="remove(v, row)"
                   *ngFor="let v of (editing[row.id]?.aliases || row.aliases)"
-                  [removable]="true"
+                  [removable]="false"
                   [selectable]="false"
                   color="primary">
           {{v}}
         </mat-chip>
       </div>
       <input (matChipInputTokenEnd)="add($event, row)"
+             disabled
              [matChipInputAddOnBlur]="false"
              [matChipInputFor]="chipList"
              #inp
@@ -56,6 +53,7 @@
              let-row="row"
              let-value="value">
   <mat-checkbox (change)="verifiedChange($event, row)"
+                [disabled]="true"
                 [checked]="value"
                 color="primary"></mat-checkbox>
 </ng-template>
@@ -65,6 +63,7 @@
              let-value="value">
   <button *ngIf="!row.cancelled"
           (click)="cancel.emit(row);"
+          disabled
           mat-icon-button>
     <mat-icon>delete</mat-icon>
   </button>

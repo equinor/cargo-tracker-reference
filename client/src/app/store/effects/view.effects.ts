@@ -14,8 +14,7 @@ export class ViewEffects {
 
 
   loadViews$ = createEffect(() => {
-    return this.actions$.pipe( 
-
+    return this.actions$.pipe(
       ofType(ViewActions.loadViews),
       /** An EMPTY observable only emits completion. Replace with your own observable API request */
       concatMap(() => EMPTY)
@@ -26,16 +25,16 @@ export class ViewEffects {
     return this.actions$.pipe(
       ofType(ViewActions.error),
       map(act => this.errorHandler.handler(act.error))
-    )
-  }, {dispatch: false})
+    );
+  }, { dispatch: false });
 
   logErrorToInsight$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ViewActions.error),
       map(act => act.error),
       map(error => this.appInsightsService.logTrace(error.message, error))
-    )
-  }, {dispatch: false})
+    );
+  }, { dispatch: false });
 
 
   constructor(private actions$: Actions, private errorHandler: ErrorHandlerService, private appInsightsService: AppInsightsService) {}

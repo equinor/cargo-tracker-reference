@@ -69,7 +69,7 @@ import { ErrorHandlerService } from './error-handler.service';
     { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
     StaticService,
     { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'apps', text: 'Reference data' } },
-    { provide: BASE_URL, useValue: '/ctref' },
+    { provide: BASE_URL, useValue: '/ctintegration' },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: MSAL_CONFIG_ANGULAR, useValue: {} },
     { provide: USE_HASH_ROUTING, useValue: false },

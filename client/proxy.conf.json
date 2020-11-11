@@ -1,6 +1,6 @@
 {
-  "/ctref": {
-    "target": "http://localhost:8080",
+  "/ctintegration": {
+    "target": "http://localhost:8090",
     "pathRewrite": {
     }
   }
