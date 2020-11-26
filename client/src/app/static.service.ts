@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { Grade } from './shared/models/grade';
 import { Country, Terminal } from './shared/models/location';
@@ -8,6 +8,7 @@ import { Company } from './shared/models/company';
 import { catchError } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { ClientAuthError } from 'msal';
+import { TradingDesk } from './shared/models/trading-desk';
 
 
 const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | ClientAuthError) => {
@@ -37,13 +38,13 @@ export class StaticService {
       .pipe(staticErrorHandler<Country>());
   }
 
-  regions() {
-    return this.http.get<Region[]>(`${this.baseUrl}/region`)
+  regions(tradingDesk: TradingDesk) {
+    return this.http.get<Region[]>(`${this.baseUrl}/regions/${tradingDesk.toUpperCase()}`)
       .pipe(staticErrorHandler<Region>());
   }
 
-  terminals() {
-    return this.http.get<Terminal[]>(`${this.baseUrl}/terminal`)
+  terminals(tradingDesk: TradingDesk) {
+    return this.http.get<Terminal[]>(`${this.baseUrl}/terminals/${tradingDesk.toUpperCase()}`)
       .pipe(staticErrorHandler<Terminal>());
   }
 
