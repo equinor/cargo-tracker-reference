@@ -43,7 +43,6 @@ export class TerminalsComponent implements OnInit {
   }
 
   setTradingDesk(tradingDesk: TradingDesk) {
-    console.log(tradingDesk);
     this.store.dispatch(SetTradingDesk({tradingDesk}));
   }
 }

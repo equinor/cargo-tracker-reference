@@ -59,7 +59,9 @@ export class StaticEffects {
   loadTerminals$ = createEffect(() => this.actions$.pipe(
     ofType(StaticActions.loadTerminals, StaticActions.SetTradingDesk),
     withLatestFrom(this.store.pipe(select(fromStatic.selectTradingDesk))),
-    switchMap(([a, tradingDesk]) => checkDb('terminals', this.cache, this.service.terminals(tradingDesk).pipe(storeInDb('terminals', this.cache)))
+    switchMap(([a, tradingDesk]) =>
+      checkDb(`${tradingDesk}-terminals`, this.cache,
+        this.service.terminals(tradingDesk).pipe(storeInDb(`${tradingDesk}-terminals`, this.cache)))
       .pipe(
         map(terminals => StaticActions.loadTerminalsSuccess({ terminals })),
         errorHandler
