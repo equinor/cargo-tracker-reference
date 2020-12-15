@@ -23,6 +23,7 @@ describe('TerminalsComponent', () => {
   let selectSourceSystems: MemoizedSelector<State, any>;
   let selectTerminalFilters: MemoizedSelector<State, any>;
   let selectLoading: MemoizedSelector<State, any>;
+  let selectTradingDesk: MemoizedSelector<State, any>;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -43,6 +44,7 @@ describe('TerminalsComponent', () => {
     selectSourceSystems = store.overrideSelector(fromTerminals.selectSourceSystems, []);
     selectTerminalFilters = store.overrideSelector(fromTerminals.selectTerminalFilters, { countryId: '' });
     selectLoading = store.overrideSelector(fromTerminals.selectLoading, false);
+    selectTradingDesk = store.overrideSelector(fromStatic.selectTradingDesk, 'Crude');
     terminal = {} as Terminal;
     terminal.id = '1';
     terminal.name = 'Name';
