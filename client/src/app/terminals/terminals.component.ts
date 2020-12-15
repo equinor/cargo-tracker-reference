@@ -5,6 +5,8 @@ import { Country, Terminal } from '../shared/models/location';
 import * as fromTerminals from './store/terminals.selectors';
 import * as fromStatic from '../store/selectors/static.selectors';
 import { filterTerminals, saveTerminal } from './store/terminals.actions';
+import { SetTradingDesk } from '../store/actions/static.actions';;
+import { TradingDesk } from '../shared/models/trading-desk';
 
 @Component({
   selector: 'ctref-terminals',
@@ -16,6 +18,7 @@ export class TerminalsComponent implements OnInit {
   public terminals$: Observable<Terminal[]>;
   public sourceSystems$: Observable<string[]>;
   public countries$: Observable<Country[]>;
+  public tradingDesk$: Observable<TradingDesk>;
   public loading$: Observable<boolean>;
   public filters$: Observable<{ countryId: string }>;
 
@@ -25,6 +28,7 @@ export class TerminalsComponent implements OnInit {
   ngOnInit() {
     this.countries$ = this.store.pipe(select(fromStatic.selectCountries));
     this.terminals$ = this.store.pipe(select(fromTerminals.selectTerminals));
+    this.tradingDesk$ = this.store.pipe(select(fromStatic.selectTradingDesk));
     this.sourceSystems$ = this.store.pipe(select(fromTerminals.selectSourceSystems));
     this.filters$ = this.store.pipe(select(fromTerminals.selectTerminalFilters));
     this.loading$ = this.store.pipe(select(fromTerminals.selectLoading));
@@ -36,5 +40,9 @@ export class TerminalsComponent implements OnInit {
 
   onFilterChange(filters: { countryId: string }) {
     this.store.dispatch(filterTerminals({ filters }));
+  }
+
+  setTradingDesk(tradingDesk: TradingDesk) {
+    this.store.dispatch(SetTradingDesk({tradingDesk}));
   }
 }

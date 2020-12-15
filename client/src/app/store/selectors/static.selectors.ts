@@ -11,3 +11,4 @@ export const selectRegions = createSelector(selectStaticState, state => state.re
 export const selectTerminals = createSelector(selectStaticState, state => state.terminals || []);
 export const selectCompanies = createSelector(selectStaticState, state => state.companies || []);
 export const selectEnvironment = createSelector(selectStaticState, state => state.environment);
+export const selectTradingDesk = createSelector(selectStaticState, state => state.tradingDesk);

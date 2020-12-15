@@ -1,5 +1,7 @@
 <div class="table-container">
   <ctref-terminal-filter (filterChanged)="onFilterChange($event)"
+                         (tradingDeskChanged)="setTradingDesk($event)"
+                         [tradingDesk]="tradingDesk$ | async"
                          [countries]="countries$ | async"
                          [value]="filters$ | async"></ctref-terminal-filter>
   <ctref-terminal-list (save)="save($event)"

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import * as TerminalsActions from './terminals.actions';
 import { loading, saveTerminalSuccess } from './terminals.actions';
@@ -13,6 +13,8 @@ import { error } from 'src/app/store/actions/view.actions';
 import { deleteCache } from 'src/ngforage/storage-operator';
 import { NgForageCache } from 'ngforage';
 import { ngfRootOptions } from 'src/ngforage/ngforage';
+import { select, Store } from '@ngrx/store';
+import * as fromStatic from '../../store/selectors/static.selectors';
 
 
 @Injectable()
@@ -28,7 +30,9 @@ export class TerminalsEffects {
 
   saved$ = createEffect(() => this.actions$.pipe(
     ofType(TerminalsActions.saveTerminalSuccess),
-    tap(deleteCache('terminals', this.cache)),
+    withLatestFrom(this.store.pipe(select(fromStatic.selectTradingDesk))),
+    switchMap(([a, tradingDesk]) =>
+      tap(deleteCache(`${tradingDesk}-terminals`, this.cache))),
     map(() => loadTerminals())
   ));
 
@@ -48,9 +52,10 @@ export class TerminalsEffects {
   ));
 
   constructor(
-    private actions$: Actions, 
+    private actions$: Actions,
     private service: TerminalsService,
-    private cache: NgForageCache) {      
+    private store: Store<any>,
+    private cache: NgForageCache) {
       cache.configure(ngfRootOptions);
   }
 

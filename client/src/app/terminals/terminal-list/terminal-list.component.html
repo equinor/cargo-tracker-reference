@@ -20,13 +20,14 @@
       <div class="chip-container">
         <mat-chip (removed)="remove(v, row)"
                   *ngFor="let v of (editing[row.id]?.aliases || row.aliases)"
-                  [removable]="true"
+                  [removable]="false"
                   [selectable]="false"
                   color="primary">
           {{v}}
         </mat-chip>
       </div>
       <input (matChipInputTokenEnd)="add($event, row)"
+             disabled
              [matChipInputAddOnBlur]="false"
              [matChipInputFor]="chipList"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes">

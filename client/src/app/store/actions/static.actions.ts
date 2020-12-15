@@ -3,6 +3,7 @@ import { Grade } from '../../shared/models/grade';
 import { Country, Terminal } from '../../shared/models/location';
 import { Region } from '../../shared/models/region';
 import { Company } from '../../shared/models/company';
+import { TradingDesk } from '../../shared/models/trading-desk';
 
 export const loadGrades = createAction(
   '[Static] Load grades'
@@ -55,4 +56,9 @@ export const loadEnvironmentSuccess = createAction(
 
 export const loadEnvironment = createAction(
   '[Static] Load environment info'
+);
+
+export const SetTradingDesk = createAction(
+  '[Static] Set trading desk',
+  props<{ tradingDesk: TradingDesk }>()
 );

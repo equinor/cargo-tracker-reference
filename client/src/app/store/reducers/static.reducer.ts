@@ -4,6 +4,8 @@ import { Region } from '../../shared/models/region';
 import { Country, Terminal } from '../../shared/models/location';
 import { Grade } from '../../shared/models/grade';
 import { Company } from '../../shared/models/company';
+import { TradingDesk } from '../../shared/models/trading-desk';
+import { SetTradingDesk } from '../actions/static.actions';
 
 export const staticFeatureKey = 'staticState';
 
@@ -13,6 +15,7 @@ export interface State {
   grades: Grade[];
   terminals: Terminal[];
   companies: Company[];
+  tradingDesk: TradingDesk;
   environment: any;
 }
 
@@ -22,7 +25,8 @@ export const initialState: State = {
   grades: [],
   terminals: null,
   companies: null,
-  environment: {}
+  environment: {},
+  tradingDesk: TradingDesk.Crude,
 };
 
 const staticReducer = createReducer(
@@ -32,7 +36,9 @@ const staticReducer = createReducer(
   on(StaticActions.loadRegionsSuccess, (state, { regions }) => ( { ...state, regions } )),
   on(StaticActions.loadTerminalsSuccess, (state, { terminals }) => ( { ...state, terminals } )),
   on(StaticActions.loadCompaniesSuccess, (state, { companies }) => ( { ...state, companies } )),
-  on(StaticActions.loadEnvironmentSuccess, (state, { environment }) => ( { ...state, environment } ))
+  on(StaticActions.loadEnvironmentSuccess, (state, { environment }) => ( { ...state, environment } )),
+  on(StaticActions.SetTradingDesk, (state, { tradingDesk }) => ( { ...state, tradingDesk } ))
+
 );
 
 export function reducer(state: State | undefined, action: Action) {
