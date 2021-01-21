@@ -16,9 +16,7 @@ cd reference/assets;
 envsubst < environment.prod.json > environment.json;
 
 echo "Successfully injected environment variables for client runtime"
-
 echo "# ------------------------------------------------------------ #"
-
 echo "Starting nginx"
 
 bash /opt/bitnami/scripts/nginx/run.sh

@@ -30,13 +30,14 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /client/dist/reference /usr/share/nginx/html/reference
 
+COPY entrypoint.sh /opt/bitnami/scripts/nginx/entrypoint.sh
 # Use priveliged user to set permissions, then revert back to unpriveliged
 USER 0
 RUN install_packages gettext-base
 RUN chown -R 1001 /usr/share/nginx/html
+RUN chmod +x /opt/bitnami/scripts/nginx/entrypoint.sh
 USER 1001
 
-COPY entrypoint.sh /opt/bitnami/scripts/nginx/entrypoint.sh
 ENTRYPOINT ["/opt/bitnami/scripts/nginx/entrypoint.sh"]
 # CMD ["nginx", "-g", "daemon off;"]
 
