@@ -22,14 +22,22 @@ RUN $(npm bin)/ng build --prod --build-optimizer --progress=false --base-href=/r
 #RUN $(npm bin)/ng build --progress=false
 
 # Stage 2 - Set up Nginx
-FROM nginx:alpine
+FROM bitnami/nginx
 
 # Copy config and remove default page
-COPY nginx-default.conf /etc/nginx/conf.d/default.conf
+COPY nginx-default.conf /opt/bitnami/nginx/conf/server_blocks/default.conf
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /client/dist/reference /usr/share/nginx/html/reference
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+# Use priveliged user to set permissions, then revert back to unpriveliged
+USER 0
+RUN install_packages gettext-base
+RUN chown -R 1001 /usr/share/nginx/html
+USER 1001
+
+COPY entrypoint.sh /opt/bitnami/scripts/nginx/entrypoint.sh
+ENTRYPOINT ["/opt/bitnami/scripts/nginx/entrypoint.sh"]
 # CMD ["nginx", "-g", "daemon off;"]
+
+

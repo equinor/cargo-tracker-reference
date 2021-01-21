@@ -1,4 +1,10 @@
+#!/bin/bash
+
 cd /usr/share/nginx/html/;
+
+echo "Injecting environment variables for client runtime"
+echo "# ------------------------------------------------------------ #"
+
 # A bit of a complicated voodoo bash command, so:
 # First, we find our main javascript file.
 # Then, we execute bash where $1 is the filename
@@ -8,6 +14,11 @@ cd /usr/share/nginx/html/;
 find . -type f -name 'main*.js' -exec sh -c 'envsubst '\''$CLIENT_ID, $REDIRECT_URI, $SCOPES, $APPINSIGHTS_INSTRUMENTATIONKEY'\'' < $1 > $1.new && mv $1.new $1' -- {} \;
 cd reference/assets;
 envsubst < environment.prod.json > environment.json;
-cd /;
+
+echo "Successfully injected environment variables for client runtime"
+
+echo "# ------------------------------------------------------------ #"
+
 echo "Starting nginx"
-nginx -g "daemon off;";
+
+bash /opt/bitnami/scripts/nginx/run.sh
