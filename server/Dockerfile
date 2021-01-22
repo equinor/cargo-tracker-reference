@@ -17,6 +17,13 @@ RUN mvn $MAVEN_CLI_OPTS clean compile package
 
 FROM openjdk:11
 VOLUME /tmp
-COPY --from=builder /usr/src/app/target/cargo-tracker-reference-0.0.1-SNAPSHOT.jar ./app.jar
+
+RUN groupadd -r runner && useradd -r -g runner runner
+RUN mkdir -p /opt/app
+COPY --from=builder /usr/src/app/target/cargo-tracker-reference-0.0.1-SNAPSHOT.jar /opt/app/app.jar
+RUN chown -R runner:runner /opt/app
+
+USER runner
+
 ENTRYPOINT ["java","-Xmx8196m","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
