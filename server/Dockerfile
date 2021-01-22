@@ -25,5 +25,5 @@ RUN chown -R runner:runner /opt/app
 
 USER runner
 
-ENTRYPOINT ["java","-Xmx8196m","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xmx8196m","-Djava.security.egd=file:/dev/./urandom","-jar","/opt/app/app.jar"]
 
