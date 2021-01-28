@@ -1201,10 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@ngx-stoui/error-handler/-/error-handler-9.0.0-BETA.0.tgz#784987401b81643d5e817f5a9bc64d48ec502da1"
   integrity sha512-zOfe8DtOIlhoUzAge7KoWaL8O4Xomuxyy+aZorxWuM017gy6Q2DlAFLe8aE80XEHhP1QhWhBxG01EYGmxwq38g==
 
-"@ngx-stoui/form@^9.0.0-BETA.0":
-  version "9.0.0-BETA.0"
-  resolved "https://registry.yarnpkg.com/@ngx-stoui/form/-/form-9.0.0-BETA.0.tgz#5e96c43bd74a571c44dcc769b5fc7d48012a0fa2"
-  integrity sha512-59nu84UIuRem5xFpFi1DUNj6XPOL/qRs/fXDgIAEucxRyJ4RNYplvffa3vwMQdfBcdDWLH3P2Y25H30s8saf+A==
+"@ngx-stoui/form@^9.2.14":
+  version "9.2.14"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/form/-/form-9.2.14.tgz#c29e12ff174fb6d8f2948616faba610f21fa3d20"
+  integrity sha512-tOrV6QH8fV3vAviYCFZwnrYyB2HeVcZ1VwEp1Z/NgFVc86BsYODNnd0UtaCAQREvxmZKTzYPO2LCeTAOT9jrcA==
 
 "@npmcli/ci-detect@^1.0.0":
   version "1.2.0"
