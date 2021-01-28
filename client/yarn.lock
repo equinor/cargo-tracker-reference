@@ -1179,10 +1179,10 @@
   resolved "https://registry.yarnpkg.com/@ngx-stoui/common/-/common-9.0.0-BETA.0.tgz#fc37dc394bb8b1660eff9f0fde8910b86da376e4"
   integrity sha512-1pDVpQ4caGkH4gn0ICXzI27M22kn7EHc7fFUVEGAwdl4UTZNhFydadddGPNBEpryqlmy9sHH54TkYvj9rP8XSA==
 
-"@ngx-stoui/core@^9.0.0-BETA.1":
-  version "9.0.0-BETA.1"
-  resolved "https://registry.yarnpkg.com/@ngx-stoui/core/-/core-9.0.0-BETA.1.tgz#b03d232f7717b32d2c4374984ee550a6976b0359"
-  integrity sha512-Z8pOeC01IZ9jo99I7Ks0QyKWENvunKmCv6H8seHhMlNiCgvTCkTS7Y09O/DSFjgMtWseTmC1pzvKp3phe7Ughg==
+"@ngx-stoui/core@^9.1.2":
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/@ngx-stoui/core/-/core-9.1.2.tgz#b05e4104a9d769cdd4c6824ee7f2c657da10d292"
+  integrity sha512-6dHYmHk8iaVfxXiJ8j/QaMHSI8kvolxlsELTLbcIa+J+ZY1HHvifJ/FTBN+3vggPq5uq9X6dyGyDS1LEsaw9Eg==
   dependencies:
     date-fns "^1.29.0"
 
