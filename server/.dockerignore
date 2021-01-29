@@ -1,0 +1,6 @@
+./.github
+./.mvn
+./.settings
+./.vscode
+./target
+./resources
