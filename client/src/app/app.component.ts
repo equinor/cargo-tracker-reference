@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { loadViews } from './store/actions/view.actions';
-import { MsalService } from '@azure/msal-angular';
-import {
-  loadCompanies,
-  loadCountries,
-  loadEnvironment,
-  loadGrades,
-  loadRegions,
-  loadTerminals
-} from './store/actions/static.actions';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { loadCompanies, loadCountries, loadEnvironment, loadGrades, loadRegions, loadTerminals } from './store/actions/static.actions';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Breadcrumb } from '@ngx-stoui/common';
 import { selectRouteTitle } from './store/selectors/router.selectors';
-import { Account } from 'msal';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { selectEnvironment } from './store/selectors/static.selectors';
+import { AccountInfo } from '@azure/msal-common';
+import { AuthenticationResult, EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
+import { filter, take } from 'rxjs/operators';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -33,21 +28,87 @@ const modules = [
   styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit {
-  public user: Account;
+  public user: AccountInfo;
   public breadCrumbs$: Observable<Breadcrumb[]>;
   public environment$: Observable<any>;
+  private destroyed$ = new Subject();
+
 
   constructor(
     private store: Store<any>,
     private msal: MsalService,
     private router: Router,
+    private msalBroadcastService: MsalBroadcastService,
     private sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry
   ) {
+    this.iconRegistry.addSvgIcon('tops', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tops.svg'));
   }
 
   ngOnInit() {
-    this.handleAuthCallback();
+    this.user = this.msal.instance.getActiveAccount();
+    // Set active account on login success
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((event: EventMessage) => [ EventType.LOGIN_SUCCESS, EventType.ACQUIRE_TOKEN_SUCCESS ].includes(event.eventType)),
+        take(1))
+      .subscribe(loginEvent => {
+        const payload = loginEvent.payload as AuthenticationResult;
+        this.msal.instance.setActiveAccount(payload.account);
+      });
+
+    // Set user when msal interaction is done
+    if ( !this.user ) {
+      this.msalBroadcastService.inProgress$
+        .pipe(
+          filter((status: InteractionStatus) => status === InteractionStatus.None),
+          take(1))
+        .subscribe(() => this.checkAndSetActiveAccount());
+    }
+
+    this.breadCrumbs$ = this.store
+      .pipe(select(selectRouteTitle));
+    this.environment$ = this.store.pipe(select(selectEnvironment));
+  }
+
+  async checkAndSetActiveAccount() {
+    /**
+     * Set active account as user
+     * If no active account set but there are accounts signed in, sets first account to active account
+     * If not, try to login
+     */
+    console.log('check and set active account');
+    const activeAccount = this.msal.instance.getActiveAccount();
+    if ( activeAccount ) {
+      this.user = activeAccount;
+      this.init();
+      console.log('active account set');
+      return;
+    }
+
+    if ( this.msal.instance.getAllAccounts().length > 0 ) {
+      const accounts = this.msal.instance.getAllAccounts();
+      this.msal.instance.setActiveAccount(accounts[ 0 ]);
+      this.user = this.msal.instance.getActiveAccount();
+      this.init();
+    } else {
+      await this.login();
+    }
+  }
+
+  async login() {
+    try {
+      await this.msal.instance.acquireTokenSilent({ scopes: [ 'openid' ] });
+    } catch {
+      await this.msal.instance.loginRedirect();
+    }
+  }
+
+  logout() {
+    this.msal.logout();
+  }
+
+  init() {
     this.store.dispatch(loadViews({ modules }));
     this.store.dispatch(loadGrades());
     this.store.dispatch(loadCountries());
@@ -55,42 +116,6 @@ export class AppComponent implements OnInit {
     this.store.dispatch(loadRegions());
     this.store.dispatch(loadCompanies());
     this.store.dispatch(loadEnvironment());
-    this.user = this.msal.getAccount();
-    this.breadCrumbs$ = this.store
-      .pipe(select(selectRouteTitle));
-    this.environment$ = this.store.pipe(select(selectEnvironment));
-    this.iconRegistry.addSvgIcon('tops', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tops.svg'));
-  }
-
-  private handleAuthCallback() {
-    if (!sessionStorage.getItem('CTR_REDIR')) {
-      sessionStorage.setItem('CTR_REDIR', window.location.href);
-    }
-    this.msal.handleRedirectCallback((authError, response) => {
-      if (authError) {
-        console.error('Redirect Error: ', authError.errorMessage);
-        return;
-      }
-      const redir = sessionStorage.getItem('CTR_REDIR');
-      sessionStorage.removeItem('CTR_REDIR');
-      if (redir && !(/callback/.test(redir))) { // Ensure we dont end up in an infinite loop of redirects to /callback
-        window.location.href = redir;
-      } else {
-        window.location.href = `${window.location.origin}/reference`;
-      }
-    });
-  }
-
-  async login() {
-    try {
-      await this.msal.acquireTokenSilent({});
-    } catch {
-      await this.msal.loginRedirect({});
-    }
-  }
-
-  logout() {
-    this.msal.logout();
   }
 
   navigate(commands: string[]) {

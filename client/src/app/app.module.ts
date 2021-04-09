@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,12 +13,23 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StaticEffects } from './store/effects/static.effects';
-import { NavigationActionTiming, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import { MinimalRouterStateSerializer, NavigationActionTiming, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { ViewEffects } from './store/effects/view.effects';
 import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BASE_URL } from './tokens';
-import { MsalInterceptor, MsalModule, BroadcastService, MsalService, MSAL_CONFIG_ANGULAR } from '@azure/msal-angular';
+import {
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalBroadcastService,
+  MsalGuardConfiguration,
+  MsalInterceptor,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalRedirectComponent,
+  MsalService
+} from '@azure/msal-angular';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +41,29 @@ import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
 import { AppInsightsService } from './app-insights/app-insights.service';
 import { ErrorHandlerService } from './error-handler.service';
 import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
+import { InteractionType, IPublicClientApplication } from '@azure/msal-browser';
+import { msalConfig } from '../msal';
+import { RefMsalInterceptor } from './msal-interceptor';
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return msalConfig;
+}
+
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return {
+    interactionType: InteractionType.Redirect,
+  };
+}
+
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<string, Array<string>>()
+    .set('/ctref/*', [ 'openid' ]);
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap
+  };
+}
+
 
 @NgModule({
   declarations: [
@@ -53,7 +87,8 @@ import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([ StaticEffects, ViewEffects, RouterEffects ]),
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer,
+    StoreRouterConnectingModule.forRoot({
+      serializer: MinimalRouterStateSerializer,
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     MsalModule,
@@ -65,14 +100,25 @@ import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
   providers: [
     AppInsightsService,
     MsalService,
-    BroadcastService,
+    MsalBroadcastService,
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory
+    },
     MsalInterceptor,
-    { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefMsalInterceptor, multi: true },
     StaticService,
     { provide: NAVIGATION_HOME_ICON, useValue: { icon: 'apps', text: 'Reference data' } },
     { provide: BASE_URL, useValue: '/ctintegration' },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
-    { provide: MSAL_CONFIG_ANGULAR, useValue: {} },
     { provide: USE_HASH_ROUTING, useValue: false },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     {
@@ -85,7 +131,7 @@ import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
       ]
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent, MsalRedirectComponent ]
 })
 export class AppModule {
 }

@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import navigation from 'src/assets/navigation.json';
 import { StoDrawerComponent } from '@ngx-stoui/drawer';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AccountInfo } from '@azure/msal-common';
 
 @Component({
   selector: 'ctref-navigation',
@@ -32,7 +33,7 @@ export class NavigationComponent implements OnChanges {
   @Input()
   environment: any = {};
   @Input()
-  user: any;
+  user: AccountInfo;
   @Input()
   offline: boolean;
   @Output()
