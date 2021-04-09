@@ -7,11 +7,10 @@ import { Region } from './shared/models/region';
 import { Company } from './shared/models/company';
 import { catchError } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { ClientAuthError } from 'msal';
+import { AuthError } from '@azure/msal-browser';
 
-
-const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | ClientAuthError) => {
-  if ( err instanceof ClientAuthError ) {
+const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | AuthError) => {
+  if ( err instanceof AuthError ) {
     return of(null) as Observable<any[]>;
   }
   return throwError(err);

@@ -4,6 +4,7 @@ import { StoDrawerComponent } from '@ngx-stoui/drawer';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AccountInfo } from '@azure/msal-common';
 
 @Component({
   selector: 'ctref-navigation',
@@ -32,7 +33,7 @@ export class NavigationComponent implements OnChanges {
   @Input()
   environment: any = {};
   @Input()
-  user: any;
+  user: AccountInfo;
   @Input()
   offline: boolean;
   @Output()

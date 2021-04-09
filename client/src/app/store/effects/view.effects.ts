@@ -26,7 +26,7 @@ export class ViewEffects {
       ofType(ViewActions.error),
       map(act => this.errorHandler.handler(act.error))
     );
-  }, {dispatch: false})
+  }, {dispatch: false});
 
   logErrorToInsight$ = createEffect(() => {
     return this.actions$.pipe(
@@ -34,7 +34,7 @@ export class ViewEffects {
       map(act => act.error),
       map(error => this.appInsightsService.logTrace(error.message, error))
     );
-  }, {dispatch: false})
+  }, {dispatch: false});
 
 
   constructor(private actions$: Actions, private errorHandler: ErrorHandlerService, private appInsightsService: AppInsightsService) {}
