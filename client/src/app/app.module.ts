@@ -13,7 +13,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { StaticEffects } from './store/effects/static.effects';
-import { NavigationActionTiming, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import {
+  NavigationActionTiming,
+  StoreRouterConnectingModule,
+  MinimalRouterStateSerializer
+} from '@ngrx/router-store';
 import { ViewEffects } from './store/effects/view.effects';
 import { StaticService } from './static.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -25,10 +29,10 @@ import {
   MsalGuardConfiguration,
   MsalInterceptorConfiguration,
   MsalBroadcastService,
-  MSAL_INSTANCE,
   MSAL_GUARD_CONFIG,
   MSAL_INTERCEPTOR_CONFIG,
-  MsalRedirectComponent
+  MsalRedirectComponent,
+  MSAL_INSTANCE
 } from '@azure/msal-angular';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
@@ -40,6 +44,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { USE_HASH_ROUTING } from '@ngx-stoui/drawer';
 import { AppInsightsService } from './app-insights/app-insights.service';
 import { ErrorHandlerService } from './error-handler.service';
+import { InstanceFactory, NgForageCache, NgForageConfig } from 'ngforage';
 import { InteractionType, IPublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from '../msal';
 import { RefMsalInterceptor } from './msal-interceptor';
@@ -86,7 +91,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([ StaticEffects, ViewEffects, RouterEffects ]),
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer,
+    StoreRouterConnectingModule.forRoot({ serializer: MinimalRouterStateSerializer,
       navigationActionTiming: NavigationActionTiming.PostActivation
     }),
     MsalModule,
@@ -118,7 +123,16 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     { provide: BASE_URL, useValue: '/ctref' },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: USE_HASH_ROUTING, useValue: false },
-    { provide: ErrorHandler, useClass: ErrorHandlerService }
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    {
+      provide: NgForageCache,
+      useFactory: (ngForageConfig: NgForageConfig) =>
+        // @ts-ignore
+        new NgForageCache({}, new InstanceFactory(ngForageConfig)),
+      deps: [
+        NgForageConfig,
+      ]
+    },
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
