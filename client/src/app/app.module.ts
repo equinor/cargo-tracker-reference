@@ -57,7 +57,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>()
-    .set('/ctref/*', [ 'openid' ]);
+    .set('/ctref/*', [ 'openid' ])
+    .set('/ctintegration/*', [ 'openid' ]);
   return {
     interactionType: InteractionType.Redirect,
     protectedResourceMap
