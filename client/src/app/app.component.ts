@@ -2,14 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { loadViews } from './store/actions/view.actions';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import {
-  loadCompanies,
-  loadCountries,
-  loadEnvironment,
-  loadGrades,
-  loadRegions,
-  loadTerminals
-} from './store/actions/static.actions';
+import { loadCompanies, loadCountries, loadEnvironment, loadGrades, loadRegions, loadTerminals } from './store/actions/static.actions';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { Breadcrumb } from '@ngx-stoui/common';
@@ -18,8 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import { selectEnvironment } from './store/selectors/static.selectors';
 import { AccountInfo } from '@azure/msal-common';
-import { EventMessage, EventType, AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { AuthenticationResult, EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
+import { filter, take } from 'rxjs/operators';
 
 const modules = [
   { routerLink: [ '/', 'grades' ], label: 'Grades', sort: 0 },
@@ -84,12 +77,10 @@ export class AppComponent implements OnInit {
      * If no active account set but there are accounts signed in, sets first account to active account
      * If not, try to login
      */
-    console.log('check and set active account');
     const activeAccount = this.msal.instance.getActiveAccount();
     if ( activeAccount ) {
       this.user = activeAccount;
       this.init();
-      console.log('active account set');
       return;
     }
 
