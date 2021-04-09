@@ -23,4 +23,4 @@ export const msalConfig: IPublicClientApplication = new PublicClientApplication(
     cacheLocation,
     storeAuthStateInCookie
   }
-};
+});
