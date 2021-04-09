@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BASE_URL } from './tokens';
 import { Grade } from './shared/models/grade';
 import { Country, Terminal } from './shared/models/location';
@@ -7,12 +7,11 @@ import { Region } from './shared/models/region';
 import { Company } from './shared/models/company';
 import { catchError } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { ClientAuthError } from 'msal';
+import { AuthError } from '@azure/msal-browser';
 import { TradingDesk } from './shared/models/trading-desk';
 
-
-const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | ClientAuthError) => {
-  if ( err instanceof ClientAuthError ) {
+const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | AuthError) => {
+  if ( err instanceof AuthError ) {
     return of(null) as Observable<any[]>;
   }
   return throwError(err);

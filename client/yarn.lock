@@ -252,10 +252,26 @@
   dependencies:
     tslib "^2.0.0"
 
-"@azure/msal-angular@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-angular/-/msal-angular-1.0.0.tgz#24a973693688457e68f9731f3114139c06a2fd99"
-  integrity sha512-Nx7fFEXbRR8MqwPDZZMnxqJ11x+9hRn2tZnZCC/MzYjOwDCBtj91hOD39/hc0iZ+GyhWXKnBek1UYtsU+TaPBQ==
+"@azure/msal-angular@^2.0.0-beta.3":
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@azure/msal-angular/-/msal-angular-2.0.0-beta.3.tgz#b1b80709432b7e823676ac5d94c8f1c96a8a88da"
+  integrity sha512-BBnICzrBpZuKOumTie1X+2clyOx5f0I6cbZHayroY+MbxadRqu9Gg+4esIQbcVT7lPS+NvBUbGwrixOrT/wNwA==
+  dependencies:
+    tslib "^2.0.0"
+
+"@azure/msal-browser@^2.13.1":
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.13.1.tgz#7b4bb840a63f99d4360e280019c45d4739364aea"
+  integrity sha512-kJD8WYzwc9xQtdDbps1j7egEOeqSDBB6GGeTLbMAy9uvhR0u6TgqXDJm/wQO2bXH/mHnARoZrcCmSmnwfWqGZg==
+  dependencies:
+    "@azure/msal-common" "^4.1.1"
+
+"@azure/msal-common@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-4.1.1.tgz#c3d2c43b8078d280982c44f3b2753bc19e97d66c"
+  integrity sha512-CC/rlUl437mLEJVObKbiFSaG/JzSYWSo4lmePRXzZ7fQdLg91otWIGXlrIlrGuk5Htea6J6Wh43a5qXQuPv6GA==
+  dependencies:
+    debug "^4.1.1"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
@@ -4500,16 +4516,7 @@ http-proxy-middleware@0.19.1:
     lodash "^4.17.11"
     micromatch "^3.1.10"
 
-http-proxy@^1.17.0:
-  version "1.18.1"
-  resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.18.1.tgz#401541f0534884bbf95260334e72f88ee3976549"
-  integrity sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
-  dependencies:
-    eventemitter3 "^4.0.0"
-    follow-redirects "^1.0.0"
-    requires-port "^1.0.0"
-
-http-proxy@^1.18.1:
+http-proxy@^1.17.0, http-proxy@^1.18.1:
   version "1.18.1"
   resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.18.1.tgz#401541f0534884bbf95260334e72f88ee3976549"
   integrity sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
@@ -5524,6 +5531,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+material-icons@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/material-icons/-/material-icons-0.6.0.tgz#fba2ce9aafc9524804c681e8ebae0dfd9ab22658"
+  integrity sha512-9ScKpchDmH8i80Oq+k8eiBvmxNaFfgaLErFuyu66wS/tHVuJiLj4awtgSd0Q0hrCKlbjZj4DKtobUyy5q1MbJg==
+
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.npmjs.org/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
@@ -5811,13 +5823,6 @@ ms@^2.0.0, ms@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-
-msal@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/msal/-/msal-1.3.0.tgz#0f29a2bbea8aa859f44a8b25aa49e76f89d2bf86"
-  integrity sha512-AjZ2jOgOFvapaD9ccNcx3AoyC9e4kN3hZfufqc8sqyBAZ3u58lds7O4gc6aN4QOV2Ag4xtqPVZtc+KS4hBcAwg==
-  dependencies:
-    tslib "^1.9.3"
 
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
@@ -8431,11 +8436,6 @@ tslib@^1.6.0:
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.2.tgz#9c79d83272c9a7aaf166f73915c9667ecdde3cc9"
   integrity sha512-tTSkux6IGPnUGUd1XAZHcpu85MOkIl5zX49pO+jfsie3eP0B6pyhOlLXm3cAC6T7s+euSDDUUV+Acop5WmtkVg==
-
-tslib@^1.9.3:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
-  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
 tslib@^2.0.0:
   version "2.0.1"
