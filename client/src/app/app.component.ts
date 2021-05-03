@@ -77,12 +77,10 @@ export class AppComponent implements OnInit {
      * If no active account set but there are accounts signed in, sets first account to active account
      * If not, try to login
      */
-    console.log('check and set active account');
     const activeAccount = this.msal.instance.getActiveAccount();
     if ( activeAccount ) {
       this.user = activeAccount;
       this.init();
-      console.log('active account set');
       return;
     }
 
@@ -103,7 +101,6 @@ export class AppComponent implements OnInit {
       await this.msal.instance.loginRedirect();
     }
   }
-
   logout() {
     this.msal.logout();
   }
