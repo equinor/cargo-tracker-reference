@@ -1,5 +1,5 @@
 {
-  "topsUrl": "${TOPSURL}",
+  "startPageUrl": "${START_PAGE_URL}",
   "development": false,
   "environment": "${RADIX_ENVIRONMENT}"
 }
