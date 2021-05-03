@@ -8,7 +8,6 @@ import { Company } from './shared/models/company';
 import { catchError } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthError } from '@azure/msal-browser';
-import { AuthError } from '@azure/msal-browser';
 import { TradingDesk } from './shared/models/trading-desk';
 
 const staticErrorHandler = <T>() => catchError<T[], Observable<T[]>>((err: HttpErrorResponse | AuthError) => {
