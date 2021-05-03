@@ -1,5 +1,5 @@
 {
-  "topsUrl": "https://topsst.equinor.com",
+  "startPageUrl": "https://ctstart-cargo-tracker-dev.radix.equinor.com",
   "development": true,
   "environment": "LOCAL"
 }
