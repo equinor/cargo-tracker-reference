@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry
   ) {
-    this.iconRegistry.addSvgIcon('tops', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tops.svg'));
+    this.iconRegistry.addSvgIcon('tnt', this.sanitizer.bypassSecurityTrustResourceUrl('assets/tnt.svg'));
   }
 
   ngOnInit() {
