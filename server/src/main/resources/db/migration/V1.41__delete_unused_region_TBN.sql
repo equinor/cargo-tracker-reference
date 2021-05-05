@@ -1,0 +1,1 @@
+DELETE FROM ctref.region WHERE id = 'f0bc7301-3693-4f07-a19e-d3f8dcdebd61' --TBN
