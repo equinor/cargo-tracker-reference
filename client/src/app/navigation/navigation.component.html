@@ -1,4 +1,6 @@
 <sto-app-header [breadCrumbs]="breadCrumbs"
+                [environmentName]="environment?.environment"
+                [testEnvironment]="!!environment && (environment?.environment | uppercase) !== 'PRODUCTION'"
                 [homeBreadCrumbConfig]="home">
   <button mat-icon-button
           [matMenuTriggerFor]="menu"
